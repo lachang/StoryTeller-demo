@@ -151,6 +151,7 @@ class MessagesViewController: UITableViewController {
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
         self.presentViewController(playerViewController, animated: true, completion: nil)
+        player.play()
         
         //UIApplication.sharedApplication().openURL(NSURL(string: messageContent["Clip"]!)!)
     }
