@@ -8,21 +8,41 @@
 
 /* Begin PBXBuildFile section */
 		259E38871BBD166B009C9218 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38861BBD166B009C9218 /* AppDelegate.swift */; };
-		259E38891BBD166B009C9218 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38881BBD166B009C9218 /* ViewController.swift */; };
 		259E388C1BBD166B009C9218 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 259E388A1BBD166B009C9218 /* Main.storyboard */; };
 		259E388E1BBD166B009C9218 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 259E388D1BBD166B009C9218 /* Assets.xcassets */; };
 		259E38911BBD166B009C9218 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 259E388F1BBD166B009C9218 /* LaunchScreen.storyboard */; };
+		259E389B1BBD1CEA009C9218 /* JSONApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38981BBD1CEA009C9218 /* JSONApi.swift */; settings = {ASSET_TAGS = (); }; };
+		259E389C1BBD1CEA009C9218 /* JSONConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38991BBD1CEA009C9218 /* JSONConnection.swift */; settings = {ASSET_TAGS = (); }; };
+		259E389D1BBD1CEA009C9218 /* JSONErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E389A1BBD1CEA009C9218 /* JSONErrors.swift */; settings = {ASSET_TAGS = (); }; };
+		259E38A11BBD2B8C009C9218 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E389F1BBD2B8C009C9218 /* LocationManager.swift */; settings = {ASSET_TAGS = (); }; };
+		259E38A21BBD2B8C009C9218 /* PointOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38A01BBD2B8C009C9218 /* PointOfInterest.swift */; settings = {ASSET_TAGS = (); }; };
+		259E38A71BBE4F6D009C9218 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38A41BBE4F6D009C9218 /* AlertView.swift */; settings = {ASSET_TAGS = (); }; };
+		259E38A81BBE4F6D009C9218 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38A51BBE4F6D009C9218 /* MapView.swift */; settings = {ASSET_TAGS = (); }; };
+		259E38A91BBE4F6D009C9218 /* PointOfInterestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38A61BBE4F6D009C9218 /* PointOfInterestTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		259E38AE1BBE50C1009C9218 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38AC1BBE50C1009C9218 /* MapViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		259E38AF1BBE50C1009C9218 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38AD1BBE50C1009C9218 /* MessagesViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		259E38B11BBE5442009C9218 /* Configurations.plist in Resources */ = {isa = PBXBuildFile; fileRef = 259E38B01BBE5442009C9218 /* Configurations.plist */; settings = {ASSET_TAGS = (); }; };
 		5BBC94EB504AD0904C4BABEC /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1057EE34CCBC13EBCBBE929 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		259E38831BBD166B009C9218 /* storyteller-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "storyteller-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		259E38861BBD166B009C9218 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		259E38881BBD166B009C9218 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		259E388B1BBD166B009C9218 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		259E388D1BBD166B009C9218 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		259E38901BBD166B009C9218 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		259E38921BBD166B009C9218 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		259E38981BBD1CEA009C9218 /* JSONApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONApi.swift; sourceTree = "<group>"; };
+		259E38991BBD1CEA009C9218 /* JSONConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONConnection.swift; sourceTree = "<group>"; };
+		259E389A1BBD1CEA009C9218 /* JSONErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONErrors.swift; sourceTree = "<group>"; };
+		259E389F1BBD2B8C009C9218 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		259E38A01BBD2B8C009C9218 /* PointOfInterest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointOfInterest.swift; sourceTree = "<group>"; };
+		259E38A41BBE4F6D009C9218 /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		259E38A51BBE4F6D009C9218 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		259E38A61BBE4F6D009C9218 /* PointOfInterestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointOfInterestTableViewCell.swift; sourceTree = "<group>"; };
+		259E38AC1BBE50C1009C9218 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		259E38AD1BBE50C1009C9218 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		259E38B01BBE5442009C9218 /* Configurations.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Configurations.plist; sourceTree = "<group>"; };
 		38DBD837DCD19F9BA1451D60 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		A1057EE34CCBC13EBCBBE929 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C113C575D715EF81DAA4845B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -61,14 +81,56 @@
 		259E38851BBD166B009C9218 /* storyteller-ios */ = {
 			isa = PBXGroup;
 			children = (
+				259E38A31BBD2B95009C9218 /* Models */,
+				259E38AA1BBE4F74009C9218 /* Controllers */,
 				259E38861BBD166B009C9218 /* AppDelegate.swift */,
-				259E38881BBD166B009C9218 /* ViewController.swift */,
 				259E388A1BBD166B009C9218 /* Main.storyboard */,
 				259E388D1BBD166B009C9218 /* Assets.xcassets */,
 				259E388F1BBD166B009C9218 /* LaunchScreen.storyboard */,
 				259E38921BBD166B009C9218 /* Info.plist */,
+				259E38B01BBE5442009C9218 /* Configurations.plist */,
 			);
 			path = "storyteller-ios";
+			sourceTree = "<group>";
+		};
+		259E389E1BBD1D0E009C9218 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				259E38981BBD1CEA009C9218 /* JSONApi.swift */,
+				259E38991BBD1CEA009C9218 /* JSONConnection.swift */,
+				259E389A1BBD1CEA009C9218 /* JSONErrors.swift */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
+		259E38A31BBD2B95009C9218 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				259E389E1BBD1D0E009C9218 /* Networking */,
+				259E38A01BBD2B8C009C9218 /* PointOfInterest.swift */,
+				259E389F1BBD2B8C009C9218 /* LocationManager.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		259E38AA1BBE4F74009C9218 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				259E38AB1BBE50A0009C9218 /* ViewHelpers */,
+				259E38AC1BBE50C1009C9218 /* MapViewController.swift */,
+				259E38AD1BBE50C1009C9218 /* MessagesViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		259E38AB1BBE50A0009C9218 /* ViewHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				259E38A61BBE4F6D009C9218 /* PointOfInterestTableViewCell.swift */,
+				259E38A51BBE4F6D009C9218 /* MapView.swift */,
+				259E38A41BBE4F6D009C9218 /* AlertView.swift */,
+			);
+			name = ViewHelpers;
 			sourceTree = "<group>";
 		};
 		3EC617F538FA7712AA37F22E /* Frameworks */ = {
@@ -117,6 +179,7 @@
 		259E387B1BBD166B009C9218 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = storyteller;
 				TargetAttributes = {
@@ -149,6 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				259E38911BBD166B009C9218 /* LaunchScreen.storyboard in Resources */,
+				259E38B11BBE5442009C9218 /* Configurations.plist in Resources */,
 				259E388E1BBD166B009C9218 /* Assets.xcassets in Resources */,
 				259E388C1BBD166B009C9218 /* Main.storyboard in Resources */,
 			);
@@ -209,8 +273,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				259E38891BBD166B009C9218 /* ViewController.swift in Sources */,
+				259E38AE1BBE50C1009C9218 /* MapViewController.swift in Sources */,
+				259E38A21BBD2B8C009C9218 /* PointOfInterest.swift in Sources */,
+				259E389C1BBD1CEA009C9218 /* JSONConnection.swift in Sources */,
+				259E38A11BBD2B8C009C9218 /* LocationManager.swift in Sources */,
+				259E389D1BBD1CEA009C9218 /* JSONErrors.swift in Sources */,
+				259E38AF1BBE50C1009C9218 /* MessagesViewController.swift in Sources */,
+				259E38A71BBE4F6D009C9218 /* AlertView.swift in Sources */,
 				259E38871BBD166B009C9218 /* AppDelegate.swift in Sources */,
+				259E38A91BBE4F6D009C9218 /* PointOfInterestTableViewCell.swift in Sources */,
+				259E38A81BBE4F6D009C9218 /* MapView.swift in Sources */,
+				259E389B1BBD1CEA009C9218 /* JSONApi.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
