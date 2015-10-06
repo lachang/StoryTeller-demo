@@ -153,6 +153,21 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         let status: CLAuthorizationStatus = CLLocationManager.authorizationStatus()
         return (status == .AuthorizedWhenInUse)
     }
+    
+    /**
+     * Get whether or not the current authorization status for location
+     * retrieval has been determined.
+     *
+     * - parameter N/A
+     *
+     * - returns: True if location retrieval authorization has been determined.
+     *            False otherwise.
+     */
+    
+    func isAuthorizationDetermined() -> Bool {
+        let status: CLAuthorizationStatus = CLLocationManager.authorizationStatus()
+        return (status != .NotDetermined)
+    }
 
     //**************************************************************************
     // MARK: Instance Methods (Internal)

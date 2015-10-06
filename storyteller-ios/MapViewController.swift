@@ -86,21 +86,22 @@ LocationManagerDelegate {
 
             if !self._locationManager.isAuthorized() {
 
-                // Show an alert stating that the application does not have the
-                // authorization to receive location data.
+                if self._locationManager.isAuthorizationDetermined() {
 
-                self._alertView!.showAlert(
-                    "No Location Available",
-                    message: "Please enable location services.",
-                    callback: nil)
+                    // Show an alert stating that the application does not have
+                    // the authorization to receive location data.
+
+                    self._alertView!.showAlert(
+                        "No Location Available",
+                        message: "Please enable location services.",
+                        callback: nil)
+                }
             }
             else {
                 // The application has authorization to receive location data
-                // but no locations have yet been received.
-                //
-                // Register with the LocationManager for location updates.
+                // but no locations have yet been received. Request a location.
 
-                self._locationManager.delegate = self
+                self._locationManager.requestLocation()
             }
         }
         else {
@@ -160,7 +161,7 @@ LocationManagerDelegate {
                             else {
                                 channel.unSubscribeWithSuccess({ () -> Void in
                                 }, failure: { (error) -> Void in
-                                    //println("ERROR: Failed to unsubscribe for " + channel.name)
+                                    //print("ERROR: Failed to unsubscribe for " + channel.name)
                                 })
                             }
                         }
@@ -210,16 +211,17 @@ LocationManagerDelegate {
         self.tableView.estimatedRowHeight = self.tableView.rowHeight
         self.tableView.rowHeight = UITableViewAutomaticDimension
         
-        // Attempt to retrieve messages.
-        let location: CLLocation? = self._locationManager.getLocation()
-        
         // Login to Magnet Message (hardcoded for now).
         let credential = NSURLCredential(user: self._username,
             password: self._password, persistence: .None)
         MMXUser.logInWithCredential(credential,
             success: { (user) -> Void in
                 
-                // Retrieve the points-of-interest once logged-in.
+                // Register with the LocationManager for location updates.
+                self._locationManager.delegate = self
+
+                // Attempt to retrieve messages.
+                let location: CLLocation? = self._locationManager.getLocation()
                 self._index(location)
             },
             failure: { (error) -> Void in
