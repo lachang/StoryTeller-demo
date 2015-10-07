@@ -273,9 +273,6 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blue-background" translatesAutoresizingMaskIntoConstraints="NO" id="Ksi-0D-d99">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="dS5-LO-uIv" appends="YES" id="hZ5-t2-ovR"/>
-                                </connections>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Signup for an account" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aeT-ZG-hR2">
                                 <rect key="frame" x="180" y="20" width="240" height="33"/>
@@ -381,6 +378,9 @@
                             <constraint firstItem="nNK-Yh-zxg" firstAttribute="top" secondItem="1uU-Vg-rMk" secondAttribute="bottom" constant="8" id="rvb-Ll-wnE"/>
                             <constraint firstItem="DFM-9m-K2G" firstAttribute="top" secondItem="DLc-hz-yRh" secondAttribute="bottom" constant="8" id="y1a-Hw-CcD"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="dS5-LO-uIv" appends="YES" id="qfX-a2-IY2"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="email" destination="cLf-e5-jcU" id="vRa-lS-N3V"/>
@@ -414,9 +414,6 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blue-background" translatesAutoresizingMaskIntoConstraints="NO" id="x6w-pl-Dtg">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="wfM-Ea-kJg" appends="YES" id="eyi-UA-EKG"/>
-                                </connections>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login to your account" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B8X-Ph-gRB">
                                 <rect key="frame" x="181" y="20" width="238" height="33"/>
@@ -489,6 +486,9 @@
                             <constraint firstItem="QRy-V3-e6D" firstAttribute="top" secondItem="B8X-Ph-gRB" secondAttribute="bottom" constant="8" id="tvO-Jq-ZOg"/>
                             <constraint firstAttribute="trailingMargin" secondItem="x6w-pl-Dtg" secondAttribute="trailing" constant="-20" id="zKl-Ia-6G5"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="wfM-Ea-kJg" appends="YES" id="W49-ek-k8L"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="password" destination="Wcr-u2-WfV" id="KR4-dT-icH"/>
