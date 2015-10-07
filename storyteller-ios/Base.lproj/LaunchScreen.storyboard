@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -15,8 +16,36 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blue-background" translatesAutoresizingMaskIntoConstraints="NO" id="Mpt-yK-QDK">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Powered by Magnet Message" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5up-1M-YoA">
+                                <rect key="frame" x="206" y="560" width="189" height="19.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="magnet-logo" translatesAutoresizingMaskIntoConstraints="NO" id="yAs-EB-K5c">
+                                <rect key="frame" x="275" y="514" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="6o2-xf-zHL"/>
+                                    <constraint firstAttribute="width" constant="50" id="hja-cc-HSV"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="Mpt-yK-QDK" secondAttribute="bottom" id="9Z9-So-fxK"/>
+                            <constraint firstItem="Mpt-yK-QDK" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="-20" id="AsV-bc-0qv"/>
+                            <constraint firstItem="5up-1M-YoA" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="FDh-yJ-8fX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Mpt-yK-QDK" secondAttribute="trailing" constant="-20" id="JYg-RB-7vb"/>
+                            <constraint firstItem="yAs-EB-K5c" firstAttribute="centerX" secondItem="5up-1M-YoA" secondAttribute="centerX" id="R8V-3V-RBF"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="5up-1M-YoA" secondAttribute="bottom" constant="20" id="V2n-Qf-dJJ"/>
+                            <constraint firstItem="5up-1M-YoA" firstAttribute="top" secondItem="yAs-EB-K5c" secondAttribute="bottom" constant="-4" id="iEh-Zy-BUn"/>
+                            <constraint firstItem="Mpt-yK-QDK" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-20" id="tv9-Sf-HYu"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -24,4 +53,8 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="blue-background" width="120" height="120"/>
+        <image name="magnet-logo" width="133" height="129"/>
+    </resources>
 </document>
