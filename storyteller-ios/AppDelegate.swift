@@ -13,9 +13,93 @@ import MMX
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    //**************************************************************************
+    // MARK: Attributes (Public)
+    //**************************************************************************
+    
     var window: UIWindow?
     var channel: MMXChannel? = nil
 
+    //**************************************************************************
+    // MARK: Attributes (Internal)
+    //**************************************************************************
+    
+    //**************************************************************************
+    // MARK: Attributes (Private)
+    //**************************************************************************
+    
+    //**************************************************************************
+    // MARK: Class Methods (Public)
+    //**************************************************************************
+    
+    //**************************************************************************
+    // MARK: Class Methods (Internal)
+    //**************************************************************************
+    
+    //**************************************************************************
+    // MARK: Class Methods (Private)
+    //**************************************************************************
+    
+    //**************************************************************************
+    // MARK: Instance Methods (Public)
+    //**************************************************************************
+
+    func forceToInitialView() {
+        
+        var viewController: UIViewController
+        
+        viewController =
+            UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
+        
+        // http://stackoverflow.com/questions/7703806/rootviewcontroller-switch-transition-animation
+        UIView.transitionWithView(self.window!,
+            duration: 0.5,
+            options: .TransitionFlipFromRight,
+            animations: { () -> Void in
+                self.window?.rootViewController = viewController
+            },
+            completion: nil)
+    }
+    
+    func switchToInitialView() {
+        
+        // Determine whether the user needs to login.
+        //
+        // http://stackoverflow.com/questions/19962276/best-practices-for-storyboard-login-screen-handling-clearing-of-data-upon-logou?lq=1
+        
+        var viewController: UIViewController
+        
+        //        if Session.isValid() {
+        //            viewController =
+        //                UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+        //        }
+        //        else {
+        viewController =
+            UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("WelcomeView")
+        //        }
+        
+        // http://stackoverflow.com/questions/7703806/rootviewcontroller-switch-transition-animation
+        UIView.transitionWithView(self.window!,
+            duration: 0.5,
+            options: .TransitionFlipFromRight,
+            animations: { () -> Void in
+                self.window?.rootViewController = viewController
+            },
+            completion: nil)
+    }
+    
+    //**************************************************************************
+    // MARK: Instance Methods (Internal)
+    //**************************************************************************
+    
+    //**************************************************************************
+    // MARK: Instance Methods (Private)
+    //**************************************************************************
+
+    //**************************************************************************
+    // MARK: UIApplicationDelegate
+    //**************************************************************************
+    
     func application(application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
             
@@ -24,6 +108,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialize Magnet Message
         MMX.setupWithConfiguration("default")
 
+        // Switch to the initial view.
+        self.switchToInitialView()
+            
         return true
     }
 
@@ -85,6 +172,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // appropriate. See also applicationDidEnterBackground:.
         //
     }
-
-
 }
