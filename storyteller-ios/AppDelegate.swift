@@ -44,23 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Instance Methods (Public)
     //**************************************************************************
 
-    func forceToInitialView() {
-        
-        var viewController: UIViewController
-        
-        viewController =
-            UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
-        
-        // http://stackoverflow.com/questions/7703806/rootviewcontroller-switch-transition-animation
-        UIView.transitionWithView(self.window!,
-            duration: 0.5,
-            options: .TransitionFlipFromRight,
-            animations: { () -> Void in
-                self.window?.rootViewController = viewController
-            },
-            completion: nil)
-    }
-    
     func switchToInitialView() {
         
         // Determine whether the user needs to login.
@@ -69,21 +52,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var viewController: UIViewController
         
-        //        if Session.isValid() {
-        //            viewController =
-        //                UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
-        //        }
-        //        else {
-        viewController =
-            UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("WelcomeView")
-        //        }
+        if Session.isValid() {
+            viewController =
+                UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
+        }
+        else {
+            viewController =
+                UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("WelcomeView")
+        }
         
         // http://stackoverflow.com/questions/7703806/rootviewcontroller-switch-transition-animation
         UIView.transitionWithView(self.window!,
             duration: 0.5,
             options: .TransitionFlipFromRight,
             animations: { () -> Void in
+
+                // This fixes some odd animation artifcats that occur when
+                // switching to the new view.
+                //
+                // http://stackoverflow.com/questions/8053832/rootviewcontroller-animation-transition-initial-orientation-is-wrong
+
+                let oldState = UIView.areAnimationsEnabled()
+                UIView.setAnimationsEnabled(false)
                 self.window?.rootViewController = viewController
+                UIView.setAnimationsEnabled(oldState)
             },
             completion: nil)
     }

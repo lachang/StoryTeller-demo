@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		258B92181BC65AFD0003EA12 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258B92171BC65AFD0003EA12 /* Session.swift */; settings = {ASSET_TAGS = (); }; };
 		259E38871BBD166B009C9218 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38861BBD166B009C9218 /* AppDelegate.swift */; };
 		259E388C1BBD166B009C9218 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 259E388A1BBD166B009C9218 /* Main.storyboard */; };
 		259E388E1BBD166B009C9218 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 259E388D1BBD166B009C9218 /* Assets.xcassets */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		258B92171BC65AFD0003EA12 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		259E38831BBD166B009C9218 /* storyteller-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "storyteller-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		259E38861BBD166B009C9218 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		259E388B1BBD166B009C9218 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				259E389E1BBD1D0E009C9218 /* Networking */,
 				259E38A01BBD2B8C009C9218 /* PointOfInterest.swift */,
 				259E389F1BBD2B8C009C9218 /* LocationManager.swift */,
+				258B92171BC65AFD0003EA12 /* Session.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 				259E389C1BBD1CEA009C9218 /* JSONConnection.swift in Sources */,
 				259E38A11BBD2B8C009C9218 /* LocationManager.swift in Sources */,
 				259E389D1BBD1CEA009C9218 /* JSONErrors.swift in Sources */,
+				258B92181BC65AFD0003EA12 /* Session.swift in Sources */,
 				259E38AF1BBE50C1009C9218 /* MessagesViewController.swift in Sources */,
 				259E38A71BBE4F6D009C9218 /* AlertView.swift in Sources */,
 				25AFC1301BC501EA00AE8AF9 /* WelcomeViewController.swift in Sources */,

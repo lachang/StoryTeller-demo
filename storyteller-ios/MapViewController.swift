@@ -52,10 +52,6 @@ LocationManagerDelegate {
     // The selected table row, if any.
     private var _selectedIndexPath: NSIndexPath? = nil
 
-    // Hard-coded username for logging into Magnet Message.
-    private let _username: String = "foobar"
-    private let _password: String = "foobar"
-    
     //**************************************************************************
     // MARK: Class Methods (Public)
     //**************************************************************************
@@ -211,22 +207,12 @@ LocationManagerDelegate {
         self.tableView.estimatedRowHeight = self.tableView.rowHeight
         self.tableView.rowHeight = UITableViewAutomaticDimension
         
-        // Login to Magnet Message (hardcoded for now).
-        let credential = NSURLCredential(user: self._username,
-            password: self._password, persistence: .None)
-        MMXUser.logInWithCredential(credential,
-            success: { (user) -> Void in
-                
-                // Register with the LocationManager for location updates.
-                self._locationManager.delegate = self
+        // Register with the LocationManager for location updates.
+        self._locationManager.delegate = self
 
-                // Attempt to retrieve messages.
-                let location: CLLocation? = self._locationManager.getLocation()
-                self._index(location)
-            },
-            failure: { (error) -> Void in
-                print("ERROR: Failed to login!")
-        })
+        // Attempt to retrieve messages.
+        let location: CLLocation? = self._locationManager.getLocation()
+        self._index(location)
     }
     
     override func viewWillAppear(animated: Bool) {

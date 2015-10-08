@@ -91,28 +91,32 @@ class LoginViewController: UIViewController {
         self.view.endEditing(true)
         
         // Attempt to login.
-//        var session = Session()
-//        session.login(
-//            self.email.text,
-//            password: self.password.text,
-//            callback: { (error) -> Void in
-//                if error != nil {
-//                    // If an error occurred, show an alert.
-//                    self._alertView!.showAlert(
-//                        "Login Failed",
-//                        message: error!.domain,
-//                        callback: nil)
-//                }
-//                else {
+        let session = Session()
+        session.login(
+            self.username.text!,
+            password: self.password.text!,
+            callback: { (error) -> Void in
+                if error != nil {
+                    // If an error occurred, show an alert.
+                    var message = error!.localizedDescription
+                    if error!.localizedFailureReason != nil {
+                        message = error!.localizedFailureReason!
+                    }
+                    self._alertView!.showAlert(
+                        "Login Failed",
+                        message: message,
+                        callback: nil)
+                }
+                else {
                     // Otherwise, clear the password and go to the initial view.
                     dispatch_async(dispatch_get_main_queue()) {
                         self.password.text = ""
                         let appDelegate =
                         UIApplication.sharedApplication().delegate as! AppDelegate
-                        appDelegate.forceToInitialView()
+                        appDelegate.switchToInitialView()
                     }
-//                }
-//        })
+                }
+        })
     }
     
     //**************************************************************************
