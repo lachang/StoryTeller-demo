@@ -1,19 +1,7 @@
 {
   "images" : [
     {
-      "resizing" : {
-        "mode" : "3-part-horizontal",
-        "center" : {
-          "mode" : "stretch",
-          "width" : 1
-        },
-        "cap-insets" : {
-          "right" : 60,
-          "left" : 59
-        }
-      },
       "idiom" : "universal",
-      "filename" : "background.png",
       "scale" : "1x"
     },
     {
