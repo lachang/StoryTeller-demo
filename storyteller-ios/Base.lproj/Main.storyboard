@@ -9,7 +9,7 @@
         <scene sceneID="NHd-lE-t68">
             <objects>
                 <navigationController id="sud-tY-fH3" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Nearby" image="map-pin-location_3" id="lpd-JY-rOT"/>
+                    <tabBarItem key="tabBarItem" title="Nearby" image="map-pin-location-3" id="lpd-JY-rOT"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="EpG-iE-Y4H">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -563,7 +563,7 @@
     <resources>
         <image name="blue-background" width="120" height="120"/>
         <image name="magnet-logo" width="133" height="129"/>
-        <image name="map-pin-location_3" width="32" height="32"/>
+        <image name="map-pin-location-3" width="32" height="32"/>
         <image name="user-settings-2" width="32" height="32"/>
     </resources>
 </document>
