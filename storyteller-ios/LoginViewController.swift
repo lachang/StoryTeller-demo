@@ -22,6 +22,9 @@ class LoginViewController: UIViewController {
     @IBOutlet var username: UITextField!
     @IBOutlet var password: UITextField!
     
+    @IBOutlet var loginButton: UIButton!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    
     //**************************************************************************
     // MARK: Attributes (Internal)
     //**************************************************************************
@@ -90,12 +93,17 @@ class LoginViewController: UIViewController {
         // first responder.
         self.view.endEditing(true)
         
+        // Hide the login button and start the login activity indicator.
+        self.loginButton.hidden = true
+        self.activityIndicator.hidden = false
+        
         // Attempt to login.
         let session = Session()
         session.login(
             self.username.text!,
             password: self.password.text!,
             callback: { (error) -> Void in
+                
                 if error != nil {
                     // If an error occurred, show an alert.
                     var message = error!.localizedDescription
@@ -106,6 +114,11 @@ class LoginViewController: UIViewController {
                         "Login Failed",
                         message: message,
                         callback: nil)
+
+                    // Hide the login activity indicator and re-display the
+                    // login button.
+                    self.loginButton.hidden = false
+                    self.activityIndicator.hidden = true
                 }
                 else {
                     // Otherwise, clear the password and go to the initial view.
@@ -134,6 +147,9 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Setup the login activity indicator.
+        self.activityIndicator.hidden = true
+        
         // Manages functionality of the alert view.
         self._alertView = AlertView(viewController: self)
     }

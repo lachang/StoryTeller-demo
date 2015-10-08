@@ -521,6 +521,9 @@
                                     <action selector="cancel:" destination="0rb-Yu-pEU" eventType="touchUpInside" id="fhh-rf-kmc"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="E4Y-xi-Zez">
+                                <rect key="frame" x="282" y="161" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -531,6 +534,8 @@
                             <constraint firstItem="YEs-SZ-Tbn" firstAttribute="centerX" secondItem="B8X-Ph-gRB" secondAttribute="centerX" id="GqZ-QF-7om"/>
                             <constraint firstItem="B8X-Ph-gRB" firstAttribute="centerX" secondItem="Zx8-je-Ien" secondAttribute="centerX" id="SJ1-m9-TcF"/>
                             <constraint firstItem="9aS-1I-jo2" firstAttribute="top" secondItem="x6w-pl-Dtg" secondAttribute="bottom" id="YW7-wo-5it"/>
+                            <constraint firstItem="E4Y-xi-Zez" firstAttribute="centerX" secondItem="YEs-SZ-Tbn" secondAttribute="centerX" id="ZZb-rt-3td"/>
+                            <constraint firstItem="E4Y-xi-Zez" firstAttribute="centerY" secondItem="YEs-SZ-Tbn" secondAttribute="centerY" id="aBB-cu-4EG"/>
                             <constraint firstItem="YEs-SZ-Tbn" firstAttribute="top" secondItem="Wcr-u2-WfV" secondAttribute="bottom" constant="16" id="bwk-6v-B8q"/>
                             <constraint firstItem="Wcr-u2-WfV" firstAttribute="centerX" secondItem="B8X-Ph-gRB" secondAttribute="centerX" id="cpg-M2-bhL"/>
                             <constraint firstItem="VAx-Qe-6nd" firstAttribute="centerX" secondItem="YEs-SZ-Tbn" secondAttribute="centerX" id="fWb-k9-py7"/>
@@ -546,6 +551,8 @@
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="E4Y-xi-Zez" id="p2L-O0-RIw"/>
+                        <outlet property="loginButton" destination="YEs-SZ-Tbn" id="TdX-J3-RDP"/>
                         <outlet property="password" destination="Wcr-u2-WfV" id="KR4-dT-icH"/>
                         <outlet property="username" destination="QRy-V3-e6D" id="R2u-u4-s53"/>
                     </connections>
