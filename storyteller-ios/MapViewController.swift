@@ -76,6 +76,141 @@ LocationManagerDelegate {
     // MARK: Instance Methods (Private)
     //**************************************************************************
 
+    // make a properly formatted string for magnet message's standard
+    func makeTitleString(title: String) -> String {
+        let titleString = title.stringByReplacingOccurrencesOfString(" ", withString: "_").lowercaseString
+        
+        print(titleString)
+        
+        return titleString
+    }
+    
+    // make a properly formatted summary for us to parse later
+    //eg. longitude -122.42241 latitude 37.82728 title Alcatraz Island - Guard House
+    func makeSummaryString(latitude: String, longitude: String, title: String) -> String {
+        var summaryString = "longitude "
+        summaryString += longitude
+        summaryString += " latitude "
+        summaryString += latitude
+        summaryString += " title "
+        summaryString += title
+        
+        print(summaryString)
+        
+        return summaryString
+    }
+    
+    // add a new story point
+    @IBAction func addNewStoryPoint(sender: AnyObject) {
+        
+        let alertController = UIAlertController(
+            title: "Add New Storypoint",
+            message: "Please enter a name",
+            preferredStyle: .Alert)
+        
+        let okAction = UIAlertAction(
+            title: "OK",
+            style: .Default)
+            { (action) -> Void in
+                
+                if let nameField = alertController.textFields?.first {
+                    if nameField.text == "" {
+                        // TODO: handle this case
+                    } else {
+                        // get the channel necessities
+                        let currentLocation = self._locationManager.getLocation()
+                        let latitude = currentLocation!.coordinate.latitude
+                        let longitude = currentLocation!.coordinate.longitude
+                        let title = nameField.text!
+                        
+                        // make strings that are friendly for the magnet API
+                        let magnetTitleString = self.makeTitleString(title)
+                        let magnetSummaryString = self.makeSummaryString(String(latitude),
+                            longitude: String(longitude),
+                            title: title)
+                        
+                        // create a new channel
+                        MMXChannel.createWithName(
+                            magnetTitleString,
+                            summary: magnetSummaryString,
+                            isPublic: true,
+                            success: {(channel) -> Void in
+
+                                print("Added channel " + channel!.name)
+                                var annotation:MKAnnotation?
+                                
+                                // create the point of interest
+                                var pointOfInterest: PointOfInterest? = nil
+                                pointOfInterest = PointOfInterest(
+                                    title: title,
+                                    numMessages: Int(channel.numberOfMessages),
+                                    channel: channel,
+                                    longitude: longitude, latitude: latitude)
+                                
+                                // add the point of interest
+                                if pointOfInterest != nil {
+                                    self.addPointOfInterestAndSubscribe(pointOfInterest!,
+                                        location: currentLocation!,
+                                        channel: channel)
+                                    annotation = pointOfInterest!
+                                    
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        self._mapView!.addAnnotation(annotation!)
+                                        self.tableView.reloadData()
+                                    }
+                                } // end of if pointOfInterest != nil
+                            },
+                            failure: {(error) -> Void in
+                                print(error.code)
+                        }) // end of MMXChannel.createWithName
+                        
+                    }
+                }
+        }
+        
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: .Cancel)
+            { (action) -> Void in
+                // do nothing
+        }
+        
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        alertController.addTextFieldWithConfigurationHandler { (UITextField) -> Void in
+            UITextField.placeholder = "Storypoint name"
+        }
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    // helper function to add a point of interest to the list and subscribe to the channel
+    private func addPointOfInterestAndSubscribe(pointOfInterest: PointOfInterest, location: CLLocation, channel: MMXChannel) -> Void {
+
+        pointOfInterest.distance =
+            pointOfInterest.location.distanceFromLocation(location)
+        
+        // Only show points-of-interest within 10000 m for the
+        // table view.
+        if Int(pointOfInterest.distance!) < 10000 {
+            self._pointsOfInterest.append(pointOfInterest)
+            
+            // Auto-subscribe to channels in view.
+            channel.subscribeWithSuccess({ () -> Void in
+                }, failure: { (error) -> Void in
+                    print("ERROR: Failed to subscribe!")
+            })
+        }
+        else {
+            channel.unSubscribeWithSuccess({ () -> Void in
+                }, failure: { (error) -> Void in
+                    //print("ERROR: Failed to unsubscribe for " + channel.name)
+            })
+        }
+        
+    }
+    
     private func _index(location: CLLocation?) {
 
         if location == nil {
@@ -110,58 +245,52 @@ LocationManagerDelegate {
                     var annotations: [MKAnnotation] = []
                     
                     let channelList = channels as! [MMXChannel]
-                    for channel in channelList {
-                        var pointOfInterest: PointOfInterest? = nil
-
-                        // Hardcoded points-of-interest, for now...
-                        if channel.summary == "Alcatraz Main Cell House" {
-                            pointOfInterest = PointOfInterest(
-                                title: channel.summary,
-                                numMessages: Int(channel.numberOfMessages),
-                                channel: channel,
-                                longitude: -122.42319, latitude: 37.82683)
-                        }
-                        else if channel.summary == "Alcatraz Island - Guard House" {
-                            pointOfInterest = PointOfInterest(
-                                title: channel.summary,
-                                numMessages: Int(channel.numberOfMessages),
-                                channel: channel,
-                                longitude: -122.42241, latitude: 37.82728)
-                        }
-                        else if channel.summary == "Alcatraz - Apartments" {
-                            pointOfInterest = PointOfInterest(
-                                title: channel.summary,
-                                numMessages: Int(channel.numberOfMessages),
-                                channel: channel,
-                                longitude: -122.42170, latitude: 37.82674)
+                    channelLoop: for channel in channelList {
+                        
+                        // pull out the channel info to create a point of interest
+                        var channelInfo = channel.summary.componentsSeparatedByString(" ")
+                        var longitude = 0.0
+                        var latitude = 0.0
+                        var title = ""
+                        for var i = 0; i < channelInfo.count; i++ {
+                            if channelInfo[i] == "longitude" {
+                                i++
+                                longitude = Double(channelInfo[i])!
+                            } else if channelInfo[i] == "latitude" {
+                                i++
+                                latitude = Double(channelInfo[i])!
+                            } else if channelInfo[i] == "title" {
+                                // title is special. it is currently always at the end
+                                // because it could have spaces and this makes parsing
+                                // much easier... read until end of array
+                                i++
+                                while i < channelInfo.count {
+                                    title += channelInfo[i]
+                                    title += " "
+                                    i++
+                                }
+                                title = title.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                            } else {
+                                print(channel.name + " not following proper format!")
+                                print("skipping over this channel...")
+                                continue channelLoop
+                            }
                         }
                         
+                        // create the point of interest
+                        var pointOfInterest: PointOfInterest? = nil
+                        pointOfInterest = PointOfInterest(
+                            title: title,
+                            numMessages: Int(channel.numberOfMessages),
+                            channel: channel,
+                            longitude: longitude, latitude: latitude)
+                        
+                        // add the point of interest
                         if pointOfInterest != nil {
-                            pointOfInterest!.distance =
-                                pointOfInterest!.location.distanceFromLocation(location!)
-                            
-                            // Show all points-of-interests as annotations.
+                            self.addPointOfInterestAndSubscribe(pointOfInterest!, location: location!, channel: channel)
                             annotations.append(pointOfInterest!)
-                            
-                            // Only show points-of-interest within 50 m for the
-                            // table view.
-                            if Int(pointOfInterest!.distance!) < 100 {
-                                self._pointsOfInterest.append(pointOfInterest!)
-                                
-                                // Auto-subscribe to channels in view.
-                                channel.subscribeWithSuccess({ () -> Void in
-                                }, failure: { (error) -> Void in
-                                    print("ERROR: Failed to subscribe!")
-                                })
-                            }
-                            else {
-                                channel.unSubscribeWithSuccess({ () -> Void in
-                                }, failure: { (error) -> Void in
-                                    //print("ERROR: Failed to unsubscribe for " + channel.name)
-                                })
-                            }
                         }
-                    }
+                    } // end of for channel in channelList
 
                     dispatch_async(dispatch_get_main_queue()) {
                         

@@ -77,6 +77,10 @@ class MapView {
         self._mapView.addAnnotations(annotations)
     }
     
+    func addAnnotation (annotation: MKAnnotation) {
+        self._mapView.addAnnotation(annotation)
+    }
+    
     /**
      * Remove all current annotations from the map.
      *

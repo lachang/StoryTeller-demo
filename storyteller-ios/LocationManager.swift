@@ -83,7 +83,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         
         self._manager.delegate = self
         self._manager.desiredAccuracy = kCLLocationAccuracyBest
-        self._manager.distanceFilter = kCLDistanceFilterNone
+        self._manager.distanceFilter = 5.0
         
         // Request the user for location updates, if not already allowed.
         self._manager.requestWhenInUseAuthorization()

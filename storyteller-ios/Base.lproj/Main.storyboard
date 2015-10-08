@@ -166,7 +166,25 @@
                             <constraint firstAttribute="trailingMargin" secondItem="Tjd-MU-XJi" secondAttribute="trailing" constant="-20" id="zK1-FO-FmL"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="WmU-Im-Y1b"/>
+                    <navigationItem key="navigationItem" id="WmU-Im-Y1b">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="QWk-mm-aW8">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="VuR-cA-nRj" userLabel="Refresh">
+                                <rect key="frame" x="20" y="7" width="133" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title=" Refresh"/>
+                            </button>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="oPN-Mo-7QW">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6bP-se-fn2">
+                                <rect key="frame" x="442" y="7" width="138" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Add New Storypoint"/>
+                                <connections>
+                                    <action selector="addNewStoryPoint:" destination="zhf-Fc-88K" eventType="touchUpInside" id="JIy-sX-Tvv"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="Tjd-MU-XJi" id="TBV-Fn-PjK"/>
                         <outlet property="tableView" destination="BaX-HZ-akB" id="dkH-wK-KIw"/>
