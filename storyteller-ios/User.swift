@@ -1,11 +1,12 @@
 //******************************************************************************
 //  User.swift
-//  GeoMsg
+//  storyteller-ios
 //
-//  Copyright (c) 2015 wakaddo. All rights reserved.
+//  Copyright (c) 2015 storyteller. All rights reserved.
 //******************************************************************************
 
 import Foundation
+import MMX
 
 /**
  * User
@@ -19,8 +20,8 @@ class User: JSONApi {
     // MARK: Attributes (Public)
     //**************************************************************************
     
-    var firstName: String
-    var lastName: String
+    var fullname: String
+    var username: String
     var email: String
     
     //**************************************************************************
@@ -30,9 +31,6 @@ class User: JSONApi {
     //**************************************************************************
     // MARK: Attributes (Private)
     //**************************************************************************
-    
-    // The URL of the user server.
-    private static let _userUrl: String = config.domain + "api/users"
     
     //**************************************************************************
     // MARK: Class Methods (Public)
@@ -53,55 +51,43 @@ class User: JSONApi {
     /**
      * Initialize a new user.
      *
-     * :param: firstName The user's first name.
-     * :param: lastName The user's last name.
+     * :param: firstname The user's first name.
+     * :param: lastname The user's last name.
+     * :param: username The user's handle.
      * :param: email The user's email.
      *
      * :returns: N/A
      */
     
-    init (firstName: String, lastName: String, email: String) {
+    init (firstname: String, lastname: String, username: String, email: String) {
             
-        self.firstName = firstName
-        self.lastName  = lastName
-        self.email     = email
+        self.fullname = firstname + " " + lastname
+        self.username = username
+        self.email    = email
 
         super.init()
     }
     
-    /**
-     * Initialize a new user given a JSON hash.
-     *
-     * :param: json JSON hash from which to initialize the user.
-     *
-     * :returns: N/A
-     */
-
-    convenience init (json: [String:AnyObject]) {
-
-        // Note this is a "convenience" initializer since it calls a different
-        // "designated" initializer.
-        //
-        // http://www.codingricky.com/construtor-chaining-in-swift/
-
-        self.init(firstName: json["first_name"] as! String,
-            lastName: json["last_name"] as! String,
-            email: json["email"] as! String)
-    }
-
-    /**
-     * Retrieve the user's alias.
-     *
-     * :param: N/A
-     *
-     * :returns: The user's alias.
-     */
-
-    func alias() -> String {
-        return self.firstName +
-            " " +
-            String(self.lastName[self.lastName.startIndex])
-    }
+//    /**
+//     * Initialize a new user given a JSON hash.
+//     *
+//     * :param: json JSON hash from which to initialize the user.
+//     *
+//     * :returns: N/A
+//     */
+//
+//    convenience init (json: [String:AnyObject]) {
+//
+//        // Note this is a "convenience" initializer since it calls a different
+//        // "designated" initializer.
+//        //
+//        // http://www.codingricky.com/construtor-chaining-in-swift/
+//
+//        self.init(firstname: json["first_name"] as! String,
+//            lastname: json["last_name"] as! String,
+//            username: json["user_name"] as! String,
+//            email: json["email"] as! String)
+//    }
 
     /**
      * Create a new User instance.
@@ -116,17 +102,19 @@ class User: JSONApi {
      * :returns: N/A
      */
     
-    func signup(#password: String, callback: ((NSError?) -> Void)) {
+    func signup(password password: String, callback: ((NSError?) -> Void)) {
         
-        self.create(
-            User._userUrl,
-            parameters: ["user":["first_name":self.firstName,
-                "last_name":self.lastName, "email":self.email, "password":password]],
-            callback: { (error) -> Void in
-    
-                // Invoke the callback.
+        // Signup for Magnet Message (hardcoded for now).
+        MMXClient.sharedClient().accountManager.createAccountForUsername(
+            self.username, displayName: self.fullname,
+            email: self.email, password: password,
+            success: { (profile) -> Void in
+                callback(nil)
+            },
+            failure: { (error) -> Void in
+                print("ERROR: Failed to signup!")
                 callback(error)
-            })
+            })        
     }
     
     //**************************************************************************

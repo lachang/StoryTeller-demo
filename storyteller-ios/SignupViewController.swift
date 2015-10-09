@@ -24,6 +24,9 @@ class SignupViewController: UIViewController {
     @IBOutlet var username:  UITextField!
     @IBOutlet var email:     UITextField!
     @IBOutlet var password:  UITextField!
+
+    @IBOutlet var signupButton: UIButton!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     //**************************************************************************
     // MARK: Attributes (Internal)
@@ -93,18 +96,33 @@ class SignupViewController: UIViewController {
         // first responder.
         self.view.endEditing(true)
         
+        // Hide the signup button and start the activity indicator.
+        self.signupButton.hidden = true
+        self.activityIndicator.hidden = false
+        
         // Attempt to signup.
-//        var user = User(firstName: self.firstName.text,
-//            lastName: self.lastName.text, email: self.email.text)
-//        user.signup(password: self.password.text, callback: { (error) -> Void in
-//            if error != nil {
-//                // If an error occurred, show an alert.
-//                self._alertView!.showAlert(
-//                    "Signup Failed",
-//                    message: error!.domain,
-//                    callback: nil)
-//            }
-//            else {
+        let user = User(firstname: self.firstname.text!,
+            lastname: self.lastname.text!, username: self.username.text!,
+            email: self.email.text!)
+
+        user.signup(password: self.password.text!, callback: { (error) -> Void in
+
+            if error != nil {
+                // If an error occurred, show an alert.
+                var message = error!.localizedDescription
+                if error!.localizedFailureReason != nil {
+                    message = error!.localizedFailureReason!
+                }
+                self._alertView!.showAlert(
+                    "Signup Failed",
+                    message: message,
+                    callback: nil)
+
+                // Hide the activity indicator and re-display the signup button.
+                self.signupButton.hidden = false
+                self.activityIndicator.hidden = true
+            }
+            else {
                 // Alert the user upon a successful signup.
                 self._alertView!.showAlert(
                     "Signup Succeeded",
@@ -113,8 +131,8 @@ class SignupViewController: UIViewController {
                         // Dismiss this controller.
                         self.dismissViewControllerAnimated(true, completion: nil)
                 })
-//            }
-//        })
+            }
+        })
     }
     
     //**************************************************************************
@@ -132,6 +150,9 @@ class SignupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Initially hide the signup activity indicator.
+        self.activityIndicator.hidden = true
+        
         // Manages functionality of the alert view.
         self._alertView = AlertView(viewController: self)
     }

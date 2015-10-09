@@ -360,7 +360,7 @@
                                     <constraint firstAttribute="width" constant="280" id="6QG-9T-yaL"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                 <connections>
                                     <outlet property="delegate" destination="539-cM-vru" id="J3X-76-88c"/>
                                 </connections>
@@ -368,7 +368,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nNK-Yh-zxg">
                                 <rect key="frame" x="160" y="119" width="280" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                 <connections>
                                     <outlet property="delegate" destination="539-cM-vru" id="ThN-Ir-q7G"/>
                                 </connections>
@@ -422,6 +422,9 @@
                                     <action selector="cancel:" destination="539-cM-vru" eventType="touchUpInside" id="LrX-os-LQV"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="USL-B5-OwZ">
+                                <rect key="frame" x="282" y="275" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -438,8 +441,10 @@
                             <constraint firstItem="aeT-ZG-hR2" firstAttribute="top" secondItem="kdH-mb-Xo8" secondAttribute="bottom" constant="20" id="KVG-7Y-7Fj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Ksi-0D-d99" secondAttribute="trailing" constant="-20" id="O4F-UW-Ewt"/>
                             <constraint firstItem="1uU-Vg-rMk" firstAttribute="top" secondItem="aeT-ZG-hR2" secondAttribute="bottom" constant="8" id="P3S-2A-K2C"/>
+                            <constraint firstItem="USL-B5-OwZ" firstAttribute="centerX" secondItem="DLc-hz-yRh" secondAttribute="centerX" id="RBs-Wb-1bE"/>
                             <constraint firstItem="dGF-5h-Ttw" firstAttribute="centerX" secondItem="aeT-ZG-hR2" secondAttribute="centerX" id="VDF-OV-R1z"/>
                             <constraint firstItem="IuF-ez-Bi6" firstAttribute="top" secondItem="nNK-Yh-zxg" secondAttribute="bottom" constant="8" id="Xww-wo-Abx"/>
+                            <constraint firstItem="USL-B5-OwZ" firstAttribute="centerY" secondItem="DLc-hz-yRh" secondAttribute="centerY" id="aMm-AZ-sdf"/>
                             <constraint firstItem="1uU-Vg-rMk" firstAttribute="centerX" secondItem="aeT-ZG-hR2" secondAttribute="centerX" id="b5t-zf-3Nv"/>
                             <constraint firstItem="Ksi-0D-d99" firstAttribute="leading" secondItem="uM4-2S-iAQ" secondAttribute="leadingMargin" constant="-20" id="cwP-Em-R7R"/>
                             <constraint firstItem="aeT-ZG-hR2" firstAttribute="centerX" secondItem="uM4-2S-iAQ" secondAttribute="centerX" id="hrS-yp-TSL"/>
@@ -456,10 +461,12 @@
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="USL-B5-OwZ" id="Gur-Pp-53v"/>
                         <outlet property="email" destination="cLf-e5-jcU" id="vRa-lS-N3V"/>
                         <outlet property="firstname" destination="1uU-Vg-rMk" id="16m-eA-IU1"/>
                         <outlet property="lastname" destination="nNK-Yh-zxg" id="kUU-Y2-Owp"/>
                         <outlet property="password" destination="dGF-5h-Ttw" id="e9G-Wv-BG9"/>
+                        <outlet property="signupButton" destination="DLc-hz-yRh" id="qJh-xy-AB9"/>
                         <outlet property="username" destination="IuF-ez-Bi6" id="eFd-B6-WQd"/>
                     </connections>
                 </viewController>

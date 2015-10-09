@@ -13,5 +13,9 @@
 # Ignore .DS_Store files.
 .DS_Store
 
+# Ignore changes to the Magnet Configurations.plist so that developers can use
+# their own configuration.
+/storyteller-ios/Configurations.plist
+
 *.swp
 TODO

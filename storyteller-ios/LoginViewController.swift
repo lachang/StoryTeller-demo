@@ -93,7 +93,7 @@ class LoginViewController: UIViewController {
         // first responder.
         self.view.endEditing(true)
         
-        // Hide the login button and start the login activity indicator.
+        // Hide the login button and start the activity indicator.
         self.loginButton.hidden = true
         self.activityIndicator.hidden = false
         
@@ -115,8 +115,8 @@ class LoginViewController: UIViewController {
                         message: message,
                         callback: nil)
 
-                    // Hide the login activity indicator and re-display the
-                    // login button.
+                    // Hide the activity indicator and re-display the login
+                    // button.
                     self.loginButton.hidden = false
                     self.activityIndicator.hidden = true
                 }
@@ -147,7 +147,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Setup the login activity indicator.
+        // Initially hide the login activity indicator.
         self.activityIndicator.hidden = true
         
         // Manages functionality of the alert view.
