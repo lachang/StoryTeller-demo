@@ -10,7 +10,7 @@ import UIKit
 /**
  * PointOfInterestTableViewCell
  *
- * Custom table view cell for GeoMsg instances.
+ * Custom table view cell for PointOfInterest instances.
  */
 
 class PointOfInterestTableViewCell: UITableViewCell {

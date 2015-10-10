@@ -56,21 +56,21 @@ class ProfileViewController: UIViewController {
     
     @IBAction func showMenu(sender: AnyObject) {
         
-        var alertViewController =
+        let alertViewController =
         UIAlertController(
             title: nil,
             message: nil,
             preferredStyle: UIAlertControllerStyle.ActionSheet)
         
         // Add a logout button.
-        var alertActionLogout = UIAlertAction(
+        let alertActionLogout = UIAlertAction(
             title: "Logout",
             style: UIAlertActionStyle.Default,
             handler: _logout)
         alertViewController.addAction(alertActionLogout)
         
         // Add a cancel button.
-        var alertActionCancel = UIAlertAction(
+        let alertActionCancel = UIAlertAction(
             title: "Cancel",
             style: UIAlertActionStyle.Default,
             handler: nil)
