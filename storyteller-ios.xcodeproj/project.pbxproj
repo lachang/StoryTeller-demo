@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2516665C1BC7A7C5007B82BC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516665B1BC7A7C5007B82BC /* User.swift */; settings = {ASSET_TAGS = (); }; };
+		251666601BC8E28B007B82BC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516665F1BC8E28B007B82BC /* ProfileViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		258B92181BC65AFD0003EA12 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258B92171BC65AFD0003EA12 /* Session.swift */; settings = {ASSET_TAGS = (); }; };
 		259E38871BBD166B009C9218 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38861BBD166B009C9218 /* AppDelegate.swift */; };
 		259E388C1BBD166B009C9218 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 259E388A1BBD166B009C9218 /* Main.storyboard */; };
@@ -32,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		2516665B1BC7A7C5007B82BC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		2516665F1BC8E28B007B82BC /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		258B92171BC65AFD0003EA12 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		259E38831BBD166B009C9218 /* storyteller-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "storyteller-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		259E38861BBD166B009C9218 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				259E38AB1BBE50A0009C9218 /* ViewHelpers */,
 				259E38AC1BBE50C1009C9218 /* MapViewController.swift */,
 				259E38AD1BBE50C1009C9218 /* MessagesViewController.swift */,
+				2516665F1BC8E28B007B82BC /* ProfileViewController.swift */,
 				25AFC1311BC5097400AE8AF9 /* LoginViewController.swift */,
 				25AFC1331BC5098300AE8AF9 /* SignupViewController.swift */,
 				25AFC12F1BC501EA00AE8AF9 /* WelcomeViewController.swift */,
@@ -295,6 +298,7 @@
 				2516665C1BC7A7C5007B82BC /* User.swift in Sources */,
 				259E389D1BBD1CEA009C9218 /* JSONErrors.swift in Sources */,
 				258B92181BC65AFD0003EA12 /* Session.swift in Sources */,
+				251666601BC8E28B007B82BC /* ProfileViewController.swift in Sources */,
 				259E38AF1BBE50C1009C9218 /* MessagesViewController.swift in Sources */,
 				259E38A71BBE4F6D009C9218 /* AlertView.swift in Sources */,
 				25AFC1301BC501EA00AE8AF9 /* WelcomeViewController.swift in Sources */,

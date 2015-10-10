@@ -57,10 +57,10 @@
             </objects>
             <point key="canvasLocation" x="-274" y="-1276"/>
         </scene>
-        <!--View Controller-->
+        <!--Profile View Controller-->
         <scene sceneID="tmD-Wk-d5K">
             <objects>
-                <viewController id="fM1-Ku-Sc3" sceneMemberID="viewController">
+                <viewController id="fM1-Ku-Sc3" customClass="ProfileViewController" customModule="storyteller_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="T97-M4-aQY"/>
                         <viewControllerLayoutGuide type="bottom" id="Tb3-bo-SBm"/>
@@ -70,7 +70,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="h1y-6u-t6b"/>
+                    <navigationItem key="navigationItem" id="h1y-6u-t6b">
+                        <barButtonItem key="rightBarButtonItem" image="cog" id="EvU-0g-4E9">
+                            <connections>
+                                <action selector="showMenu:" destination="fM1-Ku-Sc3" id="nAP-bN-5dX"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VTL-fN-lc4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -594,6 +600,7 @@
     </scenes>
     <resources>
         <image name="blue-background" width="120" height="120"/>
+        <image name="cog" width="22" height="22"/>
         <image name="magnet-logo" width="133" height="129"/>
         <image name="map-pin-location-3" width="32" height="32"/>
         <image name="user-settings-2" width="32" height="32"/>
