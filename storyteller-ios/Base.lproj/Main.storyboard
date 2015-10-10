@@ -312,6 +312,9 @@
                                     <constraint firstAttribute="height" constant="50" id="oGC-yi-r0A"/>
                                 </constraints>
                             </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="46E-IT-weJ">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -323,8 +326,10 @@
                             <constraint firstItem="itb-UE-HsU" firstAttribute="centerX" secondItem="e54-G3-ZfV" secondAttribute="centerX" id="HKC-gK-5bV"/>
                             <constraint firstItem="kSj-S9-Wy4" firstAttribute="top" secondItem="MUt-HC-95L" secondAttribute="bottom" constant="8" id="KP7-ji-PcY"/>
                             <constraint firstItem="MUt-HC-95L" firstAttribute="centerX" secondItem="q8d-Hq-CbF" secondAttribute="centerX" id="Mpd-fJ-1f6"/>
+                            <constraint firstItem="46E-IT-weJ" firstAttribute="centerX" secondItem="MUt-HC-95L" secondAttribute="centerX" id="VbE-fr-Yqf"/>
                             <constraint firstItem="MUt-HC-95L" firstAttribute="top" secondItem="Yhf-i5-aIq" secondAttribute="bottom" constant="8" id="Z4y-9c-nSN"/>
                             <constraint firstItem="e54-G3-ZfV" firstAttribute="top" secondItem="itb-UE-HsU" secondAttribute="bottom" constant="-4" id="dfd-X9-QgL"/>
+                            <constraint firstItem="46E-IT-weJ" firstAttribute="centerY" secondItem="MUt-HC-95L" secondAttribute="centerY" id="e1k-xx-Zcs"/>
                             <constraint firstItem="e54-G3-ZfV" firstAttribute="centerX" secondItem="MUt-HC-95L" secondAttribute="centerX" id="gtW-Kv-x4e"/>
                             <constraint firstItem="kSj-S9-Wy4" firstAttribute="width" secondItem="MUt-HC-95L" secondAttribute="width" id="oZY-rJ-ef3"/>
                             <constraint firstItem="f7l-Cn-4WL" firstAttribute="top" secondItem="e54-G3-ZfV" secondAttribute="bottom" constant="20" id="orM-t0-vJB"/>
@@ -332,6 +337,11 @@
                             <constraint firstItem="MUt-HC-95L" firstAttribute="centerY" secondItem="q8d-Hq-CbF" secondAttribute="centerY" id="yqw-GL-q5D"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="46E-IT-weJ" id="aC0-lg-UPe"/>
+                        <outlet property="loginButton" destination="kSj-S9-Wy4" id="Qbt-ys-DGx"/>
+                        <outlet property="signupButton" destination="MUt-HC-95L" id="din-XC-qLc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UJi-Qd-X1h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -19,6 +19,10 @@ class Session: JSONApi {
     //**************************************************************************
     // MARK: Attributes (Public)
     //**************************************************************************
+
+    // The credential associated with a user. This can come from either a user
+    // logging-in or from the credential storage.
+    static var sessionCredential: NSURLCredential?
     
     //**************************************************************************
     // MARK: Attributes (Internal)
@@ -28,16 +32,8 @@ class Session: JSONApi {
     // MARK: Attributes (Private)
     //**************************************************************************
     
-    // The cookie associated with the session, if logged-in.
-    private static var _sessionCookie: NSHTTPCookie?
-    
-    // The name of the session cookie to look for to determine whether one is
-    // logged-in or not.
-    private static let _tokenName: String = "auth_token"
-
-    // Temporary hard-coded username for logging into Magnet Message.
-    private let _username: String = "foobar"
-    private let _password: String = "foobar"
+    // The protection space associated with the session credential.
+    private static var _sessionProtectionSpace: NSURLProtectionSpace?
 
     //**************************************************************************
     // MARK: Class Methods (Public)
@@ -53,41 +49,20 @@ class Session: JSONApi {
     
     class func isValid() -> Bool {
         
-        // See if a session cookie already exists.
-        //Session._findSessionCookie()
+        // See if a session credential already exists.
+        Session._findSessionCredential()
         
-        if MMXUser.currentUser() != nil {
+        // The session is valid if previous credentials exist "and" the user has
+        // authenticated with Magnet Message.
+        if Session.sessionCredential != nil &&
+            MMXClient.sharedClient().connectionStatus == MMXConnectionStatus.Authenticated {
             return true
         }
         else {
             return false
         }
     }
-    
-    /**
-     * Remove all cookies from the application's cookie storage.
-     *
-     * :param: N/A
-     *
-     * :returns: N/A
-     */
-    
-    class func removeAllCookies() {
-        
-        // NOTE: Despite the wording "sharedHTTPCookieStorage" below, cookies
-        // are not shared amongst applications in IOS.
-        
-        let cookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage();
-        let cookies = cookieStorage.cookies 
-        
-        if cookies != nil {
-            // Loop through and remove all cookies.
-            for cookie in cookies! {
-                cookieStorage.deleteCookie(cookie)
-            }
-        }
-    }
-    
+
     //**************************************************************************
     // MARK: Class Methods (Internal)
     //**************************************************************************
@@ -97,62 +72,43 @@ class Session: JSONApi {
     //**************************************************************************
     
     /**
-     * Find an existing session cookie, if available.
-     *
-     * NOTE: When running the app through a debugger, it seems like cookies may
-     * be temporarily cached and not written out to a file immediately. This can
-     * result in subsequent runs of the app not finding the session cookie (even
-     * though the cookie had a future expiration date). This should be a
-     * debugger-only issue.
-     *
-     * I've found that if you press the "Home" key before re-running the
-     * application, this typically flushes out your cookies to the file so that
-     * your next re-run can find the session cookie.
-     *
-     * http://stackoverflow.com/questions/5747012/nshttpcookies-refuse-to-be-deleted/15198874#15198874
+     * Find an existing session credential, if available.
      *
      * :param: N/A
      *
      * :returns: N/A
      */
     
-    private class func _findSessionCookie() {
+    private class func _findSessionCredential() {
         
-        // If no session cookie has been cached yet, try to find one.
-        if Session._sessionCookie == nil {
+        // If no session credential has been cached yet, try to find one.
+        if Session.sessionCredential == nil {
             
-            // Retrieve cookies.
-            let cookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage();
-            let cookies = cookieStorage.cookies 
+            Session._sessionProtectionSpace =
+                Session._getSessionProtectionSpace()
             
-            // Find the cookie that confirms whether a valid login session already
-            // exists.
-            
-            if cookies != nil {
-                for cookie in cookies! {
-                    if cookie.name == Session._tokenName {
-                        // Cookie found.
-                        Session._sessionCookie = cookie
-                    }
-                }
-                
-                if Session._sessionCookie != nil {
-                    
-                    // If a session cookie was found, ensure that it has not
-                    // expired.
-                    
-                    let currentDate = NSDate();
-                    let comparison  = currentDate.compare(
-                        Session._sessionCookie!.expiresDate!)
-                    
-                    if comparison == NSComparisonResult.OrderedDescending {
-                        // Session has expired. Remove all cookies for good measure.
-                        Session.removeAllCookies()
-                        Session._sessionCookie = nil
-                    }
-                }
-            }
+            let credentialStorage = NSURLCredentialStorage.sharedCredentialStorage()
+            Session.sessionCredential =
+                credentialStorage.defaultCredentialForProtectionSpace(Session._sessionProtectionSpace!)
         }
+    }
+
+    /**
+     * Retrieves the protection space to use for the session credential.
+     *
+     * - parameter N/A
+     *
+     * - returns: Protection space
+     */
+    
+    class func _getSessionProtectionSpace() -> NSURLProtectionSpace {
+        
+        let url = MMXClient.sharedClient().configuration.baseURL
+        let protectionSpace = NSURLProtectionSpace(host: url.host!,
+            port: url.port!.integerValue, `protocol`: url.scheme,
+            realm: nil, authenticationMethod: nil)
+        
+        return protectionSpace
     }
     
     //**************************************************************************
@@ -185,20 +141,38 @@ class Session: JSONApi {
     func login(username: String, password: String,
         callback: ((NSError?) -> Void)) {
         
-        // Before logging-in, remove any cookies associated with this
-        // application, for good measure. Also reset any previously existing
-        // session cookie (though there should not be one since you must logout,
-        // which resets the session cookie, before logging-in again).
+        // Before logging-in, reset any previously existing session credential
+        // (though there should not be one since you must logout, which resets
+        // the session credential, before logging-in again).
 
-        Session.removeAllCookies()
-        Session._sessionCookie = nil
+        Session.sessionCredential = nil
+        Session._sessionProtectionSpace = nil
             
-        // Login to Magnet Message (hardcoded for now).
-        let credential = NSURLCredential(user: self._username,
-            password: self._password, persistence: .None)
+        // Login to Magnet Message.
+        let credential = NSURLCredential(user: username, password: password,
+            persistence: .Permanent)
 
         MMXUser.logInWithCredential(credential,
             success: { (user) -> Void in
+                
+                // Save the Magnet Message credential into the credential
+                // storage.
+                //
+                // http://stackoverflow.com/questions/8565087/afnetworking-and-cookies/17997943#17997943
+
+                let credential =
+                    MMXClient.sharedClient().configuration.credential
+                
+                Session._sessionProtectionSpace =
+                    Session._getSessionProtectionSpace()
+                
+                let credentialStorage = NSURLCredentialStorage.sharedCredentialStorage()
+                credentialStorage.setDefaultCredential(credential,
+                    forProtectionSpace: Session._sessionProtectionSpace!)
+                
+                // Re-retrieve the session credential that was just stored.
+                Session._findSessionCredential()
+                
                 callback(nil)
             },
             failure: { (error) -> Void in
@@ -218,13 +192,15 @@ class Session: JSONApi {
     func logout(callback callback: ((NSError?) -> Void)) {
         
         MMXUser.logOutWithSuccess( { () -> Void in
-            
-            // Remove the session cookie associated with the login as
-            // well as any other cookies associated with this
-            // application, for good measure.
 
-            Session.removeAllCookies()
-            Session._sessionCookie = nil
+            // Remove the Magnet Message credential from the credential storage.
+            let credentialStorage = NSURLCredentialStorage.sharedCredentialStorage()
+            credentialStorage.removeCredential(Session.sessionCredential!,
+                forProtectionSpace: Session._sessionProtectionSpace!)
+            
+            // Reset the session credential associated with the login.
+            Session.sessionCredential = nil
+            Session._sessionProtectionSpace = nil
             
             callback(nil)
         },
