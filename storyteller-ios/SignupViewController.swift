@@ -123,14 +123,48 @@ class SignupViewController: UIViewController {
                 self.activityIndicator.hidden = true
             }
             else {
-                // Alert the user upon a successful signup.
-                self._alertView!.showAlert(
-                    "Signup Succeeded",
-                    message: "Thanks for joining!",
-                    callback: { (Void) -> Void in
-                        // Dismiss this controller.
-                        self.dismissViewControllerAnimated(true, completion: nil)
-                })
+                
+                // Attempt to login.
+                let session = Session()
+                session.login(
+                    user.username,
+                    password: self.password.text!,
+                    callback: { (error) -> Void in
+                        
+                        if error != nil {
+                            // If an error occurred, show an alert.
+                            var message = error!.localizedDescription
+                            if error!.localizedFailureReason != nil {
+                                message = error!.localizedFailureReason!
+                            }
+                            self._alertView!.showAlert(
+                                "Signup Succeeded But Login Failed",
+                                message: message,
+                                callback: nil)
+                            
+                            // Dismiss this controller so that the user can try
+                            // to login again.
+                            self.dismissViewControllerAnimated(true, completion: nil)
+                        }
+                        else {
+                            
+                            // Alert the user upon a successful signup.
+                            self._alertView!.showAlert(
+                                "Signup Succeeded",
+                                message: "Thanks for joining!",
+                                callback: { (Void) -> Void in
+                                    
+                                    // Clear the password and go to the initial
+                                    // view.
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        self.password.text = ""
+                                        let appDelegate =
+                                        UIApplication.sharedApplication().delegate as! AppDelegate
+                                        appDelegate.switchToInitialView()
+                                    }
+                            })
+                        }
+                    })
             }
         })
     }
