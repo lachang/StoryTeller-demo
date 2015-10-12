@@ -326,6 +326,14 @@ LocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set the background image for the navigation bar.
+        //
+        // http://stackoverflow.com/questions/26052454/ios-8-navigationbar-backgroundimage
+
+        self.navigationController?.navigationBar.setBackgroundImage(
+            UIImage(named: "blue-background")!.resizableImageWithCapInsets(UIEdgeInsetsMake(0, 0, 0, 0),
+                resizingMode: .Stretch), forBarMetrics: .Default)
+
         // Manages functionality of the map view.
         self._mapView = MapView(mapView: self.mapView)
         
