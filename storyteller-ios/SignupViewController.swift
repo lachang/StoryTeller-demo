@@ -154,10 +154,11 @@ class SignupViewController: UIViewController {
                                 message: "Thanks for joining!",
                                 callback: { (Void) -> Void in
                                     
-                                    // Clear the password and go to the initial
-                                    // view.
+                                    // Dismiss this controller and go to the
+                                    // initial view.
                                     dispatch_async(dispatch_get_main_queue()) {
-                                        self.password.text = ""
+                                        self.dismissViewControllerAnimated(false,
+                                            completion: nil)
                                         let appDelegate =
                                         UIApplication.sharedApplication().delegate as! AppDelegate
                                         appDelegate.switchToInitialView()

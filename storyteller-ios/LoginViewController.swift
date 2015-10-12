@@ -121,9 +121,10 @@ class LoginViewController: UIViewController {
                     self.activityIndicator.hidden = true
                 }
                 else {
-                    // Otherwise, clear the password and go to the initial view.
+                    // Otherwise, dismiss this controller and go to the initial
+                    // view.
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.password.text = ""
+                        self.dismissViewControllerAnimated(false, completion: nil)
                         let appDelegate =
                         UIApplication.sharedApplication().delegate as! AppDelegate
                         appDelegate.switchToInitialView()

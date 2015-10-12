@@ -71,10 +71,6 @@ class WelcomeViewController: UIViewController {
         
         // Manages functionality of the alert view.
         self._alertView = AlertView(viewController: self)
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
         
         // Auto-login if a cached session credential exists.
         if Session.sessionCredential != nil {

@@ -166,6 +166,13 @@ class Session: JSONApi {
                 Session._sessionProtectionSpace =
                     Session._getSessionProtectionSpace()
                 
+                // Save the credential as default. If the credential does not
+                // already exist in the credential storage it will be added
+                // automatically first before setting as the default. Otherwise,
+                // if it does exist (i.e. in the case of auto-login), it will
+                // just be set as the default... which it should technically
+                // already be.
+
                 let credentialStorage = NSURLCredentialStorage.sharedCredentialStorage()
                 credentialStorage.setDefaultCredential(credential,
                     forProtectionSpace: Session._sessionProtectionSpace!)
