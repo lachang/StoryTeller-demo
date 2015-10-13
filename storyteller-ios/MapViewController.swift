@@ -359,6 +359,9 @@ LocationManagerDelegate {
 
         // If requested, attempt to retrieve channels.
         if self._attemptChannelRetrieval {
+            
+            self._attemptChannelRetrieval = false
+            
             let location: CLLocation? = self._locationManager.getLocation()
             self._index(location)
         }
