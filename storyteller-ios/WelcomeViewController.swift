@@ -34,6 +34,9 @@ class WelcomeViewController: UIViewController {
     
     // Manages the alert view.
     private var _alertView: AlertView? = nil
+
+    // Determines whether the view attempts to auto-login.
+    private var _attemptAutoLogin: Bool = false
     
     //**************************************************************************
     // MARK: Class Methods (Public)
@@ -69,11 +72,19 @@ class WelcomeViewController: UIViewController {
         // Initially hide the login activity indicator.
         self.activityIndicator.hidden = true
         
+        // Attempt auto-login when the controller initially loads.
+        self._attemptAutoLogin = true
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         // Manages functionality of the alert view.
         self._alertView = AlertView(viewController: self)
         
-        // Auto-login if a cached session credential exists.
-        if Session.sessionCredential != nil {
+        // If requested, attempt to auto-login but only if a cached session
+        // credential exists.
+        if self._attemptAutoLogin && Session.sessionCredential != nil {
             
             // Hide the signup and login buttons and start the activity
             // indicator.
@@ -114,7 +125,17 @@ class WelcomeViewController: UIViewController {
                             appDelegate.switchToInitialView()
                         }
                     }
-            })
+                })
         }
+        
+        // Disable future auto-logins.
+        self._attemptAutoLogin = false
+    }
+
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // Release the alert view's reference to this view controller.
+        self._alertView = nil
     }
 }

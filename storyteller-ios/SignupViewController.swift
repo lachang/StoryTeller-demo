@@ -187,9 +187,20 @@ class SignupViewController: UIViewController {
 
         // Initially hide the signup activity indicator.
         self.activityIndicator.hidden = true
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
         // Manages functionality of the alert view.
         self._alertView = AlertView(viewController: self)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // Release the alert view's reference to this view controller.
+        self._alertView = nil
     }
 
     //**************************************************************************

@@ -52,6 +52,9 @@ LocationManagerDelegate {
     // The selected table row, if any.
     private var _selectedIndexPath: NSIndexPath? = nil
 
+    // Determines whether the view attempts to retrieve channels.
+    private var _attemptChannelRetrieval = false
+    
     //**************************************************************************
     // MARK: Class Methods (Public)
     //**************************************************************************
@@ -325,35 +328,40 @@ LocationManagerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Set the background image for the navigation bar.
         //
         // http://stackoverflow.com/questions/26052454/ios-8-navigationbar-backgroundimage
-
+        
         self.navigationController?.navigationBar.setBackgroundImage(
             UIImage(named: "blue-background")!.resizableImageWithCapInsets(UIEdgeInsetsMake(0, 0, 0, 0),
                 resizingMode: .Stretch), forBarMetrics: .Default)
 
+        // Make the table view row height dynamic.
+        self.tableView.estimatedRowHeight = self.tableView.rowHeight
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        
+        // Attempt channel retrieval when the controller initially loads.
+        self._attemptChannelRetrieval = true
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         // Manages functionality of the map view.
         self._mapView = MapView(mapView: self.mapView)
         
         // Manages functionality of the alert view.
         self._alertView = AlertView(viewController: self)
 
-        // Make the table view row height dynamic.
-        self.tableView.estimatedRowHeight = self.tableView.rowHeight
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        
         // Register with the LocationManager for location updates.
         self._locationManager.delegate = self
 
-        // Attempt to retrieve messages.
-        let location: CLLocation? = self._locationManager.getLocation()
-        self._index(location)
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+        // If requested, attempt to retrieve channels.
+        if self._attemptChannelRetrieval {
+            let location: CLLocation? = self._locationManager.getLocation()
+            self._index(location)
+        }
         
         // Clear the selected index path, if any.
         if self._selectedIndexPath != nil {
@@ -361,6 +369,19 @@ LocationManagerDelegate {
                 animated: false)
             self._selectedIndexPath = nil
         }
+    }
+
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // Release the location manager's reference to this view controller.
+        self._locationManager.delegate = nil
+        
+        // Release the alert view's reference to this view controller.
+        self._alertView = nil
+        
+        // Release the map view's reference to the UI map view element.
+        self._mapView = nil
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
