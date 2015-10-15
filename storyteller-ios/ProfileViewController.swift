@@ -155,10 +155,20 @@ class ProfileViewController: UIViewController {
                     }
                     else {
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.fullname.text = user!.fullname
+                            
                             self.username.text = user!.username
                             
-                            if user!.email != nil {
+                            if user!.fullname.isEmpty {
+                                self.fullname.text = "N/A"
+                            }
+                            else {
+                                self.fullname.text = user!.fullname
+                            }
+                            
+                            if user!.email == nil {
+                                self.email.text = "N/A"
+                            }
+                            else {
                                 self.email.text = user!.email!
                             }
                         }
