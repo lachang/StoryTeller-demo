@@ -297,10 +297,12 @@ LocationManagerDelegate {
 
                     dispatch_async(dispatch_get_main_queue()) {
                         
-                        self._mapView!.removeAllAnnotations()
-                        self._mapView!.addAnnotations(annotations)
-                        self._mapView!.showAllAnnotations(true)
-                        
+                        if self._mapView != nil {
+                            self._mapView!.removeAllAnnotations()
+                            self._mapView!.addAnnotations(annotations)
+                            self._mapView!.showAllAnnotations(true)
+                        }
+
                         // Reload the table view.
                         self.tableView.reloadData()
                     }

@@ -180,6 +180,10 @@ class Session: JSONApi {
                 // Re-retrieve the session credential that was just stored.
                 Session._findSessionCredential()
                 
+                // Save off the currently logged-in user.
+                let loggedInUser = User(mmxUser: user)
+                User.currentUser(loggedInUser)
+                
                 callback(nil)
             },
             failure: { (error) -> Void in

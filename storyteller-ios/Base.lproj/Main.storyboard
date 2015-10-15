@@ -77,7 +77,68 @@
                     <view key="view" contentMode="scaleToFill" id="KoI-nl-gFy">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Full Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lzk-Yp-m0L">
+                                <rect key="frame" x="20" y="164" width="111" height="33"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="24"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZGo-o9-4Ok">
+                                <rect key="frame" x="20" y="205" width="84.5" height="23.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="E-mail:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4SB-i9-FRx">
+                                <rect key="frame" x="20" y="236" width="53.5" height="23.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tif-rO-OaB">
+                                <rect key="frame" x="120" y="205" width="79.5" height="23.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4D-fZ-RgR">
+                                <rect key="frame" x="121" y="236" width="43" height="23.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AG8-2K-FAv">
+                                <rect key="frame" x="250" y="250" width="100" height="100"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="R3o-Zw-Rqe">
+                                        <rect key="frame" x="32" y="31" width="37" height="37"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="0.54000000000000004" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="IIQ-Xl-QtK"/>
+                                    <constraint firstAttribute="height" constant="100" id="K0q-rz-TnH"/>
+                                    <constraint firstItem="R3o-Zw-Rqe" firstAttribute="centerY" secondItem="AG8-2K-FAv" secondAttribute="centerY" id="V27-Qn-Zsz"/>
+                                    <constraint firstItem="R3o-Zw-Rqe" firstAttribute="centerX" secondItem="AG8-2K-FAv" secondAttribute="centerX" id="xEu-TG-Rmq"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="4SB-i9-FRx" firstAttribute="top" secondItem="ZGo-o9-4Ok" secondAttribute="bottom" constant="8" id="CsK-Jj-PeG"/>
+                            <constraint firstItem="AG8-2K-FAv" firstAttribute="centerX" secondItem="KoI-nl-gFy" secondAttribute="centerX" id="EO4-y1-z1F"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="ZGo-o9-4Ok" secondAttribute="leading" id="IhQ-cK-wv2"/>
+                            <constraint firstItem="AG8-2K-FAv" firstAttribute="centerY" secondItem="KoI-nl-gFy" secondAttribute="centerY" id="LCP-b5-rPd"/>
+                            <constraint firstItem="ZGo-o9-4Ok" firstAttribute="top" secondItem="lzk-Yp-m0L" secondAttribute="bottom" constant="8" id="M8D-ho-X0n"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="4SB-i9-FRx" secondAttribute="leading" id="T51-51-y45"/>
+                            <constraint firstItem="g4D-fZ-RgR" firstAttribute="top" secondItem="tif-rO-OaB" secondAttribute="bottom" constant="8" id="UeD-84-nGK"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="lzk-Yp-m0L" secondAttribute="leading" id="cnN-2Z-osQ"/>
+                            <constraint firstItem="g4D-fZ-RgR" firstAttribute="leading" secondItem="4SB-i9-FRx" secondAttribute="trailing" constant="47.5" id="fzt-9F-IhD"/>
+                            <constraint firstItem="tif-rO-OaB" firstAttribute="leading" secondItem="ZGo-o9-4Ok" secondAttribute="trailing" constant="16" id="phR-63-qoW"/>
+                            <constraint firstItem="lzk-Yp-m0L" firstAttribute="top" secondItem="T97-M4-aQY" secondAttribute="bottom" constant="100" id="rfN-eO-hrk"/>
+                            <constraint firstItem="tif-rO-OaB" firstAttribute="top" secondItem="lzk-Yp-m0L" secondAttribute="bottom" constant="8" id="uYB-pl-eRf"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="h1y-6u-t6b">
                         <barButtonItem key="rightBarButtonItem" image="cog" id="EvU-0g-4E9">
@@ -87,6 +148,12 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="activityIndicatorView" destination="AG8-2K-FAv" id="Enb-qz-Lps"/>
+                        <outlet property="email" destination="g4D-fZ-RgR" id="rZg-Mn-Epe"/>
+                        <outlet property="fullname" destination="lzk-Yp-m0L" id="n5g-nW-S6P"/>
+                        <outlet property="username" destination="tif-rO-OaB" id="Mrw-hF-hVx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VTL-fN-lc4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

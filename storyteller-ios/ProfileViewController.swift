@@ -18,6 +18,12 @@ class ProfileViewController: UIViewController {
     //**************************************************************************
     // MARK: Attributes (Public)
     //**************************************************************************
+
+    @IBOutlet var fullname: UILabel!
+    @IBOutlet var username: UILabel!
+    @IBOutlet var email:    UILabel!
+    
+    @IBOutlet var activityIndicatorView: UIView!
     
     //**************************************************************************
     // MARK: Attributes (Internal)
@@ -106,9 +112,13 @@ class ProfileViewController: UIViewController {
             callback: { (error) -> Void in
                 if error != nil {
                     // If an error occurred, show an alert.
+                    var message = error!.localizedDescription
+                    if error!.localizedFailureReason != nil {
+                        message = error!.localizedFailureReason!
+                    }
                     self._alertView!.showAlert(
                         "Logout Failed",
-                        message: error!.domain,
+                        message: message,
                         callback: nil)
                 }
                 else {
@@ -120,6 +130,48 @@ class ProfileViewController: UIViewController {
                     }
                 }
         })
+    }
+    
+    private func _show(user: User?) {
+        
+        if user != nil {
+            user!.show(
+                callback: { (error) -> Void in
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.activityIndicatorView.hidden = true
+                    }
+                    
+                    if error != nil {
+                        // If an error occurred, show an alert.
+                        var message = error!.localizedDescription
+                        if error!.localizedFailureReason != nil {
+                            message = error!.localizedFailureReason!
+                        }
+                        self._alertView!.showAlert(
+                            "Profile Retrieval Failed",
+                            message: message,
+                            callback: nil)
+                    }
+                    else {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.fullname.text = user!.fullname
+                            self.username.text = user!.username
+                            
+                            if user!.email != nil {
+                                self.email.text = user!.email!
+                            }
+                        }
+                    }
+                })
+        }
+        else {
+            self.activityIndicatorView.hidden = true
+            self._alertView!.showAlert(
+                "Profile Retrieval Failed",
+                message: "No logged-in user.",
+                callback: nil)
+        }
     }
     
     //**************************************************************************
@@ -136,6 +188,10 @@ class ProfileViewController: UIViewController {
         self.navigationController?.navigationBar.setBackgroundImage(
             UIImage(named: "blue-background")!.resizableImageWithCapInsets(UIEdgeInsetsMake(0, 0, 0, 0),
                 resizingMode: .Stretch), forBarMetrics: .Default)
+        
+        // Beautify and setup the activity indicator.
+        self.activityIndicatorView.layer.cornerRadius = 10
+        self.activityIndicatorView.hidden = true
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -143,6 +199,10 @@ class ProfileViewController: UIViewController {
         
         // Manages functionality of the alert view.
         self._alertView = AlertView(viewController: self)
+        
+        // Setup the view labels.
+        self.activityIndicatorView.hidden = false
+        self._show(User.currentUser())
     }
     
     override func viewDidDisappear(animated: Bool) {
