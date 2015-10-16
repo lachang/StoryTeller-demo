@@ -51,9 +51,9 @@ class MapView {
     /**
      * Initialize a new map.
      *
-     * :param: mapView The map view to manage
+     * - parameter mapView: The map view to manage
      *
-     * :returns: N/A
+     * - returns: N/A
      */
     
     init (mapView: MKMapView) {
@@ -66,6 +66,17 @@ class MapView {
     }
 
     /**
+     * Add a single annotation to the map.
+     *
+     * - parameter annotation: The annotation to add.
+     *
+     * - returns: N/A
+     */
+    func addAnnotation (annotation: MKAnnotation) {
+        self._mapView.addAnnotation(annotation)
+    }
+    
+    /**
      * Add the given annotations to the map.
      *
      * - parameter annotations: The annotations to add.
@@ -75,10 +86,6 @@ class MapView {
     
     func addAnnotations (annotations: [MKAnnotation]) {
         self._mapView.addAnnotations(annotations)
-    }
-    
-    func addAnnotation (annotation: MKAnnotation) {
-        self._mapView.addAnnotation(annotation)
     }
     
     /**
@@ -96,19 +103,13 @@ class MapView {
     /**
      * Display all current annotations on the map.
      *
-     * - parameter N/A
-     *
      * - returns: N/A
      */
     
-    func showAllAnnotations(recenter: Bool) {
+    func showAllAnnotations() {
         
         // Return early if there are no annotations on the map.
         if (self._mapView.annotations.count == 0) {
-            return
-        }
-        
-        if (!recenter) {
             return
         }
         

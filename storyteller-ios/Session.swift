@@ -42,9 +42,9 @@ class Session: JSONApi {
     /**
      * Determine whether a valid login session already exists.
      *
-     * :param: N/A
+     * - parameter N/A
      *
-     * :returns: true if logged-in, false otherwise.
+     * - returns: true if logged-in, false otherwise.
      */
     
     class func isValid() -> Bool {
@@ -74,9 +74,9 @@ class Session: JSONApi {
     /**
      * Find an existing session credential, if available.
      *
-     * :param: N/A
+     * - parameter N/A
      *
-     * :returns: N/A
+     * - returns: N/A
      */
     
     private class func _findSessionCredential() {
@@ -118,9 +118,9 @@ class Session: JSONApi {
     /**
      * Initialize a new session.
      *
-     * :param: N/A
+     * - parameter N/A
      *
-     * :returns: N/A
+     * - returns: N/A
      */
     
     override init () {
@@ -131,9 +131,9 @@ class Session: JSONApi {
     /**
      * Create a new Session instance.
      *
-     * :param: email The email handle to login with.
-     * :param: password The password to login with.
-     * :param: callback Callback invoked once the login attempt completes.
+     * - parameter email: The email handle to login with.
+     * - parameter password: The password to login with.
+     * - parameter callback: Callback invoked once the login attempt completes.
      *
      * :returns: N/A
      */
@@ -195,9 +195,9 @@ class Session: JSONApi {
     /**
      * Destroy an existing Session instance.
      *
-     * :param: callback Callback invoked once the logout attempt completes.
+     * - parameter callback: Callback invoked once the logout attempt completes.
      *
-     * :returns: N/A
+     * - returns: N/A
      */
     
     func logout(callback callback: ((NSError?) -> Void)) {

@@ -136,14 +136,14 @@ class User: JSONApi {
     /**
      * Create a new User instance.
      *
-     * :param: firstName The first name of the user to create.
-     * :param: lastname The last name of the user to create.
-     * :param: email The email handle for the user to create.
-     * :param: password The password for the user to create.
-     * :param: callback Callback invoked once the user creation attempt
+     * - parameter firstName: The first name of the user to create.
+     * - parameter lastname: The last name of the user to create.
+     * - parameter email: The email handle for the user to create.
+     * - parameter password: The password for the user to create.
+     * - parameter callback: Callback invoked once the user creation attempt
      *                  completes.
      *
-     * :returns: N/A
+     * - returns: N/A
      */
     
     func signup(password password: String, callback: ((NSError?) -> Void)) {

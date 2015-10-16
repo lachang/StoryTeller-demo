@@ -58,9 +58,9 @@ class SignupViewController: UIViewController {
     /**
      * Triggered when the user presses the cancel button.
      *
-     * :param: sender The source that triggered this function.
+     * - parameter sender: The source that triggered this function.
      *
-     * :returns: N/A
+     * - returns: N/A
      */
     
     @IBAction func cancel(sender: AnyObject) {
@@ -72,9 +72,9 @@ class SignupViewController: UIViewController {
      * Triggered when the user touches the view, outside of other UI controls
      * (i.e. textfields, buttons, etc...)
      *
-     * :param: sender The source that triggered this function.
+     * - parameter sender: The source that triggered this function.
      *
-     * :returns: N/A
+     * - returns: N/A
      */
     
     @IBAction func endEditing(sender: AnyObject) {
@@ -86,9 +86,9 @@ class SignupViewController: UIViewController {
     /**
      * Triggered when the user presses the signup button.
      *
-     * :param: sender The source that triggered this function.
+     * - parameter sender: The source that triggered this function.
      *
-     * :returns: N/A
+     * - returns: N/A
      */
     
     @IBAction func signup(sender: AnyObject) {

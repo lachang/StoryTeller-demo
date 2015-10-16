@@ -300,7 +300,7 @@ LocationManagerDelegate {
                         if self._mapView != nil {
                             self._mapView!.removeAllAnnotations()
                             self._mapView!.addAnnotations(annotations)
-                            self._mapView!.showAllAnnotations(true)
+                            self._mapView!.showAllAnnotations()
                         }
 
                         // Reload the table view.
