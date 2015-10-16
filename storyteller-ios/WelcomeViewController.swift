@@ -54,6 +54,59 @@ class WelcomeViewController: UIViewController {
     // MARK: Instance Methods (Public)
     //**************************************************************************
     
+    /**
+     * Attempts to login.
+     *
+     * - parameter N/A
+     *
+     * - returns: N/A
+     */
+    func _login() {
+
+        // Hide the signup and login buttons and start the activity
+        // indicator.
+        self.signupButton.hidden = true
+        self.loginButton.hidden = true
+        self.activityIndicator.hidden = false
+        
+        // Attempt to login.
+        let credential = Session.sessionCredential
+        let session = Session()
+        session.login(
+            credential!.user!,
+            password: credential!.password!,
+            callback: { (error) -> Void in
+                
+                if error != nil {
+                    // If an error occurred, show an alert.
+                    var message = error!.localizedDescription
+                    if error!.localizedFailureReason != nil {
+                        message = error!.localizedFailureReason!
+                    }
+                    self._alertView!.showAlert(
+                        "Auto-Login Failed",
+                        message: message,
+                        callback: nil)
+                    
+                    // Hide the activity indicator and re-display the signup
+                    // and login buttons.
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.signupButton.hidden = false
+                        self.loginButton.hidden = false
+                        self.activityIndicator.hidden = true
+                    }
+                }
+                else {
+                    // Otherwise, go to the initial view.
+                    dispatch_async(dispatch_get_main_queue()) {
+                        let appDelegate =
+                        UIApplication.sharedApplication().delegate as! AppDelegate
+                        appDelegate.switchToInitialView()
+                    }
+                }
+        })
+    }
+    
     //**************************************************************************
     // MARK: Instance Methods (Internal)
     //**************************************************************************
@@ -85,47 +138,7 @@ class WelcomeViewController: UIViewController {
         // If requested, attempt to auto-login but only if a cached session
         // credential exists.
         if self._attemptAutoLogin && Session.sessionCredential != nil {
-            
-            // Hide the signup and login buttons and start the activity
-            // indicator.
-            self.signupButton.hidden = true
-            self.loginButton.hidden = true
-            self.activityIndicator.hidden = false
-            
-            // Attempt to login.
-            let credential = Session.sessionCredential
-            let session = Session()
-            session.login(
-                credential!.user!,
-                password: credential!.password!,
-                callback: { (error) -> Void in
-                    
-                    if error != nil {
-                        // If an error occurred, show an alert.
-                        var message = error!.localizedDescription
-                        if error!.localizedFailureReason != nil {
-                            message = error!.localizedFailureReason!
-                        }
-                        self._alertView!.showAlert(
-                            "Auto-Login Failed",
-                            message: message,
-                            callback: nil)
-                        
-                        // Hide the activity indicator and re-display the signup
-                        // and login buttons.
-                        self.signupButton.hidden = false
-                        self.loginButton.hidden = false
-                        self.activityIndicator.hidden = true
-                    }
-                    else {
-                        // Otherwise, go to the initial view.
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let appDelegate =
-                            UIApplication.sharedApplication().delegate as! AppDelegate
-                            appDelegate.switchToInitialView()
-                        }
-                    }
-                })
+            self._login()
         }
         
         // Disable future auto-logins.

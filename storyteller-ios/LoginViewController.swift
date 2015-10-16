@@ -117,8 +117,10 @@ class LoginViewController: UIViewController {
 
                     // Hide the activity indicator and re-display the login
                     // button.
-                    self.loginButton.hidden = false
-                    self.activityIndicator.hidden = true
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.loginButton.hidden = false
+                        self.activityIndicator.hidden = true
+                    }
                 }
                 else {
                     // Otherwise, dismiss this controller and go to the initial

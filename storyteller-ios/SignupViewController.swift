@@ -119,8 +119,10 @@ class SignupViewController: UIViewController {
                     callback: nil)
 
                 // Hide the activity indicator and re-display the signup button.
-                self.signupButton.hidden = false
-                self.activityIndicator.hidden = true
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.signupButton.hidden = false
+                    self.activityIndicator.hidden = true
+                }
             }
             else {
                 
