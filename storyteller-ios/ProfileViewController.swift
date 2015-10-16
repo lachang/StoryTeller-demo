@@ -132,6 +132,13 @@ class ProfileViewController: UIViewController {
         })
     }
     
+    /**
+     * Retrieves details of the given user.
+     *
+     * - parameter user: The user to get details for.
+     *
+     * - returns: N/A
+     */
     private func _show(user: User?) {
         
         if user != nil {
