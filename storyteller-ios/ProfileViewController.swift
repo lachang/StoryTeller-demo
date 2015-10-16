@@ -75,6 +75,13 @@ class ProfileViewController: UIViewController {
             handler: _logout)
         alertViewController.addAction(alertActionLogout)
         
+        // Add a logout button.
+        let alertActionDemoKnobs = UIAlertAction(
+            title: "Demo Knobs",
+            style: UIAlertActionStyle.Default,
+            handler: _demoKnobs)
+        alertViewController.addAction(alertActionDemoKnobs)
+        
         // Add a cancel button.
         let alertActionCancel = UIAlertAction(
             title: "Cancel",
@@ -95,6 +102,19 @@ class ProfileViewController: UIViewController {
     //**************************************************************************
     // MARK: Instance Methods (Private)
     //**************************************************************************
+    
+    /**
+     * Triggered when the user presses the demo view button.
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
+    
+    private func _demoKnobs(sender: UIAlertAction!) {
+        // Segue to the demo view.
+        self.performSegueWithIdentifier("showDemoKnobs", sender: self)
+    }
     
     /**
      * Triggered when the user presses the logout button.
