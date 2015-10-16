@@ -60,15 +60,20 @@ class PointOfInterest: NSObject, MKAnnotation {
     /**
      * Initialize a new point-of-interest.
      *
-     * - parameter message: Extra metadata.
+     * - parameter title: Name of the point-of-interest.
+     * - parameter numMessages: Number of messages at this point-of-interest.
+     * - parameter channel: MMXChannel associated with this point of interest.
      * - parameter longitude: The point-of-interest longitude.
      * - parameter latitude: The point-of-interest latitude.
+     * - parameter userLocation: The user's location used to calculate distance
+     *                           to this point-of-interest.
      *
      * - returns: Void
      */
     
     init (title: String, numMessages: Int, channel: MMXChannel,
-        longitude: CLLocationDegrees, latitude: CLLocationDegrees) {
+        longitude: CLLocationDegrees, latitude: CLLocationDegrees,
+        userLocation: CLLocation) {
 
         self.title       = title
         self.numMessages = numMessages
@@ -80,6 +85,8 @@ class PointOfInterest: NSObject, MKAnnotation {
             longitude: self.longitude)
         self.coordinate = CLLocationCoordinate2DMake(self.latitude,
             self.longitude)
+
+        self.distance = self.location.distanceFromLocation(userLocation)
     }
 
     //**************************************************************************

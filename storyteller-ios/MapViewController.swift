@@ -141,27 +141,25 @@ LocationManagerDelegate {
 
                                 print("Added channel " + channel!.name)
                                 var annotation:MKAnnotation?
-                                
+
                                 // create the point of interest
-                                var pointOfInterest: PointOfInterest? = nil
-                                pointOfInterest = PointOfInterest(
+                                let pointOfInterest = PointOfInterest(
                                     title: title,
                                     numMessages: Int(channel.numberOfMessages),
                                     channel: channel,
-                                    longitude: longitude, latitude: latitude)
+                                    longitude: longitude,
+                                    latitude: latitude,
+                                    userLocation: currentLocation!)
                                 
                                 // add the point of interest
-                                if pointOfInterest != nil {
-                                    self.addPointOfInterestAndSubscribe(pointOfInterest!,
-                                        location: currentLocation!,
-                                        channel: channel)
-                                    annotation = pointOfInterest!
-                                    
-                                    dispatch_async(dispatch_get_main_queue()) {
-                                        self._mapView!.addAnnotation(annotation!)
-                                        self.tableView.reloadData()
-                                    }
-                                } // end of if pointOfInterest != nil
+                                self.addPointOfInterestAndSubscribe(pointOfInterest,
+                                    channel: channel)
+                                annotation = pointOfInterest
+                                
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    self._mapView!.addAnnotation(annotation!)
+                                    self.tableView.reloadData()
+                                }
                             },
                             failure: {(error) -> Void in
                                 print(error.code)
@@ -189,10 +187,7 @@ LocationManagerDelegate {
     }
     
     // helper function to add a point of interest to the list and subscribe to the channel
-    private func addPointOfInterestAndSubscribe(pointOfInterest: PointOfInterest, location: CLLocation, channel: MMXChannel) -> Void {
-
-        pointOfInterest.distance =
-            pointOfInterest.location.distanceFromLocation(location)
+    private func addPointOfInterestAndSubscribe(pointOfInterest: PointOfInterest, channel: MMXChannel) -> Void {
         
         // Only show points-of-interest within 10000 m for the
         // table view.
@@ -214,9 +209,9 @@ LocationManagerDelegate {
         
     }
     
-    private func _index(location: CLLocation?) {
+    private func _index(userLocation: CLLocation?) {
 
-        if location == nil {
+        if userLocation == nil {
 
             if !self._locationManager.isAuthorized() {
 
@@ -281,17 +276,18 @@ LocationManagerDelegate {
                         }
                         
                         // create the point of interest
-                        var pointOfInterest: PointOfInterest? = nil
-                        pointOfInterest = PointOfInterest(
+                        let pointOfInterest = PointOfInterest(
                             title: title,
                             numMessages: Int(channel.numberOfMessages),
                             channel: channel,
-                            longitude: longitude, latitude: latitude)
+                            longitude: longitude,
+                            latitude: latitude,
+                            userLocation: userLocation!)
                         
-                        // add the point of interest
-                        if pointOfInterest != nil {
-                            self.addPointOfInterestAndSubscribe(pointOfInterest!, location: location!, channel: channel)
-                            annotations.append(pointOfInterest!)
+                        // Consider adding the point-of-interest if its within 100000 m.
+                        if Int(pointOfInterest.distance!) < 100000 {
+                            self.addPointOfInterestAndSubscribe(pointOfInterest, channel: channel)
+                            annotations.append(pointOfInterest)
                         }
                     } // end of for channel in channelList
 
