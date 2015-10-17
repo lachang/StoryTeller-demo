@@ -1,27 +1,24 @@
 //******************************************************************************
-//  DemoKnobsController.swift
+//  MapViewController.swift
 //  storyteller-ios
 //
 //  Copyright (c) 2015 storyteller. All rights reserved.
 //******************************************************************************
 
 import UIKit
-import MMX
 
 /**
- * DemoKnobsController
+ * MapViewController
  *
- * Displays knobs for demoing the app.
+ * Displays a map of various storypoints.
  */
 
-class DemoKnobsController: UIViewController {
+class MapViewController: UIViewController {
 
     //**************************************************************************
     // MARK: Attributes (Public)
     //**************************************************************************
-    
-    @IBOutlet var nearbyStorypoints: UIButton!
-    
+        
     //**************************************************************************
     // MARK: Attributes (Internal)
     //**************************************************************************
@@ -29,7 +26,7 @@ class DemoKnobsController: UIViewController {
     //**************************************************************************
     // MARK: Attributes (Private)
     //**************************************************************************
-    
+
     //**************************************************************************
     // MARK: Class Methods (Public)
     //**************************************************************************
@@ -46,19 +43,6 @@ class DemoKnobsController: UIViewController {
     // MARK: Instance Methods (Public)
     //**************************************************************************
     
-    /**
-     * Triggered when the user presses the cancel button.
-     *
-     * - parameter sender: The source that triggered this function.
-     *
-     * - returns: N/A
-     */
-    
-    @IBAction func cancel(sender: AnyObject) {
-        // Dismiss this controller.
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
     //**************************************************************************
     // MARK: Instance Methods (Internal)
     //**************************************************************************
@@ -66,14 +50,16 @@ class DemoKnobsController: UIViewController {
     //**************************************************************************
     // MARK: Instance Methods (Private)
     //**************************************************************************
-
-    //**************************************************************************
-    // MARK: UIViewController
-    //**************************************************************************
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
-    }
+        // Set the background image for the navigation bar.
+        //
+        // http://stackoverflow.com/questions/26052454/ios-8-navigationbar-backgroundimage
+        
+        self.navigationController?.navigationBar.setBackgroundImage(
+            UIImage(named: "blue-background")!.resizableImageWithCapInsets(UIEdgeInsetsMake(0, 0, 0, 0),
+                resizingMode: .Stretch), forBarMetrics: .Default)
+    }    
 }
