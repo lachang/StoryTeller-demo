@@ -1,5 +1,5 @@
 //******************************************************************************
-//  MapViewController.swift
+//  StoryPointsViewController.swift
 //  storyteller-ios
 //
 //  Copyright (c) 2015 storyteller. All rights reserved.
@@ -12,12 +12,12 @@ import CoreLocation
 import MMX
 
 /**
- * MapViewController
+ * StoryPointsViewController
  *
  * Displays the index of nearby messages as pins on a map.
  */
 
-class MapViewController: UIViewController, UITableViewDataSource,
+class StoryPointsViewController: UIViewController, UITableViewDataSource,
     UITableViewDelegate, MKMapViewDelegate,
 LocationManagerDelegate {
 

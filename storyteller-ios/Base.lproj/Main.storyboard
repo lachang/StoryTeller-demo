@@ -245,7 +245,7 @@
         <!--StoryTeller-->
         <scene sceneID="Tw3-vW-6d0">
             <objects>
-                <viewController id="zhf-Fc-88K" customClass="MapViewController" customModule="storyteller_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="zhf-Fc-88K" customClass="StoryPointsViewController" customModule="storyteller_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hap-Mm-Ohz"/>
                         <viewControllerLayoutGuide type="bottom" id="vgU-4q-BaE"/>
