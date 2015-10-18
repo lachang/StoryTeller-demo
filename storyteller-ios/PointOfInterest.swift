@@ -24,6 +24,9 @@ class PointOfInterest: NSObject, MKAnnotation {
     // MARK: Attributes (Public)
     //**************************************************************************
 
+    // Various error codes.
+    static let errorIndexCode = 1
+    
     var title: String?
     var longitude: CLLocationDegrees
     var latitude: CLLocationDegrees
@@ -45,6 +48,59 @@ class PointOfInterest: NSObject, MKAnnotation {
     //**************************************************************************
     // MARK: Class Methods (Public)
     //**************************************************************************
+    
+    /**
+     * Retrieves a list of PointOfInterest instances.
+     *
+     * - parameter count:  The number of instances to retrieve.
+     * - parameter offset: The offset from which to retrieve the number of
+     *                    instances (for paging purposes).
+     * - parameter callback: Callback invoked once the retrieval attempt
+     *                       completes.
+     *
+     * - returns: N/A
+     */
+    
+    class func index(count: Int, offset: Int,
+        callback: (([PointOfInterest], NSError?) -> Void)) {
+
+        let maxCount  = Int(Int32.max)
+        let maxOffset = Int(Int32.max - Int32(count))
+        if (count <= maxCount && offset < maxOffset) {
+            // Fetch the requested number of channels from the given offset.
+            MMXChannel.allPublicChannelsWithLimit(Int32(count),
+                offset: Int32(offset),
+                success: { (totalCount, channels) -> Void in
+                    
+                    var pointsOfInterest: [PointOfInterest] = []
+
+                    // Convert each MMX Channel into a PointOfInterest instance.
+                    for channel in channels as! [MMXChannel] {
+                        pointsOfInterest.append(
+                            PointOfInterest(channel: channel))
+                    }
+
+                    // Invoke the callback.
+                    callback(pointsOfInterest, nil)
+                },
+                failure: { (error) -> Void in
+                    print("ERROR: Failed to fetch channels!")
+                    callback([], error)
+                })
+        }
+        else {
+            let userInfo = [
+                NSLocalizedDescriptionKey: "Invalid Count",
+                NSLocalizedFailureReasonErrorKey: "Too many channels were specified."
+            ]
+            let error = NSError(domain: "PointOfInterest",
+                code: PointOfInterest.errorIndexCode,
+                userInfo: userInfo)
+            
+            print("ERROR: Failed to fetch channels!")
+            callback([], error)
+        }
+    }
     
     //**************************************************************************
     // MARK: Class Methods (Internal)
@@ -74,7 +130,7 @@ class PointOfInterest: NSObject, MKAnnotation {
     
     init (title: String, numMessages: Int, channel: MMXChannel?,
         longitude: CLLocationDegrees, latitude: CLLocationDegrees,
-        userLocation: CLLocation) {
+        userLocation: CLLocation?) {
 
         self.title       = title
         self.numMessages = numMessages
@@ -87,7 +143,9 @@ class PointOfInterest: NSObject, MKAnnotation {
         self.coordinate = CLLocationCoordinate2DMake(self.latitude,
             self.longitude)
 
-        self.distance = self.location.distanceFromLocation(userLocation)
+        if userLocation != nil {
+            self.distance = self.location.distanceFromLocation(userLocation!)
+        }
     }
 
     /**
@@ -114,6 +172,57 @@ class PointOfInterest: NSObject, MKAnnotation {
             longitude: longitude,
             latitude: latitude,
             userLocation: userLocation)
+    }
+    
+    /**
+     * Initialize a new point-of-interest given an MMX Channel.
+     *
+     * - parameter channel: The MMX Channel from which to initialize.
+     *
+     * - returns: N/A
+     */
+    convenience init (channel: MMXChannel) {
+
+        // Extract information from the channel summary.
+        var channelInfo = channel.summary.componentsSeparatedByString(" ")
+        
+        var longitude = 0.0
+        var latitude = 0.0
+        var title = ""
+        
+        for (var i = 0; i < channelInfo.count; i++) {
+            
+            if channelInfo[i] == "longitude" {
+                i++
+                longitude = Double(channelInfo[i])!
+            }
+            else if channelInfo[i] == "latitude" {
+                i++
+                latitude = Double(channelInfo[i])!
+            }
+            else if channelInfo[i] == "title" {
+                // title is special. it is currently always at the end
+                // because it could have spaces and this makes parsing
+                // much easier... read until end of array
+                i++
+                while i < channelInfo.count {
+                    title += channelInfo[i]
+                    title += " "
+                    i++
+                }
+                title = title.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            }
+        }
+        
+        // Note this is a "convenience" initializer since it calls a different
+        // "designated" initializer.
+        
+        self.init(title: title,
+            numMessages: Int(channel.numberOfMessages),
+            channel: channel,
+            longitude: longitude,
+            latitude: latitude,
+            userLocation: nil)
     }
     
     /**
