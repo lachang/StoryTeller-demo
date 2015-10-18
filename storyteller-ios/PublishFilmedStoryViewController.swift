@@ -25,6 +25,24 @@ class PublishFilmedStoryViewController: UIViewController {
     @IBAction func publishFilmedMessage(sender: AnyObject) {
         //add the code to take the message from X and send to server
         
+        /*
+            Method to publish to a channel.
+            
+            - (void)publish:(NSDictionary *)messageContent success:(void ( ^ ) ( MMXMessage *message ))success failure:(void ( ^ ) ( NSError *error ))failure
+            Parameters
+            messageContent
+            The content you want to publish
+            success
+            Block with the published message
+            failure
+            Block with an NSError with details about the call failure.
+            Discussion
+            Method to publish to a channel.
+            
+            Declared In
+            MMXChannel.h
+        */
+        
         // segue back to channel screen
         performSegueWithIdentifier("FilmedToMapSegue", sender: sender)
     }
