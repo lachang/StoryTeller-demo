@@ -38,8 +38,8 @@ class PublishWrittenStoryViewController: UIViewController {
                 print("Couldn't publish to \(self.channel).\nError= \(error)")
         }) // end of channel.publish()
         
-        // segue back to channel screen
-        performSegueWithIdentifier("WrittenToMessagesSegue", sender: sender)
+        // Dismiss this controller.
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func publishSpokenStory(sender: AnyObject) {
@@ -54,8 +54,8 @@ class PublishWrittenStoryViewController: UIViewController {
                 print("Couldn't publish to \(self.channel).\nError= \(error)")
         }) // end of channel.publish()
         
-        // segue back to channel screen
-        performSegueWithIdentifier("WrittenToMessagesSegue", sender: sender)
+        // Dismiss this controller.
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
@@ -71,15 +71,7 @@ class PublishWrittenStoryViewController: UIViewController {
                 print("Couldn't publish to \(self.channel).\nError= \(error)")
         }) // end of channel.publish()
         
-        // segue back to channel screen
-        performSegueWithIdentifier("WrittenToMessagesSegue", sender: sender)
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-            
-        // Pass the channel back to the messages view.
-        let messagesViewController =
-        segue.destinationViewController as! MessagesViewController
-        messagesViewController.channel = self.channel
+        // Dismiss this controller.
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }
