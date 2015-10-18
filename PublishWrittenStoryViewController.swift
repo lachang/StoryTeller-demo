@@ -21,6 +21,11 @@ class PublishWrittenStoryViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
+    @IBAction func cancel(sender: AnyObject) {
+        // Dismiss this controller.
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -61,7 +66,9 @@ class PublishWrittenStoryViewController: UIViewController {
     
     @IBAction func publishFilmedStory(sender: AnyObject) {
         //add the code to take the message from X and send to server
-        let messageContent = ["filmed" : "Hello Channel!"]
+        let messageContent = ["filmed" : "Kawasaki",
+            "videoUrl" : "http://anthonyalayo.com/kawasaki.mp4",
+            "imageUrl" : "http://anthonyalayo.com/kawasaki.jpg"]
         
         channel.publish(messageContent,
             success: {(message) -> Void in

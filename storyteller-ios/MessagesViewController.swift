@@ -253,8 +253,18 @@ class MessagesViewController: UITableViewController {
         let message                = self._messages[indexPath.row]
 
         if let messageContent = message.messageContent["spoken"] {
+            // for now grab the messageContent as url
+            // TODO: clean this code up
             let url: NSURL? = NSURL(string: String(messageContent))
-            
+            let player = AVPlayer(URL: url!)
+            let playerViewController = AVPlayerViewController()
+            playerViewController.player = player
+            self.presentViewController(playerViewController, animated: true, completion: nil)
+            player.play()
+        } else if let _ = message.messageContent["filmed"] {
+            // for now grab the video url
+            // TODO: clean this code up
+            let url: NSURL? = NSURL(string: String(message.messageContent["videoUrl"]!))
             let player = AVPlayer(URL: url!)
             let playerViewController = AVPlayerViewController()
             playerViewController.player = player
