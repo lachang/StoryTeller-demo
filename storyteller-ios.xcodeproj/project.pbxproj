@@ -31,7 +31,6 @@
 		25AFC1321BC5097400AE8AF9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AFC1311BC5097400AE8AF9 /* LoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		25AFC1341BC5098300AE8AF9 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AFC1331BC5098300AE8AF9 /* SignupViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		5BBC94EB504AD0904C4BABEC /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1057EE34CCBC13EBCBBE929 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		B1DB635A1BD30E89004F1358 /* CreateStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DB63591BD30E89004F1358 /* CreateStoryViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B1DB63621BD32383004F1358 /* PublishWrittenStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DB63611BD32383004F1358 /* PublishWrittenStoryViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B1DB63641BD327B3004F1358 /* PublishSpokenStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DB63631BD327B3004F1358 /* PublishSpokenStoryViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B1DB63661BD328CC004F1358 /* PublishFilmedStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DB63651BD328CC004F1358 /* PublishFilmedStoryViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -65,7 +64,6 @@
 		25AFC1331BC5098300AE8AF9 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		38DBD837DCD19F9BA1451D60 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		A1057EE34CCBC13EBCBBE929 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B1DB63591BD30E89004F1358 /* CreateStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateStoryViewController.swift; sourceTree = "<group>"; };
 		B1DB63611BD32383004F1358 /* PublishWrittenStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PublishWrittenStoryViewController.swift; path = ../PublishWrittenStoryViewController.swift; sourceTree = "<group>"; };
 		B1DB63631BD327B3004F1358 /* PublishSpokenStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublishSpokenStoryViewController.swift; sourceTree = "<group>"; };
 		B1DB63651BD328CC004F1358 /* PublishFilmedStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublishFilmedStoryViewController.swift; sourceTree = "<group>"; };
@@ -151,7 +149,6 @@
 				25AFC1311BC5097400AE8AF9 /* LoginViewController.swift */,
 				25AFC1331BC5098300AE8AF9 /* SignupViewController.swift */,
 				25AFC12F1BC501EA00AE8AF9 /* WelcomeViewController.swift */,
-				B1DB63591BD30E89004F1358 /* CreateStoryViewController.swift */,
 				B1DB63611BD32383004F1358 /* PublishWrittenStoryViewController.swift */,
 				B1DB63631BD327B3004F1358 /* PublishSpokenStoryViewController.swift */,
 				B1DB63651BD328CC004F1358 /* PublishFilmedStoryViewController.swift */,
@@ -325,7 +322,6 @@
 				25AFC1301BC501EA00AE8AF9 /* WelcomeViewController.swift in Sources */,
 				B1DB63641BD327B3004F1358 /* PublishSpokenStoryViewController.swift in Sources */,
 				25AFC1341BC5098300AE8AF9 /* SignupViewController.swift in Sources */,
-				B1DB635A1BD30E89004F1358 /* CreateStoryViewController.swift in Sources */,
 				259E38871BBD166B009C9218 /* AppDelegate.swift in Sources */,
 				259E38A91BBE4F6D009C9218 /* PointOfInterestTableViewCell.swift in Sources */,
 				259E38A81BBE4F6D009C9218 /* MapView.swift in Sources */,

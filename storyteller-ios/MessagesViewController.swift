@@ -46,6 +46,63 @@ class MessagesViewController: UITableViewController {
     // MARK: Class Methods (Private)
     //**************************************************************************
     
+    @IBAction func leaveMemory(sender: AnyObject) {
+        
+        let alertViewController =
+        UIAlertController(
+            title: nil,
+            message: nil,
+            preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
+        // Add a logout button.
+        let alertActionWriteStory = UIAlertAction(
+            title: "Write Your Story",
+            style: UIAlertActionStyle.Default,
+            handler: _writeYourStory)
+        alertViewController.addAction(alertActionWriteStory)
+        
+        // Add a logout button.
+        let alertActionSayStory = UIAlertAction(
+            title: "Say Your Story",
+            style: UIAlertActionStyle.Default,
+            handler: _sayYourStory)
+        alertViewController.addAction(alertActionSayStory)
+     
+        // Add a logout button.
+        let alertActionFilmStory = UIAlertAction(
+            title: "Film Your Story",
+            style: UIAlertActionStyle.Default,
+            handler: _filmYourStory)
+        alertViewController.addAction(alertActionFilmStory)
+        
+        // Add a cancel button.
+        let alertActionCancel = UIAlertAction(
+            title: "Cancel",
+            style: UIAlertActionStyle.Default,
+            handler: nil)
+        alertViewController.addAction(alertActionCancel)
+        
+        self.presentViewController(
+            alertViewController,
+            animated: true,
+            completion: nil)
+    }
+    
+    private func _writeYourStory(sender: UIAlertAction!)
+    {
+        self.performSegueWithIdentifier("MessagesToWrittenSegue", sender: self)
+    }
+    
+    private func _sayYourStory(sender: UIAlertAction!)
+    {
+        self.performSegueWithIdentifier("MessagesToSpokenSegue", sender: self)
+    }
+    
+    private func _filmYourStory(sender: UIAlertAction!)
+    {
+        self.performSegueWithIdentifier("MessagesToFilmedSegue", sender: self)
+    }
+    
     //**************************************************************************
     // MARK: Instance Methods (Public)
     //**************************************************************************
