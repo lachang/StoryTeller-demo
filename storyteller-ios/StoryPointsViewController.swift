@@ -149,8 +149,7 @@ LocationManagerDelegate {
                                     userLocation: currentLocation!)
                                 
                                 // add the point of interest
-                                self.addPointOfInterestAndSubscribe(pointOfInterest,
-                                    channel: channel)
+                                self.addPointOfInterestAndSubscribe(pointOfInterest)
                                 annotation = pointOfInterest
                                 
                                 dispatch_async(dispatch_get_main_queue()) {
@@ -184,7 +183,7 @@ LocationManagerDelegate {
     }
     
     // helper function to add a point of interest to the list and subscribe to the channel
-    private func addPointOfInterestAndSubscribe(pointOfInterest: PointOfInterest, channel: MMXChannel) -> Void {
+    private func addPointOfInterestAndSubscribe(pointOfInterest: PointOfInterest) -> Void {
         
         // Only show points-of-interest within 10000 m for the
         // table view.
@@ -192,13 +191,13 @@ LocationManagerDelegate {
             self._pointsOfInterest.append(pointOfInterest)
             
             // Auto-subscribe to channels in view.
-            channel.subscribeWithSuccess({ () -> Void in
+            pointOfInterest.channel!.subscribeWithSuccess({ () -> Void in
                 }, failure: { (error) -> Void in
                     print("ERROR: Failed to subscribe!")
             })
         }
         else {
-            channel.unSubscribeWithSuccess({ () -> Void in
+            pointOfInterest.channel!.unSubscribeWithSuccess({ () -> Void in
                 }, failure: { (error) -> Void in
                     //print("ERROR: Failed to unsubscribe for " + channel.name)
             })
@@ -232,75 +231,50 @@ LocationManagerDelegate {
         }
         else {
 
-            // Fetch all the channels for now.
-            MMXChannel.allPublicChannelsWithLimit(100, offset: 0, success:
-                { (totalCount, channels) -> Void in
+            let userLocation = self._locationManager.getLocation()
+            PointOfInterest.index(100, offset: 0,
+                userLocation: userLocation,
+                callback: { (pointsOfInterest, error) -> Void in
                     
-                    self._pointsOfInterest = []
-                    var annotations: [MKAnnotation] = []
-                    
-                    let channelList = channels as! [MMXChannel]
-                    channelLoop: for channel in channelList {
+                    if error != nil {
+                        // If an error occurred, show an alert.
+                        var message = error!.localizedDescription
+                        if error!.localizedFailureReason != nil {
+                            message = error!.localizedFailureReason!
+                        }
+                        self._alertView!.showAlert(
+                            "Storypoint Retrieval Failed",
+                            message: message,
+                            callback: nil)
+                    }
+                    else {
+                        self._pointsOfInterest = []
+                        var annotations: [MKAnnotation] = []
                         
-                        // pull out the channel info to create a point of interest
-                        var channelInfo = channel.summary.componentsSeparatedByString(" ")
-                        var longitude = 0.0
-                        var latitude = 0.0
-                        var title = ""
-                        for var i = 0; i < channelInfo.count; i++ {
-                            if channelInfo[i] == "longitude" {
-                                i++
-                                longitude = Double(channelInfo[i])!
-                            } else if channelInfo[i] == "latitude" {
-                                i++
-                                latitude = Double(channelInfo[i])!
-                            } else if channelInfo[i] == "title" {
-                                // title is special. it is currently always at the end
-                                // because it could have spaces and this makes parsing
-                                // much easier... read until end of array
-                                i++
-                                while i < channelInfo.count {
-                                    title += channelInfo[i]
-                                    title += " "
-                                    i++
-                                }
-                                title = title.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                            } else {
-                                print(channel.name + " not following proper format!")
-                                print("skipping over this channel...")
-                                continue channelLoop
+                        for pointOfInterest in pointsOfInterest {
+                            
+                            // Add the point-of-interest to the map if its within
+                            // 100000 m.
+                            if Int(pointOfInterest.distance!) < 100000 {
+                                self.addPointOfInterestAndSubscribe(pointOfInterest)
+                                annotations.append(pointOfInterest)
                             }
                         }
                         
-                        // create the point of interest
-                        let pointOfInterest = PointOfInterest(
-                            title: title,
-                            numMessages: Int(channel.numberOfMessages),
-                            channel: channel,
-                            longitude: longitude,
-                            latitude: latitude,
-                            userLocation: userLocation!)
-                        
-                        // Consider adding the point-of-interest if its within 100000 m.
-                        if Int(pointOfInterest.distance!) < 100000 {
-                            self.addPointOfInterestAndSubscribe(pointOfInterest, channel: channel)
-                            annotations.append(pointOfInterest)
+                        // Show all the points of interest on the map.
+                        dispatch_async(dispatch_get_main_queue()) {
+                            
+                            if self._mapView != nil {
+                                self._mapView!.removeAllAnnotations()
+                                self._mapView!.addAnnotations(annotations)
+                                self._mapView!.showAllAnnotations(
+                                    showUserLocation: true)
+                            }
+                            
+                            // Reload the table view.
+                            self.tableView.reloadData()
                         }
-                    } // end of for channel in channelList
-
-                    dispatch_async(dispatch_get_main_queue()) {
-                        
-                        if self._mapView != nil {
-                            self._mapView!.removeAllAnnotations()
-                            self._mapView!.addAnnotations(annotations)
-                            self._mapView!.showAllAnnotations()
-                        }
-
-                        // Reload the table view.
-                        self.tableView.reloadData()
                     }
-                }, failure: { (error) -> Void in
-                    print("ERROR: Failed to fetch channels!")
                 })
         }
     }

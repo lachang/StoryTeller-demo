@@ -52,9 +52,11 @@ class PointOfInterest: NSObject, MKAnnotation {
     /**
      * Retrieves a list of PointOfInterest instances.
      *
-     * - parameter count:  The number of instances to retrieve.
+     * - parameter count: The number of instances to retrieve.
      * - parameter offset: The offset from which to retrieve the number of
-     *                    instances (for paging purposes).
+     *                     instances (for paging purposes).
+     * - parameter userLocation: The location of the user (for distance
+     *                           purposes).
      * - parameter callback: Callback invoked once the retrieval attempt
      *                       completes.
      *
@@ -62,6 +64,7 @@ class PointOfInterest: NSObject, MKAnnotation {
      */
     
     class func index(count: Int, offset: Int,
+        userLocation: CLLocation?,
         callback: (([PointOfInterest], NSError?) -> Void)) {
 
         let maxCount  = Int(Int32.max)
@@ -77,7 +80,8 @@ class PointOfInterest: NSObject, MKAnnotation {
                     // Convert each MMX Channel into a PointOfInterest instance.
                     for channel in channels as! [MMXChannel] {
                         pointsOfInterest.append(
-                            PointOfInterest(channel: channel))
+                            PointOfInterest(channel: channel,
+                                userLocation: userLocation))
                     }
 
                     // Invoke the callback.
@@ -178,10 +182,12 @@ class PointOfInterest: NSObject, MKAnnotation {
      * Initialize a new point-of-interest given an MMX Channel.
      *
      * - parameter channel: The MMX Channel from which to initialize.
+     * - parameter userLocation: The location of the user (for distance
+     *                           purposes).
      *
      * - returns: N/A
      */
-    convenience init (channel: MMXChannel) {
+    convenience init (channel: MMXChannel, userLocation: CLLocation?) {
 
         // Extract information from the channel summary.
         var channelInfo = channel.summary.componentsSeparatedByString(" ")
@@ -222,7 +228,7 @@ class PointOfInterest: NSObject, MKAnnotation {
             channel: channel,
             longitude: longitude,
             latitude: latitude,
-            userLocation: nil)
+            userLocation: userLocation)
     }
     
     /**

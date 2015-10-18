@@ -91,33 +91,43 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         self.reload.enabled = false
         
         PointOfInterest.index(100, offset: 0,
+            userLocation: nil,
             callback: { (pointsOfInterest, error) -> Void in
                 
-                // PointOfInterest instances conform to MKAnnotation.
-                let annotations: [MKAnnotation] = pointsOfInterest
-                
-                // Show all the points of interest on the map.
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-                    if self._mapView != nil {
-                        self._mapView!.removeAllAnnotations()
-                        self._mapView!.addAnnotations(annotations)
-                        self._mapView!.showAllAnnotations()
+                if error != nil {
+                    // If an error occurred, show an alert.
+                    var message = error!.localizedDescription
+                    if error!.localizedFailureReason != nil {
+                        message = error!.localizedFailureReason!
                     }
+                    self._alertView!.showAlert(
+                        "Storypoint Retrieval Failed",
+                        message: message,
+                        callback: nil)
+                }
+                else {
+                    // PointOfInterest instances conform to MKAnnotation.
+                    let annotations: [MKAnnotation] = pointsOfInterest
                     
+                    // Show all the points of interest on the map.
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        if self._mapView != nil {
+                            self._mapView!.removeAllAnnotations()
+                            self._mapView!.addAnnotations(annotations)
+                            self._mapView!.showAllAnnotations(
+                                showUserLocation:false)
+                        }
+                    }
+                }
+                
+                // Hide the activity indicator and re-display the login
+                // button.
+                dispatch_async(dispatch_get_main_queue()) {
                     self.activityIndicatorView.hidden = true
                     self.reload.enabled = true
                 }
             })
-    }
-
-    //**************************************************************************
-    // MARK: MKMapViewDelegate
-    //**************************************************************************
-    
-    func mapViewDidFinishLoadingMap(mapView: MKMapView) {
-        // Do not show the user location.
-        self.mapView.showsUserLocation = false
     }
     
     //**************************************************************************

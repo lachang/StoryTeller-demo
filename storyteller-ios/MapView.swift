@@ -155,7 +155,7 @@ class MapView {
      * - returns: N/A
      */
     
-    func showAllAnnotations() {
+    func showAllAnnotations(showUserLocation showUserLocation: Bool) {
         
         // Return early if there are no annotations on the map.
         if (self._mapView.annotations.count == 0) {
@@ -168,30 +168,42 @@ class MapView {
         var topLeftLatitude:CLLocationDegrees      = -90
         var bottomRightLongitude:CLLocationDegrees = -180
         var bottomRightLatitude:CLLocationDegrees  = 90
-        
-        for annotation in (self._mapView.annotations) {
-            
-            let coordinate = annotation.coordinate
-            
-            // Update the bounding box, if necessary.
-            topLeftLongitude     = fmin(topLeftLongitude, coordinate.longitude)
-            topLeftLatitude      = fmax(topLeftLatitude,  coordinate.latitude)
-            bottomRightLongitude = fmax(bottomRightLongitude, coordinate.longitude)
-            bottomRightLatitude  = fmin(bottomRightLatitude,  coordinate.latitude)
+
+        var annotationsToShow: [MKAnnotation] = []
+        if !showUserLocation {
+            annotationsToShow = self._mapView.annotations.filter {
+                $0 !== self._mapView.userLocation
+            }
+        }
+        else {
+            annotationsToShow = self._mapView.annotations
         }
         
-        // center point
-        let centerLat = topLeftLatitude - (topLeftLatitude - bottomRightLatitude) * 0.5
-        let centerLng = topLeftLongitude + (bottomRightLongitude - topLeftLongitude) * 0.5
-        let center:CLLocationCoordinate2D = CLLocationCoordinate2DMake(centerLat, centerLng)
-        
-        // edge
-        let latitudDelta   = fabs(topLeftLatitude - bottomRightLatitude) * 1.4
-        let longitudeDelta = fabs(bottomRightLongitude - topLeftLongitude) * 1.4
-        
-        self._mapSpan = MKCoordinateSpan(latitudeDelta: latitudDelta, longitudeDelta: longitudeDelta)
-        let region:MKCoordinateRegion = MKCoordinateRegionMake(center, self._mapSpan!)
-        self._mapView.setRegion(region, animated: false)
+        if annotationsToShow.count > 0 {
+            for annotation in annotationsToShow {
+                
+                let coordinate = annotation.coordinate
+                
+                // Update the bounding box, if necessary.
+                topLeftLongitude     = fmin(topLeftLongitude, coordinate.longitude)
+                topLeftLatitude      = fmax(topLeftLatitude,  coordinate.latitude)
+                bottomRightLongitude = fmax(bottomRightLongitude, coordinate.longitude)
+                bottomRightLatitude  = fmin(bottomRightLatitude,  coordinate.latitude)
+            }
+            
+            // center point
+            let centerLat = topLeftLatitude - (topLeftLatitude - bottomRightLatitude) * 0.5
+            let centerLng = topLeftLongitude + (bottomRightLongitude - topLeftLongitude) * 0.5
+            let center:CLLocationCoordinate2D = CLLocationCoordinate2DMake(centerLat, centerLng)
+            
+            // edge
+            let latitudDelta   = fabs(topLeftLatitude - bottomRightLatitude) * 1.4
+            let longitudeDelta = fabs(bottomRightLongitude - topLeftLongitude) * 1.4
+            
+            self._mapSpan = MKCoordinateSpan(latitudeDelta: latitudDelta, longitudeDelta: longitudeDelta)
+            let region:MKCoordinateRegion = MKCoordinateRegionMake(center, self._mapSpan!)
+            self._mapView.setRegion(region, animated: false)
+        }
     }
     
     /**
