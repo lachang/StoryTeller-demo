@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D443B7073FF7BDB57E455B3CD3FED30CAFD9C007",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "D443B7073FF7BDB57E455B3CD3FED30CAFD9C007" : 0,
+    "3102B371ABA659DE7EB78DEDE816FCA13F489D31" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "7FD1444B-C998-4CB4-907C-958140018E90",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "D443B7073FF7BDB57E455B3CD3FED30CAFD9C007" : "storyteller-ios\/",
+    "3102B371ABA659DE7EB78DEDE816FCA13F489D31" : ".."
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "storyteller-ios",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "storyteller-ios.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Volumes\/Public\/codeworks\/codeworks.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3102B371ABA659DE7EB78DEDE816FCA13F489D31"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/lachang\/storyteller-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D443B7073FF7BDB57E455B3CD3FED30CAFD9C007"
+    }
+  ]
+}

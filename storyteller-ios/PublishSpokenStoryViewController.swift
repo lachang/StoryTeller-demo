@@ -7,13 +7,95 @@
 //
 
 import UIKit
+import AVFoundation
 
-class PublishSpokenStoryViewController: UIViewController {
+class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
 
+    @IBOutlet weak var recordButton: UIButton!
+    var audioPlayer: AVAudioPlayer?
+    @IBOutlet weak var playButton: UIButton!
+    var audioRecorder: AVAudioRecorder?
+    @IBOutlet weak var stopButton: UIButton!
+    
+    @IBAction func record(sender: AnyObject) {
+        if audioRecorder?.recording == false {
+            playButton.enabled = false
+            stopButton.enabled = true
+            audioRecorder?.record()
+        }
+    }
+    
+    @IBAction func play(sender: AnyObject) {
+        if audioRecorder?.recording == false {
+            stopButton.enabled = true
+            recordButton.enabled = false
+            
+            var error: NSError?
+            
+            do{
+                try audioPlayer = AVAudioPlayer(contentsOfURL: (audioRecorder?.url)!)
+            }
+            catch{
+                print("cant play")
+            }
+            audioPlayer?.delegate = self
+            audioPlayer?.play()
+    
+        }
+    }
+    
+    @IBAction func stop(sender: AnyObject) {
+        stopButton.enabled = false
+        playButton.enabled = true
+        recordButton.enabled = true
+        
+        if audioRecorder?.recording == true {
+            audioRecorder?.stop()
+        } else {
+            audioPlayer?.stop()
+        }
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        //playButton.enabled = false
+        //stopButton.enabled = false
+        
+        let dirPaths =
+        NSSearchPathForDirectoriesInDomains(.DocumentDirectory,
+            .UserDomainMask, true)
+        let docsDir = dirPaths[0] as! String
+        let soundFilePath = (docsDir as NSString) .stringByAppendingPathComponent("sound.caf")
+        let soundFileURL = NSURL(fileURLWithPath: soundFilePath)
+        let recordSettings: [String: AnyObject] =
+        [AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
+            AVEncoderBitRateKey: 16,
+            AVNumberOfChannelsKey: 2,
+            AVSampleRateKey: 44100.0]
+        
+        let audioSession = AVAudioSession.sharedInstance()
+        do{
+         try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+        }
+        catch
+        {
+            print("Cant setup audio");
+        }
+        
+        do{
+            try audioRecorder = AVAudioRecorder(URL: soundFileURL, settings: recordSettings)
+
+        }
+        catch
+        {
+            print("Cannot setup recording object");
+        }
+        
+        audioRecorder?.prepareToRecord()
     }
 
     override func didReceiveMemoryWarning() {
