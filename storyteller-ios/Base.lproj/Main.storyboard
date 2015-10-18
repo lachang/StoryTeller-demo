@@ -124,6 +124,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="populateInitialStoryooints:" destination="swd-2v-60r" eventType="touchUpInside" id="lrQ-S9-Ogl"/>
                                     <action selector="signup:" destination="539-cM-vru" eventType="touchUpInside" id="m7M-dz-Iyz"/>
                                 </connections>
                             </button>
