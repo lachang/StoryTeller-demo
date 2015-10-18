@@ -17,8 +17,6 @@ import MMX
  */
 
 class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
-    
-    var channel: MMXChannel!
 
     //**************************************************************************
     // MARK: Attributes (Public)
@@ -27,6 +25,8 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
     @IBOutlet var record: UIButton!
     @IBOutlet var playback: UIButton!
     @IBOutlet var reset: UIButton!
+    
+    var channel: MMXChannel!
     
     //**************************************************************************
     // MARK: Attributes (Internal)
