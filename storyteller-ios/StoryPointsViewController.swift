@@ -49,9 +49,6 @@ LocationManagerDelegate {
     private var _locationManager: LocationManager =
     LocationManager.sharedLocationManager()
     
-    // The selected table row, if any.
-    private var _selectedIndexPath: NSIndexPath? = nil
-
     // Determines whether the view attempts to retrieve channels.
     private var _attemptChannelRetrieval = false
     
@@ -363,13 +360,6 @@ LocationManagerDelegate {
             let location: CLLocation? = self._locationManager.getLocation()
             self._index(location)
         }
-        
-        // Clear the selected index path, if any.
-        if self._selectedIndexPath != nil {
-            self.tableView.deselectRowAtIndexPath(self._selectedIndexPath!,
-                animated: false)
-            self._selectedIndexPath = nil
-        }
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -427,8 +417,5 @@ LocationManagerDelegate {
     //**************************************************************************
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
-        // Cache off the selected index path.
-        self._selectedIndexPath = indexPath
     }
 }

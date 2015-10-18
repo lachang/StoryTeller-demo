@@ -9,7 +9,11 @@
 import UIKit
 import AVFoundation
 
+import MMX
+
 class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
+    
+    var channel: MMXChannel!
 
     @IBOutlet weak var recordButton: UIButton!
     var audioPlayer: AVAudioPlayer?

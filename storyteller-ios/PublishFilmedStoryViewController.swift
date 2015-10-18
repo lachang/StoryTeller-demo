@@ -8,8 +8,12 @@
 
 import UIKit
 
+import MMX
+
 class PublishFilmedStoryViewController: UIViewController {
 
+    var channel: MMXChannel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

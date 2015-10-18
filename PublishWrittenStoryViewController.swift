@@ -8,7 +8,12 @@
 
 import UIKit
 
+import MMX
+
 class PublishWrittenStoryViewController: UIViewController {
+    
+    
+    var channel: MMXChannel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +46,16 @@ class PublishWrittenStoryViewController: UIViewController {
             Declared In
             MMXChannel.h
         */
+        
+        let messageContent = ["message" : "Hello Channel!"]
+        
+        channel.publish(messageContent,
+            success: {(message) -> Void in
+                print("Successfully published to \(self.channel)")
+            },
+            failure: {(error) -> Void in
+                print("Couldn't publish to \(self.channel).\nError= \(error)")
+        }) // end of channel.publish()
         
         // segue back to channel screen
         performSegueWithIdentifier("WrittenToMapSegue", sender: sender)

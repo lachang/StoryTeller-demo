@@ -159,6 +159,33 @@ class MessagesViewController: UITableViewController {
         super.viewDidAppear(animated)
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        // Pass the selected channel to the messages view.
+        if segue.identifier == "MessagesToWrittenSegue" {
+            
+            let viewController =
+            segue.destinationViewController as! PublishWrittenStoryViewController
+            
+            viewController.channel = self.channel
+            
+        } else if segue.identifier == "MessagesToSpokenSegue" {
+            
+            let viewController =
+            segue.destinationViewController as! PublishSpokenStoryViewController
+            
+            viewController.channel = self.channel
+            
+        } else if segue.identifier == "MessagesToFilmedSegue" {
+            
+            let viewController =
+            segue.destinationViewController as! PublishFilmedStoryViewController
+            
+            viewController.channel = self.channel
+        }
+        
+    }
+    
     //**************************************************************************
     // MARK: UITableViewDataSource
     //**************************************************************************
@@ -177,13 +204,18 @@ class MessagesViewController: UITableViewController {
         
         // Display the message content to the table cell.
         let message                = self._messages[indexPath.row]
-        let messageContent         = message.messageContent as! [String:String]
+        //let messageContent         = message.messageContent as! [String:String]
+        let messageContent = message.messageContent["message"]!
+        cell.textLabel?.text = "\(messageContent)"
+        cell
         
+        /*
         let str: NSMutableAttributedString =
         NSMutableAttributedString(string: "Clip")
         str.addAttribute(NSLinkAttributeName, value: messageContent["Clip"]!, range: NSMakeRange(0, str.length))
         cell.textLabel!.attributedText = str
         cell.detailTextLabel!.text = message.sender.displayName
+        */
 
         return cell
     }
@@ -193,7 +225,7 @@ class MessagesViewController: UITableViewController {
     //**************************************************************************
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        /*
         let message                = self._messages[indexPath.row]
         let messageContent         = message.messageContent as! [String:String]
         
@@ -207,6 +239,7 @@ class MessagesViewController: UITableViewController {
         player.play()
         
         //UIApplication.sharedApplication().openURL(NSURL(string: messageContent["Clip"]!)!)
+        */
     }
 
 }
