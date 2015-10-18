@@ -9,6 +9,8 @@ import UIKit
 import MapKit
 import CoreLocation
 
+import MMX
+
 /**
  * StoryPointsViewController
  *
@@ -70,33 +72,29 @@ LocationManagerDelegate {
     // MARK: Instance Methods (Internal)
     //**************************************************************************
     
+    internal func _didReceiveMessage(notification: NSNotification) {
+        
+        let userInfo : [NSObject : AnyObject] = notification.userInfo!
+        let message = userInfo[MMXMessageKey] as! MMXMessage
+        
+        // Determine if the message is for a subscribed channel.
+        
+        for pointOfInterest in self._pointsOfInterest {
+            if message.channel == pointOfInterest.channel! {
+                
+                // Increment the message count for the channel and reload the
+                // table view.
+                pointOfInterest.numMessages++
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
     //**************************************************************************
     // MARK: Instance Methods (Private)
     //**************************************************************************
-
-    // make a properly formatted string for magnet message's standard
-    func makeTitleString(title: String) -> String {
-        let titleString = title.stringByReplacingOccurrencesOfString(" ", withString: "_").lowercaseString
-        
-        print(titleString)
-        
-        return titleString
-    }
-    
-    // make a properly formatted summary for us to parse later
-    //eg. longitude -122.42241 latitude 37.82728 title Alcatraz Island - Guard House
-    func makeSummaryString(latitude: String, longitude: String, title: String) -> String {
-        var summaryString = "longitude "
-        summaryString += longitude
-        summaryString += " latitude "
-        summaryString += latitude
-        summaryString += " title "
-        summaryString += title
-        
-        print(summaryString)
-        
-        return summaryString
-    }
     
     // add a new story point
     @IBAction func addNewStoryPoint(sender: AnyObject) {
@@ -301,6 +299,13 @@ LocationManagerDelegate {
         
         // Attempt channel retrieval when the controller initially loads.
         self._attemptChannelRetrieval = true
+        
+        // Setup a notifier for receiving further messages for subscribed
+        // channels.
+        MMX.start()
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector: "_didReceiveMessage:",
+            name: MMXDidReceiveMessageNotification, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -350,6 +355,10 @@ LocationManagerDelegate {
             messagesViewController.channel =
                 self._pointsOfInterest[selectedRow].channel
         }
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     //**************************************************************************

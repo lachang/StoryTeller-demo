@@ -124,23 +124,27 @@ class MessagesViewController: UITableViewController {
     // MARK: Instance Methods (Internal)
     //**************************************************************************
     
+    internal func _didReceiveMessage(notification: NSNotification) {
+
+        let userInfo : [NSObject : AnyObject] = notification.userInfo!
+        let message = userInfo[MMXMessageKey] as! MMXMessage
+        
+        // Process the message if it's for this channel.
+        if message.channel == self.channel {
+            
+            // Insert the new message at the top (since newer messages come
+            // first) and then reload the table view.
+            self._messages.insert(message, atIndex: 0)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     //**************************************************************************
     // MARK: Instance Methods (Private)
     //**************************************************************************
     
-    func didReceiveMessage(notification: NSNotification) {
-        let message: MMXMessage? = (notification.userInfo as! [String:AnyObject]?)![MMXMessageKey] as? MMXMessage;
-        
-        // Process the message if it's for this channel.
-        if (message != nil && message!.channel == self.channel) {
-            
-            // Insert the new message at the top (since newer messages come
-            // first) and then reload the table view.
-            self._messages.insert(message!, atIndex: 0)
-            self.tableView.reloadData()
-        }
-    }
-
     //**************************************************************************
     // MARK: UIViewController
     //**************************************************************************
@@ -161,7 +165,7 @@ class MessagesViewController: UITableViewController {
                 // Setup a notifier for receiving further messages.
                 MMX.start()
                 NSNotificationCenter.defaultCenter().addObserver(self,
-                    selector: "didReceiveMessage:",
+                    selector: "_didReceiveMessage:",
                     name: MMXDidReceiveMessageNotification, object: nil)
             }
             }, failure: { (error) -> Void in
