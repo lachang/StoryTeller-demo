@@ -21,6 +21,9 @@ class PublishFilmedStoryViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    /*
+    * Arvind to add video stuff here
+    */
 
     @IBAction func publishFilmedMessage(sender: AnyObject) {
         //add the code to take the message from X and send to server

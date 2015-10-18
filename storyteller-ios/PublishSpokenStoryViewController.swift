@@ -21,6 +21,9 @@ class PublishSpokenStoryViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    /*
+     * Arvind to add audio stuff here
+     */
 
     @IBAction func publishSpokenMessage(sender: AnyObject) {
         //add the code to take the message from X and send to server

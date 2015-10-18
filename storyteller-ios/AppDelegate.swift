@@ -52,6 +52,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var viewController: UIViewController
         
+        /*
+         * Add Arvind's Authentication for AWS here
+           Create a model for AWSSession
+           Call your validation function here
+           example : class func isValid() -> Bool
+         */
+        
         if Session.isValid() {
             viewController =
                 UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
