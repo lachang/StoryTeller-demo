@@ -29,9 +29,10 @@ class PointOfInterest: NSObject, MKAnnotation {
     var latitude: CLLocationDegrees
     var location: CLLocation
     var coordinate: CLLocationCoordinate2D
-    var channel: MMXChannel
     var numMessages: Int
     var distance: CLLocationDistance?
+    
+    var channel: MMXChannel?
     
     //**************************************************************************
     // MARK: Attributes (Internal)
@@ -71,7 +72,7 @@ class PointOfInterest: NSObject, MKAnnotation {
      * - returns: Void
      */
     
-    init (title: String, numMessages: Int, channel: MMXChannel,
+    init (title: String, numMessages: Int, channel: MMXChannel?,
         longitude: CLLocationDegrees, latitude: CLLocationDegrees,
         userLocation: CLLocation) {
 
@@ -89,6 +90,63 @@ class PointOfInterest: NSObject, MKAnnotation {
         self.distance = self.location.distanceFromLocation(userLocation)
     }
 
+    /**
+     * Initialize a new point-of-interest.
+     *
+     * - parameter firstname: The user's first name.
+     * - parameter lastname: The user's last name.
+     * - parameter username: The user's handle.
+     * - parameter email: The user's email.
+     *
+     * - returns: N/A
+     */
+    
+    convenience init (title: String, numMessages: Int,
+        longitude: CLLocationDegrees, latitude: CLLocationDegrees,
+        userLocation: CLLocation) {
+        
+        // Note this is a "convenience" initializer since it calls a different
+        // "designated" initializer.
+        
+        self.init(title: title,
+            numMessages: numMessages,
+            channel: nil,
+            longitude: longitude,
+            latitude: latitude,
+            userLocation: userLocation)
+    }
+    
+    /**
+     * Create a new PointOfInterest on the server.
+     *
+     * - parameter callback: Callback invoked once the point-of-interest
+     *                       creation attempt completes.
+     *
+     * - returns: N/A
+     */
+    
+    func create(callback callback: ((NSError?) -> Void)) {
+        
+        // make strings that are friendly for the magnet API
+        let magnetTitleString = self._makeTitleString()
+        let magnetSummaryString = self._makeSummaryString()
+        
+        // Create a new channel for Magnet Message.
+        MMXChannel.createWithName(
+            magnetTitleString,
+            summary: magnetSummaryString,
+            isPublic: true,
+            success: {(channel) -> Void in
+                print("Added channel " + channel!.name)
+                self.channel = channel
+                callback(nil)
+            },
+            failure: {(error) -> Void in
+                print("ERROR: Failed to signup!")
+                callback(error)
+            })
+    }
+    
     //**************************************************************************
     // MARK: Instance Methods (Internal)
     //**************************************************************************
@@ -96,4 +154,22 @@ class PointOfInterest: NSObject, MKAnnotation {
     //**************************************************************************
     // MARK: Instance Methods (Private)
     //**************************************************************************
+    
+    // make a properly formatted string for magnet message's standard
+    private func _makeTitleString() -> String {
+        let titleString = self.title!.stringByReplacingOccurrencesOfString(" ", withString: "_").lowercaseString
+        return titleString
+    }
+    
+    // make a properly formatted summary for us to parse later
+    //eg. longitude -122.42241 latitude 37.82728 title Alcatraz Island - Guard House
+    private func _makeSummaryString() -> String {
+        let summaryString = "longitude " +
+                            String(self.longitude) +
+                            " latitude " +
+                            String(self.latitude) +
+                            " title " +
+                            self.title!
+        return summaryString
+    }
 }

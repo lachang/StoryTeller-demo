@@ -34,22 +34,36 @@ class DemoKnobsController: UIViewController {
     
     private let _populatePoints = [
         ["title":"Alcatraz Main Cell House",
-         "longitude":-122.42319,
-         "latitude":37.82683],
-//        ["title":"Alcatraz Island Guard House",
-//         "longitude":-122.42241,
-//         "latitude":37.82728],
-//        ["title":"Alcatraz Apartments",
-//         "longitude":-122.42170,
-//         "latitude":37.82674],
+             "longitude":-122.42319,
+             "latitude":37.82683],
+        
+        ["title":"Alcatraz Island Guard House",
+             "longitude":-122.42241,
+             "latitude":37.82728],
+        
+        ["title":"Alcatraz Apartments",
+             "longitude":-122.42170,
+             "latitude":37.82674],
+        
+        ["title":"Treasure Island",
+            "longitude":-122.370648,
+            "latitude":37.823552],
+        
+//        ["title":"Magnet Systems",
+//            "longitude":-122.158983,
+//            "latitude":37.449434],
+        
+        ["title":"Pier 39",
+            "longitude":-122.417743,
+            "latitude":37.808],
     ]
     
     // Manages the alert view.
     private var _alertView: AlertView? = nil
     
     // The internal location manager.
-//    private var _locationManager: LocationManager =
-//    LocationManager.sharedLocationManager()
+    private var _locationManager: LocationManager =
+    LocationManager.sharedLocationManager()
     
     //**************************************************************************
     // MARK: Class Methods (Public)
@@ -77,21 +91,21 @@ class DemoKnobsController: UIViewController {
     
     @IBAction func populateInitialStoryooints(sender: AnyObject) {
         
-//        var pointsOfInterest: [PointOfInterest] = []
-//
-//        let userLocation = self._locationManager.getLocation()
-//        for point in self._populatePoints {
-//            let pointOfInterest = PointOfInterest(
-//                title: point["title"] as! String,
-//                numMessages: 0,
-//                longitude: point["longitude"] as! CLLocationDegrees,
-//                latitude: point["latitude"] as! CLLocationDegrees,
-//                userLocation: userLocation!)
-//
-//            pointOfInterest.create(callback: {(error) -> Void in
-//                pointsOfInterest.append(pointOfInterest)
-//            })
-//        }
+        var pointsOfInterest: [PointOfInterest] = []
+
+        let userLocation = self._locationManager.getLocation()
+        for point in self._populatePoints {
+            let pointOfInterest = PointOfInterest(
+                title: point["title"] as! String,
+                numMessages: 0,
+                longitude: point["longitude"] as! CLLocationDegrees,
+                latitude: point["latitude"] as! CLLocationDegrees,
+                userLocation: userLocation!)
+
+            pointOfInterest.create(callback: {(error) -> Void in
+                pointsOfInterest.append(pointOfInterest)
+            })
+        }
     }
     
     /**
