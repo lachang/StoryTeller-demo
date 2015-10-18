@@ -222,16 +222,16 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
             
             if !self._locationManager.isAuthorized() {
                 
-                if self._locationManager.isAuthorizationDetermined() {
-                    
-                    // Show an alert stating that the application does not have
-                    // the authorization to receive location data.
-                    
-                    self._alertView!.showAlert(
-                        "No Location Available",
-                        message: "Please enable location services.",
-                        callback: nil)
-                }
+                // Show an alert stating that the application does not have
+                // the authorization to receive location data.
+                
+                self._alertView!.showAlert(
+                    "No Location Available",
+                    message: "Please enable location services.",
+                    callback: {() -> Void in
+                        // Dismiss this controller.
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    })
             }
             else {
                 // The application has authorization to receive location data
