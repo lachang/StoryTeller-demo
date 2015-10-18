@@ -204,6 +204,10 @@ class MessagesViewController: UITableViewController {
         
     }
     
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     //**************************************************************************
     // MARK: UITableViewDataSource
     //**************************************************************************
