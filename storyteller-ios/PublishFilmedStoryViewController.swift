@@ -21,9 +21,11 @@ class PublishFilmedStoryViewController: UIViewController {
     // MARK: Attributes (Public)
     //**************************************************************************
     
+    @IBOutlet var messageName: UITextField!
     @IBOutlet var record: UIButton!
     @IBOutlet var playback: UIButton!
     @IBOutlet var reset: UIButton!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     var channel: MMXChannel!
     
@@ -82,9 +84,14 @@ class PublishFilmedStoryViewController: UIViewController {
         if text == "Record" {
 
             self.record.setTitle("Stop", forState: .Normal)
+            self.activityIndicator.hidden = false
         }
         else if text == "Stop" {
+            
+            self.activityIndicator.hidden = true
             self.record.setTitle("Publish", forState: .Normal)
+            
+            self.messageName.hidden = false
             self.playback.hidden = false
             self.reset.hidden = false
         }
@@ -122,6 +129,7 @@ class PublishFilmedStoryViewController: UIViewController {
     
     @IBAction func resetView(sender: AnyObject) {
         
+        self.messageName.hidden = true
         self.playback.hidden = true
         self.reset.hidden = true
         self.record.setTitle("Record", forState: .Normal)
@@ -160,8 +168,17 @@ class PublishFilmedStoryViewController: UIViewController {
         MMXChannel.h
         */
         
-        // Dismiss this controller.
-        self.dismissViewControllerAnimated(true, completion: nil)
+        if (messageName.text!.isEmpty) {
+            // If an error occurred, show an alert.
+            self._alertView!.showAlert(
+                "Invalid Name",
+                message: "Story name cannot be blank.",
+                callback: nil)
+        }
+        else {
+            // Dismiss this controller.
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
     
     //**************************************************************************
@@ -171,6 +188,8 @@ class PublishFilmedStoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.activityIndicator.hidden = true
+        self.messageName.hidden = true
         self.playback.hidden = true
         self.reset.hidden = true
     }

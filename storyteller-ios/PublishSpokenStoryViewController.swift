@@ -22,9 +22,11 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
     // MARK: Attributes (Public)
     //**************************************************************************
     
+    @IBOutlet var messageName: UITextField!
     @IBOutlet var record: UIButton!
     @IBOutlet var playback: UIButton!
     @IBOutlet var reset: UIButton!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     var channel: MMXChannel!
     
@@ -87,13 +89,19 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
             assert(self._audioRecorder!.recording == false)
             
             self.record.setTitle("Stop", forState: .Normal)
+            self.activityIndicator.hidden = false
+            
             self._audioRecorder!.record()
         }
         else if text == "Stop" {
             assert(self._audioRecorder!.recording == true)
             
             self._audioRecorder!.stop()
+
+            self.activityIndicator.hidden = true
             self.record.setTitle("Publish", forState: .Normal)
+            
+            self.messageName.hidden = false
             self.playback.hidden = false
             self.reset.hidden = false
         }
@@ -117,12 +125,12 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
         assert(self._audioRecorder!.recording == false)
         
         if self.playback.titleLabel!.text == "Playback" {
-            self.playback.setTitle("Stop", forState: .Normal)
-            do{
+
+            do {
                 try self._audioPlayer = AVAudioPlayer(
                     contentsOfURL: (self._audioRecorder?.url)!)
             }
-            catch{
+            catch {
                 // If an error occurred, show an alert.
                 self._alertView!.showAlert(
                     "Error occurred",
@@ -133,11 +141,16 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
                         }
                     })
             }
+
+            self.playback.setTitle("Stop", forState: .Normal)
+            
             self._audioPlayer?.delegate = self
             self._audioPlayer?.play()
         }
         else if self.playback.titleLabel!.text == "Stop" {
+
             self._audioPlayer?.stop()
+            
             self.playback.setTitle("Playback", forState: .Normal)
         }
     }
@@ -153,8 +166,8 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
     @IBAction func resetView(sender: AnyObject) {
         
         assert(self._audioRecorder!.recording == false)
-        assert(self._audioPlayer!.playing == false)
         
+        self.messageName.hidden = true
         self.playback.hidden = true
         self.reset.hidden = true
         self.record.setTitle("Record", forState: .Normal)
@@ -193,8 +206,17 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
         MMXChannel.h
         */
         
-        // Dismiss this controller.
-        self.dismissViewControllerAnimated(true, completion: nil)
+        if (messageName.text!.isEmpty) {
+            // If an error occurred, show an alert.
+            self._alertView!.showAlert(
+                "Invalid Name",
+                message: "Story name cannot be blank.",
+                callback: nil)
+        }
+        else {
+            // Dismiss this controller.
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
     
     //**************************************************************************
@@ -204,6 +226,8 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.activityIndicator.hidden = true
+        self.messageName.hidden = true
         self.playback.hidden = true
         self.reset.hidden = true
     }
