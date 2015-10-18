@@ -255,7 +255,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tjd-MU-XJi">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tjd-MU-XJi">
                                 <rect key="frame" x="0.0" y="64" width="600" height="236"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="236" id="idq-It-KKQ"/>
@@ -264,7 +264,7 @@
                                     <outlet property="delegate" destination="zhf-Fc-88K" id="39Q-jC-Yh4"/>
                                 </connections>
                             </mapView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="234" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="BaX-HZ-akB">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="234" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="BaX-HZ-akB">
                                 <rect key="frame" x="0.0" y="300" width="600" height="251"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -272,7 +272,7 @@
                                         <rect key="frame" x="0.0" y="22" width="600" height="234"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BLL-tI-bBD" id="P9e-qP-odi">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="234"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="233.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pht-uK-5zE">
@@ -446,12 +446,12 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Messages" id="u6U-zK-PuO">
                         <barButtonItem key="rightBarButtonItem" title="Leave Memory" id="c3B-wp-CrR">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="7fg-Wa-Sav" kind="show" id="1fH-oq-n7L"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I7s-pj-QfC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -469,7 +469,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iIp-xe-wVY">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iIp-xe-wVY">
                                 <rect key="frame" x="210" y="237" width="181" height="126"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <state key="normal" title="Publish"/>
@@ -479,6 +479,10 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="iIp-xe-wVY" firstAttribute="centerY" secondItem="b2G-tF-2so" secondAttribute="centerY" id="mKI-OK-MUH"/>
+                            <constraint firstItem="iIp-xe-wVY" firstAttribute="centerX" secondItem="b2G-tF-2so" secondAttribute="centerX" id="sat-aC-Glw"/>
+                        </constraints>
                     </view>
                     <connections>
                         <segue destination="zhf-Fc-88K" kind="show" identifier="WrittenToMapSegue" id="c6r-2O-PGw"/>
@@ -500,22 +504,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jOu-DU-ogD">
-                                <rect key="frame" x="28" y="120" width="544" height="81"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jOu-DU-ogD">
+                                <rect key="frame" x="244" y="284.5" width="112" height="30"/>
                                 <state key="normal" title="Say Your Story"/>
                                 <connections>
                                     <segue destination="JZP-xC-lmL" kind="show" id="Y5L-X6-9b9"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gln-zR-civ">
-                                <rect key="frame" x="28" y="28" width="544" height="84"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gln-zR-civ">
+                                <rect key="frame" x="244" y="234" width="112" height="30"/>
                                 <state key="normal" title="Write your Story"/>
                                 <connections>
                                     <segue destination="JYK-1Y-UOW" kind="show" id="UM9-xc-UAn"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IwS-Y1-9he">
-                                <rect key="frame" x="28" y="195" width="544" height="102"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IwS-Y1-9he">
+                                <rect key="frame" x="244" y="335" width="112" height="30"/>
                                 <state key="normal" title="Film Your Story"/>
                                 <connections>
                                     <segue destination="Qyn-Z8-bOI" kind="show" id="fb0-ox-FJu"/>
@@ -524,18 +528,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Kp1-Se-pTu" firstAttribute="top" secondItem="IwS-Y1-9he" secondAttribute="bottom" constant="245" id="7T7-wB-j4o"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Gln-zR-civ" secondAttribute="trailing" constant="8" id="D8n-RK-Buc"/>
-                            <constraint firstItem="jOu-DU-ogD" firstAttribute="leading" secondItem="LLj-AI-pPq" secondAttribute="leadingMargin" constant="8" id="K5O-AW-YsF"/>
-                            <constraint firstItem="Gln-zR-civ" firstAttribute="top" secondItem="c20-Q8-xWE" secondAttribute="bottom" constant="8" id="NEd-Tu-puH"/>
-                            <constraint firstItem="IwS-Y1-9he" firstAttribute="top" secondItem="jOu-DU-ogD" secondAttribute="bottom" constant="185" id="QWB-cZ-1Da"/>
-                            <constraint firstItem="IwS-Y1-9he" firstAttribute="top" secondItem="jOu-DU-ogD" secondAttribute="bottom" constant="8" id="QaQ-xQ-hnM"/>
-                            <constraint firstItem="jOu-DU-ogD" firstAttribute="top" secondItem="Gln-zR-civ" secondAttribute="bottom" constant="130" id="VYC-nT-uJe"/>
-                            <constraint firstItem="jOu-DU-ogD" firstAttribute="top" secondItem="Gln-zR-civ" secondAttribute="bottom" constant="8" id="VvT-6U-FvM"/>
-                            <constraint firstItem="IwS-Y1-9he" firstAttribute="leading" secondItem="LLj-AI-pPq" secondAttribute="leadingMargin" constant="8" id="WB8-I5-9MI"/>
-                            <constraint firstItem="Gln-zR-civ" firstAttribute="leading" secondItem="LLj-AI-pPq" secondAttribute="leadingMargin" constant="8" id="amv-SQ-yID"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="IwS-Y1-9he" secondAttribute="trailing" constant="8" id="jJC-bc-yfp"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="jOu-DU-ogD" secondAttribute="trailing" constant="8" id="wig-Ya-fj6"/>
+                            <constraint firstItem="IwS-Y1-9he" firstAttribute="centerX" secondItem="jOu-DU-ogD" secondAttribute="centerX" id="1iI-53-vbC"/>
+                            <constraint firstItem="jOu-DU-ogD" firstAttribute="centerX" secondItem="LLj-AI-pPq" secondAttribute="centerX" id="4va-PG-zXm"/>
+                            <constraint firstItem="Gln-zR-civ" firstAttribute="centerX" secondItem="jOu-DU-ogD" secondAttribute="centerX" id="LVX-Eq-kew"/>
+                            <constraint firstItem="IwS-Y1-9he" firstAttribute="width" secondItem="jOu-DU-ogD" secondAttribute="width" id="Nbm-bv-c77"/>
+                            <constraint firstItem="Gln-zR-civ" firstAttribute="width" secondItem="jOu-DU-ogD" secondAttribute="width" id="YTJ-NB-7Lg"/>
+                            <constraint firstItem="jOu-DU-ogD" firstAttribute="centerY" secondItem="LLj-AI-pPq" secondAttribute="centerY" id="ap3-nM-gVf"/>
+                            <constraint firstItem="IwS-Y1-9he" firstAttribute="top" secondItem="jOu-DU-ogD" secondAttribute="bottom" constant="20" id="br4-mB-ECr"/>
+                            <constraint firstItem="jOu-DU-ogD" firstAttribute="top" secondItem="Gln-zR-civ" secondAttribute="bottom" constant="20" id="cjv-IR-6Ap"/>
                         </constraints>
                     </view>
                 </viewController>
