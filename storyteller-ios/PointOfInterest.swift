@@ -257,7 +257,7 @@ class PointOfInterest: NSObject, MKAnnotation {
                 callback(nil)
             },
             failure: {(error) -> Void in
-                print("ERROR: Failed to signup!")
+                print("ERROR: Failed to add channel!")
                 callback(error)
             })
     }
