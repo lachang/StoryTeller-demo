@@ -148,7 +148,7 @@ class User: JSONApi {
     
     func signup(password password: String, callback: ((NSError?) -> Void)) {
         
-        // Signup for Magnet Message (hardcoded for now).
+        // Signup for Magnet Message.
         MMXClient.sharedClient().accountManager.createAccountForUsername(
             self.username, displayName: self.fullname,
             email: self.email, password: password,
