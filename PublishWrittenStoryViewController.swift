@@ -26,9 +26,9 @@ class PublishWrittenStoryViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func publishWrittenMessage(sender: AnyObject) {
+    @IBAction func publishWrittenStory(sender: AnyObject) {
         //add the code to take the message from X and send to server
-        let messageContent = ["message" : "Hello Channel!"]
+        let messageContent = ["written" : "Hello Channel!"]
         
         channel.publish(messageContent,
             success: {(message) -> Void in
@@ -39,9 +39,47 @@ class PublishWrittenStoryViewController: UIViewController {
         }) // end of channel.publish()
         
         // segue back to channel screen
-        performSegueWithIdentifier("WrittenToMapSegue", sender: sender)
+        performSegueWithIdentifier("WrittenToMessagesSegue", sender: sender)
+    }
+    
+    @IBAction func publishSpokenStory(sender: AnyObject) {
+        //add the code to take the message from X and send to server
+        let messageContent = ["spoken" : "http://anthonyalayo.com/haunted.wav"]
+        
+        channel.publish(messageContent,
+            success: {(message) -> Void in
+                print("Successfully published to \(self.channel)")
+            },
+            failure: {(error) -> Void in
+                print("Couldn't publish to \(self.channel).\nError= \(error)")
+        }) // end of channel.publish()
+        
+        // segue back to channel screen
+        performSegueWithIdentifier("WrittenToMessagesSegue", sender: sender)
     }
     
     
+    @IBAction func publishFilmedStory(sender: AnyObject) {
+        //add the code to take the message from X and send to server
+        let messageContent = ["filmed" : "Hello Channel!"]
+        
+        channel.publish(messageContent,
+            success: {(message) -> Void in
+                print("Successfully published to \(self.channel)")
+            },
+            failure: {(error) -> Void in
+                print("Couldn't publish to \(self.channel).\nError= \(error)")
+        }) // end of channel.publish()
+        
+        // segue back to channel screen
+        performSegueWithIdentifier("WrittenToMessagesSegue", sender: sender)
+    }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+            
+        // Pass the channel back to the messages view.
+        let messagesViewController =
+        segue.destinationViewController as! MessagesViewController
+        messagesViewController.channel = self.channel
+    }
 }

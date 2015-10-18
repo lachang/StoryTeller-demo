@@ -266,4 +266,12 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
         // Release the alert view's reference to this view controller.
         self._alertView = nil
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        // Pass the channel back to the messages view.
+        let messagesViewController =
+        segue.destinationViewController as! MessagesViewController
+        messagesViewController.channel = self.channel
+    }
 }

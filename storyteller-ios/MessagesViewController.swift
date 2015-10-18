@@ -218,9 +218,19 @@ class MessagesViewController: UITableViewController {
         // Display the message content to the table cell.
         let message                = self._messages[indexPath.row]
         //let messageContent         = message.messageContent as! [String:String]
-        let messageContent = message.messageContent["message"]!
-        cell.textLabel?.text = "\(messageContent)"
-        cell
+        //let messageContent = message.messageContent["message"]!
+        
+
+        if let messageContent = message.messageContent["written"] {
+            cell.textLabel?.text = "\(messageContent)"
+        } else if let messageContent = message.messageContent["spoken"] {
+            cell.textLabel?.text = "\(messageContent)"
+        } else if let messageContent = message.messageContent["filmed"] {
+            cell.textLabel?.text = "\(messageContent)"
+        } else {
+            let messageContent = message.messageContent["message"]!
+            cell.textLabel?.text = "\(messageContent)"
+        }
         
         /*
         let str: NSMutableAttributedString =
@@ -239,19 +249,37 @@ class MessagesViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        //let message                = self._messages[indexPath.row]
-        //let messageContent         = message.messageContent as! [String:String]
+        let message                = self._messages[indexPath.row]
+
+        if let messageContent = message.messageContent["spoken"] {
+            let url: NSURL? = NSURL(string: String(messageContent))
+            
+            let player = AVPlayer(URL: url!)
+            let playerViewController = AVPlayerViewController()
+            playerViewController.player = player
+            self.presentViewController(playerViewController, animated: true, completion: nil)
+            player.play()
+        }
+    
+        /* The dream...
         
-        //let url: NSURL? = NSURL(string: messageContent["Clip"]!)
-        let url: NSURL? = NSURL(string: "http://anthonyalayo.com/haunted.wav")
-        
-        let player = AVPlayer(URL: url!)
-        let playerViewController = AVPlayerViewController()
-        playerViewController.player = player
-        self.presentViewController(playerViewController, animated: true, completion: nil)
-        player.play()
-        
-        //UIApplication.sharedApplication().openURL(NSURL(string: messageContent["Clip"]!)!)
+        if let messageContent = message.messageContent["written"] {
+            // do nothing
+        } else if let messageContent = message.messageContent["spoken"] {
+            let url: NSURL? = NSURL(string: String(messageContent))
+            
+            let player = AVPlayer(URL: url!)
+            let playerViewController = AVPlayerViewController()
+            playerViewController.player = player
+            self.presentViewController(playerViewController, animated: true, completion: nil)
+            player.play()
+            
+        } else if let messageContent = message.messageContent["filmed"] {
+            // do nothing
+        } else {
+            // do nothing
+        }
+        */
         
     }
 
