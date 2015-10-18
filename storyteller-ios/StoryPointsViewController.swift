@@ -9,8 +9,6 @@ import UIKit
 import MapKit
 import CoreLocation
 
-import MMX
-
 /**
  * StoryPointsViewController
  *
@@ -118,35 +116,29 @@ LocationManagerDelegate {
                         // TODO: handle this case
                     } else {
                         // get the channel necessities
-                        let currentLocation = self._locationManager.getLocation()
-                        let latitude = currentLocation!.coordinate.latitude
-                        let longitude = currentLocation!.coordinate.longitude
-                        let title = nameField.text!
+                        let userLocation = self._locationManager.getLocation()
                         
-                        // make strings that are friendly for the magnet API
-                        let magnetTitleString = self.makeTitleString(title)
-                        let magnetSummaryString = self.makeSummaryString(String(latitude),
-                            longitude: String(longitude),
-                            title: title)
+                        let pointOfInterest = PointOfInterest(
+                            title: nameField.text!,
+                            numMessages: 0,
+                            longitude: userLocation!.coordinate.longitude,
+                            latitude: userLocation!.coordinate.latitude,
+                            userLocation: userLocation!)
                         
-                        // create a new channel
-                        MMXChannel.createWithName(
-                            magnetTitleString,
-                            summary: magnetSummaryString,
-                            isPublic: true,
-                            success: {(channel) -> Void in
-
-                                print("Added channel " + channel!.name)
+                        pointOfInterest.create(callback: {(error) -> Void in
+                            if error != nil {
+                                // If an error occurred, show an alert.
+                                var message = error!.localizedDescription
+                                if error!.localizedFailureReason != nil {
+                                    message = error!.localizedFailureReason!
+                                }
+                                self._alertView!.showAlert(
+                                    "Storypoint Creation Failed",
+                                    message: message,
+                                    callback: nil)
+                            }
+                            else {
                                 var annotation:MKAnnotation?
-
-                                // create the point of interest
-                                let pointOfInterest = PointOfInterest(
-                                    title: title,
-                                    numMessages: Int(channel.numberOfMessages),
-                                    channel: channel,
-                                    longitude: longitude,
-                                    latitude: latitude,
-                                    userLocation: currentLocation!)
                                 
                                 // add the point of interest
                                 self.addPointOfInterestAndSubscribe(pointOfInterest)
@@ -156,11 +148,8 @@ LocationManagerDelegate {
                                     self._mapView!.addAnnotation(annotation!)
                                     self.tableView.reloadData()
                                 }
-                            },
-                            failure: {(error) -> Void in
-                                print(error.code)
-                        }) // end of MMXChannel.createWithName
-                        
+                            }
+                        })
                     }
                 }
         }

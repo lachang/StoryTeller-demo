@@ -8,8 +8,6 @@
 import UIKit
 import CoreLocation
 
-import MMX
-
 /**
  * DemoKnobsController
  *
