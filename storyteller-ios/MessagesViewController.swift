@@ -134,8 +134,9 @@ class MessagesViewController: UITableViewController {
         // Process the message if it's for this channel.
         if (message != nil && message!.channel == self.channel) {
             
-            // Append the message and reload the table view.
-            self._messages.append(message!)
+            // Insert the new message at the top (since newer messages come
+            // first) and then reload the table view.
+            self._messages.insert(message!, atIndex: 0)
             self.tableView.reloadData()
         }
     }
