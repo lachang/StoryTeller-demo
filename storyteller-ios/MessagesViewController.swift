@@ -238,12 +238,12 @@ class MessagesViewController: UITableViewController {
     //**************************************************************************
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        /*
-        let message                = self._messages[indexPath.row]
-        let messageContent         = message.messageContent as! [String:String]
         
-        //var url: NSURL? = NSURL(string: "http://anthonyalayo.com/darkknight.mp3")
-        let url: NSURL? = NSURL(string: messageContent["Clip"]!)
+        //let message                = self._messages[indexPath.row]
+        //let messageContent         = message.messageContent as! [String:String]
+        
+        //let url: NSURL? = NSURL(string: messageContent["Clip"]!)
+        let url: NSURL? = NSURL(string: "http://anthonyalayo.com/haunted.wav")
         
         let player = AVPlayer(URL: url!)
         let playerViewController = AVPlayerViewController()
@@ -252,7 +252,7 @@ class MessagesViewController: UITableViewController {
         player.play()
         
         //UIApplication.sharedApplication().openURL(NSURL(string: messageContent["Clip"]!)!)
-        */
+        
     }
 
 }

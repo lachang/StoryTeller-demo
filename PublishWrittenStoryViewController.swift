@@ -28,25 +28,6 @@ class PublishWrittenStoryViewController: UIViewController {
     
     @IBAction func publishWrittenMessage(sender: AnyObject) {
         //add the code to take the message from X and send to server
-        
-        /*
-            Method to publish to a channel.
-
-            - (void)publish:(NSDictionary *)messageContent success:(void ( ^ ) ( MMXMessage *message ))success failure:(void ( ^ ) ( NSError *error ))failure
-            Parameters
-            messageContent
-            The content you want to publish
-            success
-            Block with the published message
-            failure
-            Block with an NSError with details about the call failure.
-            Discussion
-            Method to publish to a channel.
-
-            Declared In
-            MMXChannel.h
-        */
-        
         let messageContent = ["message" : "Hello Channel!"]
         
         channel.publish(messageContent,
@@ -61,15 +42,6 @@ class PublishWrittenStoryViewController: UIViewController {
         performSegueWithIdentifier("WrittenToMapSegue", sender: sender)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
+    
 }
