@@ -36,6 +36,47 @@ class MapView {
     // MARK: Class Methods (Public)
     //**************************************************************************
     
+    /**
+     * Create new coordinates from a given coordinate, distance, and bearing.
+     *
+     * http://stackoverflow.com/questions/6633850/calculate-new-coordinate-x-meters-and-y-degree-away-from-one-coordinate
+     *
+     * - parameter fromCoord: The coordinate to base the new coordinate off of
+     * - parameter distanceInMeters: The distance from the given coordinate
+     * - parameter atBearingDegrees: The bearing degrees from the given
+     *                                coordinate
+     *
+     * - returns: The new coordinates
+     */
+    
+    class func coordinateFromCoord(fromCoord: CLLocationCoordinate2D,
+        distanceInMeters: Double,
+        atBearingDegrees: Double) -> CLLocationCoordinate2D {
+            
+        //6,371,000 = Earth's radius in meters
+        let distanceRadians = distanceInMeters / 6371000.0
+        
+        let bearingRadians = self._radiansFromDegrees(atBearingDegrees)
+        let fromLatRadians = self._radiansFromDegrees(fromCoord.latitude)
+        let fromLonRadians = self._radiansFromDegrees(fromCoord.longitude)
+        
+        let toLatRadians = asin( sin(fromLatRadians) * cos(distanceRadians) +
+            cos(fromLatRadians) * sin(distanceRadians) * cos(bearingRadians) )
+        
+        var toLonRadians = fromLonRadians + atan2(sin(bearingRadians) *
+            sin(distanceRadians) * cos(fromLatRadians), cos(distanceRadians) -
+                sin(fromLatRadians) * sin(toLatRadians))
+        
+        // adjust toLonRadians to be in the range -180 to +180...
+        toLonRadians = fmod((toLonRadians + 3*M_PI), (2*M_PI)) - M_PI
+        
+        let result = CLLocationCoordinate2DMake(
+            self._degreesFromRadians(toLatRadians),
+            self._degreesFromRadians(toLonRadians))
+        
+        return result
+    }
+    
     //**************************************************************************
     // MARK: Class Methods (Internal)
     //**************************************************************************
@@ -43,6 +84,14 @@ class MapView {
     //**************************************************************************
     // MARK: Class Methods (Private)
     //**************************************************************************
+    
+    class private func _radiansFromDegrees(degrees: Double) -> Double {
+        return degrees * (M_PI/180.0)
+    }
+    
+    class private func _degreesFromRadians(radians: Double) -> Double {
+        return radians * (180.0/M_PI)
+    }
     
     //**************************************************************************
     // MARK: Instance Methods (Public)

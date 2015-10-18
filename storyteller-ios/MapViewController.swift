@@ -112,6 +112,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
 
     //**************************************************************************
+    // MARK: MKMapViewDelegate
+    //**************************************************************************
+    
+    func mapViewDidFinishLoadingMap(mapView: MKMapView) {
+        // Do not show the user location.
+        self.mapView.showsUserLocation = false
+    }
+    
+    //**************************************************************************
     // MARK: UIViewController
     //**************************************************************************
 
@@ -125,9 +134,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         self.navigationController?.navigationBar.setBackgroundImage(
             UIImage(named: "blue-background")!.resizableImageWithCapInsets(UIEdgeInsetsMake(0, 0, 0, 0),
                 resizingMode: .Stretch), forBarMetrics: .Default)
-        
-        // Do not show the user location.
-        self.mapView.showsUserLocation = false
         
         // Beautify and setup the activity indicator.
         self.activityIndicatorView.layer.cornerRadius = 10

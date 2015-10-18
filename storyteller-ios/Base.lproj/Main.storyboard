@@ -409,10 +409,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="PIe-YS-eQa">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Y3a-i5-IBT">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                                 <connections>
-                                    <outlet property="delegate" destination="QTL-es-Y9F" id="drK-TG-uM4"/>
+                                    <outlet property="delegate" destination="QTL-es-Y9F" id="E0v-Ex-W0l"/>
                                 </connections>
                             </mapView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RmO-Fn-3Ti">
@@ -433,12 +433,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="WCe-Ij-vrX" firstAttribute="top" secondItem="PIe-YS-eQa" secondAttribute="bottom" id="5iU-C4-24c"/>
+                            <constraint firstItem="Y3a-i5-IBT" firstAttribute="leading" secondItem="3Pl-of-zmj" secondAttribute="leadingMargin" constant="-20" id="89x-6w-ffz"/>
+                            <constraint firstItem="Y3a-i5-IBT" firstAttribute="top" secondItem="geD-ku-Duh" secondAttribute="bottom" id="Cw1-LN-yTv"/>
                             <constraint firstItem="RmO-Fn-3Ti" firstAttribute="centerY" secondItem="3Pl-of-zmj" secondAttribute="centerY" id="GmL-e6-slX"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="PIe-YS-eQa" secondAttribute="trailing" constant="-20" id="cwn-19-TKb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Y3a-i5-IBT" secondAttribute="trailing" constant="-20" id="V9G-fc-8eB"/>
+                            <constraint firstItem="WCe-Ij-vrX" firstAttribute="top" secondItem="Y3a-i5-IBT" secondAttribute="bottom" id="Z39-dx-0xJ"/>
                             <constraint firstItem="RmO-Fn-3Ti" firstAttribute="centerX" secondItem="3Pl-of-zmj" secondAttribute="centerX" id="dap-Tm-2g6"/>
-                            <constraint firstItem="PIe-YS-eQa" firstAttribute="leading" secondItem="3Pl-of-zmj" secondAttribute="leadingMargin" constant="-20" id="eqD-Pc-KPA"/>
-                            <constraint firstItem="PIe-YS-eQa" firstAttribute="top" secondItem="geD-ku-Duh" secondAttribute="bottom" id="wvN-ad-0aS"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Map" id="ZRG-Sv-33Y">
@@ -451,7 +451,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicatorView" destination="RmO-Fn-3Ti" id="Wns-nw-KaY"/>
-                        <outlet property="mapView" destination="PIe-YS-eQa" id="RR8-qI-qTY"/>
+                        <outlet property="mapView" destination="Y3a-i5-IBT" id="cXb-MV-SmB"/>
                         <outlet property="reload" destination="U4B-lH-4zs" id="5CM-jR-uLu"/>
                     </connections>
                 </viewController>
