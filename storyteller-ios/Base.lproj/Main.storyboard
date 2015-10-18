@@ -415,18 +415,44 @@
                                     <outlet property="delegate" destination="QTL-es-Y9F" id="drK-TG-uM4"/>
                                 </connections>
                             </mapView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RmO-Fn-3Ti">
+                                <rect key="frame" x="250" y="250" width="100" height="100"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Phy-ac-Hpk">
+                                        <rect key="frame" x="32" y="31" width="37" height="37"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="0.54000000000000004" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="353-Pu-OWN"/>
+                                    <constraint firstItem="Phy-ac-Hpk" firstAttribute="centerX" secondItem="RmO-Fn-3Ti" secondAttribute="centerX" id="ChH-9c-oTa"/>
+                                    <constraint firstItem="Phy-ac-Hpk" firstAttribute="centerY" secondItem="RmO-Fn-3Ti" secondAttribute="centerY" id="LFV-1d-YD3"/>
+                                    <constraint firstAttribute="height" constant="100" id="ZsG-hk-sn6"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="WCe-Ij-vrX" firstAttribute="top" secondItem="PIe-YS-eQa" secondAttribute="bottom" id="5iU-C4-24c"/>
+                            <constraint firstItem="RmO-Fn-3Ti" firstAttribute="centerY" secondItem="3Pl-of-zmj" secondAttribute="centerY" id="GmL-e6-slX"/>
                             <constraint firstAttribute="trailingMargin" secondItem="PIe-YS-eQa" secondAttribute="trailing" constant="-20" id="cwn-19-TKb"/>
+                            <constraint firstItem="RmO-Fn-3Ti" firstAttribute="centerX" secondItem="3Pl-of-zmj" secondAttribute="centerX" id="dap-Tm-2g6"/>
                             <constraint firstItem="PIe-YS-eQa" firstAttribute="leading" secondItem="3Pl-of-zmj" secondAttribute="leadingMargin" constant="-20" id="eqD-Pc-KPA"/>
                             <constraint firstItem="PIe-YS-eQa" firstAttribute="top" secondItem="geD-ku-Duh" secondAttribute="bottom" id="wvN-ad-0aS"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Map" id="ZRG-Sv-33Y"/>
+                    <navigationItem key="navigationItem" title="Map" id="ZRG-Sv-33Y">
+                        <barButtonItem key="rightBarButtonItem" image="syncing" id="U4B-lH-4zs">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="reload:" destination="QTL-es-Y9F" id="NXq-xa-WPI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="RmO-Fn-3Ti" id="Wns-nw-KaY"/>
                         <outlet property="mapView" destination="PIe-YS-eQa" id="RR8-qI-qTY"/>
+                        <outlet property="reload" destination="U4B-lH-4zs" id="5CM-jR-uLu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dcp-xA-QIe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1172,6 +1198,7 @@
         <image name="map-pin-location-3" width="32" height="32"/>
         <image name="plus" width="22" height="22"/>
         <image name="previous" width="22" height="22"/>
+        <image name="syncing" width="22" height="22"/>
         <image name="user-settings-2" width="32" height="32"/>
     </resources>
 </document>

@@ -21,6 +21,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //**************************************************************************
     
     @IBOutlet var mapView: MKMapView!
+    @IBOutlet var reload: UIBarButtonItem!
+    @IBOutlet var activityIndicatorView: UIView!
     
     //**************************************************************************
     // MARK: Attributes (Internal)
@@ -55,6 +57,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // MARK: Instance Methods (Public)
     //**************************************************************************
     
+    /**
+     * Triggered when the user presses the reload button.
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
+    
+    @IBAction func reload(sender: AnyObject) {
+        self._index()
+    }
+    
     //**************************************************************************
     // MARK: Instance Methods (Internal)
     //**************************************************************************
@@ -62,79 +76,39 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //**************************************************************************
     // MARK: Instance Methods (Private)
     //**************************************************************************
+
+    /**
+     * Retrieves a list of points-of-interests.
+     *
+     * - parameter N/A
+     *
+     * - returns: N/A
+     */
     
     private func _index() {
+
+        self.activityIndicatorView.hidden = false
+        self.reload.enabled = false
         
-//            // Fetch all the channels for now.
-//            MMXChannel.allPublicChannelsWithLimit(100, offset: 0, success:
-//                { (totalCount, channels) -> Void in
-//                    
-//                    self._pointsOfInterest = []
-//                    var annotations: [MKAnnotation] = []
-//                    
-//                    let channelList = channels as! [MMXChannel]
-//                    channelLoop: for channel in channelList {
-//                        
-//                        // pull out the channel info to create a point of interest
-//                        var channelInfo = channel.summary.componentsSeparatedByString(" ")
-//                        var longitude = 0.0
-//                        var latitude = 0.0
-//                        var title = ""
-//                        for var i = 0; i < channelInfo.count; i++ {
-//                            if channelInfo[i] == "longitude" {
-//                                i++
-//                                longitude = Double(channelInfo[i])!
-//                            } else if channelInfo[i] == "latitude" {
-//                                i++
-//                                latitude = Double(channelInfo[i])!
-//                            } else if channelInfo[i] == "title" {
-//                                // title is special. it is currently always at the end
-//                                // because it could have spaces and this makes parsing
-//                                // much easier... read until end of array
-//                                i++
-//                                while i < channelInfo.count {
-//                                    title += channelInfo[i]
-//                                    title += " "
-//                                    i++
-//                                }
-//                                title = title.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-//                            } else {
-//                                print(channel.name + " not following proper format!")
-//                                print("skipping over this channel...")
-//                                continue channelLoop
-//                            }
-//                        }
-//                        
-//                        // create the point of interest
-//                        let pointOfInterest = PointOfInterest(
-//                            title: title,
-//                            numMessages: Int(channel.numberOfMessages),
-//                            channel: channel,
-//                            longitude: longitude,
-//                            latitude: latitude,
-//                            userLocation: userLocation!)
-//                        
-//                        // Consider adding the point-of-interest if its within 100000 m.
-//                        if Int(pointOfInterest.distance!) < 100000 {
-//                            self.addPointOfInterestAndSubscribe(pointOfInterest, channel: channel)
-//                            annotations.append(pointOfInterest)
-//                        }
-//                    } // end of for channel in channelList
-//                    
-//                    dispatch_async(dispatch_get_main_queue()) {
-//                        
-//                        if self._mapView != nil {
-//                            self._mapView!.removeAllAnnotations()
-//                            self._mapView!.addAnnotations(annotations)
-//                            self._mapView!.showAllAnnotations()
-//                        }
-//                        
-//                        // Reload the table view.
-//                        self.tableView.reloadData()
-//                    }
-//                }, failure: { (error) -> Void in
-//                    print("ERROR: Failed to fetch channels!")
-//            })
+        PointOfInterest.index(100, offset: 0,
+            callback: { (pointsOfInterest, error) -> Void in
+                
+                // PointOfInterest instances conform to MKAnnotation.
+                let annotations: [MKAnnotation] = pointsOfInterest
+                
+                // Show all the points of interest on the map.
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    if self._mapView != nil {
+                        self._mapView!.removeAllAnnotations()
+                        self._mapView!.addAnnotations(annotations)
+                        self._mapView!.showAllAnnotations()
+                    }
+                    
+                    self.activityIndicatorView.hidden = true
+                    self.reload.enabled = true
+                }
+            })
     }
 
     //**************************************************************************
@@ -151,6 +125,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         self.navigationController?.navigationBar.setBackgroundImage(
             UIImage(named: "blue-background")!.resizableImageWithCapInsets(UIEdgeInsetsMake(0, 0, 0, 0),
                 resizingMode: .Stretch), forBarMetrics: .Default)
+        
+        // Do not show the user location.
+        self.mapView.showsUserLocation = false
+        
+        // Beautify and setup the activity indicator.
+        self.activityIndicatorView.layer.cornerRadius = 10
+        self.activityIndicatorView.hidden = true
         
         // Attempt channel retrieval when the controller initially loads.
         self._attemptChannelRetrieval = true
