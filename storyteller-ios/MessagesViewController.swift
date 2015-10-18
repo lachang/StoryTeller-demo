@@ -107,6 +107,19 @@ class MessagesViewController: UITableViewController {
     // MARK: Instance Methods (Public)
     //**************************************************************************
     
+    /**
+     * Triggered when the user presses the back button.
+     *
+     * :param: sender The source that triggered this function.
+     *
+     * :returns: N/A
+     */
+    
+    @IBAction func back(sender: AnyObject) {
+        // Dismiss this controller.
+        self.navigationController!.popViewControllerAnimated(true)
+    }
+    
     //**************************************************************************
     // MARK: Instance Methods (Internal)
     //**************************************************************************

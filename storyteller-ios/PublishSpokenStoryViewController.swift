@@ -1,78 +1,223 @@
-//
+//******************************************************************************
 //  PublishSpokenStoryViewController.swift
 //  storyteller-ios
 //
-//  Created by Anthony Alayo on 10/17/15.
-//  Copyright © 2015 storyteller. All rights reserved.
-//
+//  Copyright (c) 2015 storyteller. All rights reserved.
+//******************************************************************************
 
 import UIKit
 import AVFoundation
 
 import MMX
 
+/**
+ * PublishSpokenStoryViewController
+ *
+ * Manages recording, playback, and creation of an audio story.
+ */
+
 class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
     
     var channel: MMXChannel!
 
-    @IBOutlet weak var recordButton: UIButton!
-    var audioPlayer: AVAudioPlayer?
-    @IBOutlet weak var playButton: UIButton!
-    var audioRecorder: AVAudioRecorder?
-    @IBOutlet weak var stopButton: UIButton!
+    //**************************************************************************
+    // MARK: Attributes (Public)
+    //**************************************************************************
     
-    @IBAction func record(sender: AnyObject) {
-        if audioRecorder?.recording == false {
-            playButton.enabled = false
-            stopButton.enabled = true
-            audioRecorder?.record()
+    @IBOutlet var record: UIButton!
+    @IBOutlet var playback: UIButton!
+    @IBOutlet var reset: UIButton!
+    
+    //**************************************************************************
+    // MARK: Attributes (Internal)
+    //**************************************************************************
+    
+    //**************************************************************************
+    // MARK: Attributes (Private)
+    //**************************************************************************
+    
+    private var _audioPlayer: AVAudioPlayer?
+    private var _audioRecorder: AVAudioRecorder?
+    
+    // Manages the alert view.
+    private var _alertView: AlertView? = nil
+    
+    //**************************************************************************
+    // MARK: Class Methods (Public)
+    //**************************************************************************
+    
+    //**************************************************************************
+    // MARK: Class Methods (Internal)
+    //**************************************************************************
+    
+    //**************************************************************************
+    // MARK: Class Methods (Private)
+    //**************************************************************************
+    
+    //**************************************************************************
+    // MARK: Instance Methods (Public)
+    //**************************************************************************
+
+    /**
+     * Triggered when the user presses the cancel button.
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
+    
+    @IBAction func cancel(sender: AnyObject) {
+        // Dismiss this controller.
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    /**
+     * Triggered when the user presses the record / publish button.
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
+    
+    @IBAction func recordOrPublish(sender: AnyObject) {
+        
+        let text = self.record.titleLabel!.text
+        
+        if text == "Record" {
+            assert(self._audioRecorder!.recording == false)
+            
+            self.record.setTitle("Stop", forState: .Normal)
+            self._audioRecorder!.record()
+        }
+        else if text == "Stop" {
+            assert(self._audioRecorder!.recording == true)
+            
+            self._audioRecorder!.stop()
+            self.record.setTitle("Publish", forState: .Normal)
+            self.playback.hidden = false
+            self.reset.hidden = false
+        }
+        else if text == "Publish" {
+            assert(self._audioRecorder!.recording == false)
+            
+            self._publish()
         }
     }
     
-    @IBAction func play(sender: AnyObject) {
-        if audioRecorder?.recording == false {
-            stopButton.enabled = true
-            recordButton.enabled = false
-            
-            var error: NSError?
-            
+    /**
+     * Triggered when the user presses the playback button.
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
+    
+    @IBAction func playbackOrStop(sender: AnyObject) {
+
+        assert(self._audioRecorder!.recording == false)
+        
+        if self.playback.titleLabel!.text == "Playback" {
+            self.playback.setTitle("Stop", forState: .Normal)
             do{
-                try audioPlayer = AVAudioPlayer(contentsOfURL: (audioRecorder?.url)!)
+                try self._audioPlayer = AVAudioPlayer(
+                    contentsOfURL: (self._audioRecorder?.url)!)
             }
             catch{
-                print("cant play")
+                // If an error occurred, show an alert.
+                self._alertView!.showAlert(
+                    "Error occurred",
+                    message: "Cannot play audio.",
+                    callback: {() -> Void in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.playback.setTitle("Playback", forState: .Normal)
+                        }
+                    })
             }
-            audioPlayer?.delegate = self
-            audioPlayer?.play()
-    
+            self._audioPlayer?.delegate = self
+            self._audioPlayer?.play()
+        }
+        else if self.playback.titleLabel!.text == "Stop" {
+            self._audioPlayer?.stop()
+            self.playback.setTitle("Playback", forState: .Normal)
         }
     }
     
-    @IBAction func stop(sender: AnyObject) {
-        stopButton.enabled = false
-        playButton.enabled = true
-        recordButton.enabled = true
+    /**
+     * Triggered when the user presses the reset button.
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
+    
+    @IBAction func resetView(sender: AnyObject) {
         
-        if audioRecorder?.recording == true {
-            audioRecorder?.stop()
-        } else {
-            audioPlayer?.stop()
-        }
+        assert(self._audioRecorder!.recording == false)
+        assert(self._audioPlayer!.playing == false)
+        
+        self.playback.hidden = true
+        self.reset.hidden = true
+        self.record.setTitle("Record", forState: .Normal)
     }
     
+    //**************************************************************************
+    // MARK: Instance Methods (Internal)
+    //**************************************************************************
+    
+    //**************************************************************************
+    // MARK: Instance Methods (Private)
+    //**************************************************************************
+    
+    /*
+     * Arvind to add audio stuff here
+     */
+    
+    func _publish() {
+        //add the code to take the message from X and send to server
+        
+        /*
+        Method to publish to a channel.
+        
+        - (void)publish:(NSDictionary *)messageContent success:(void ( ^ ) ( MMXMessage *message ))success failure:(void ( ^ ) ( NSError *error ))failure
+        Parameters
+        messageContent
+        The content you want to publish
+        success
+        Block with the published message
+        failure
+        Block with an NSError with details about the call failure.
+        Discussion
+        Method to publish to a channel.
+        
+        Declared In
+        MMXChannel.h
+        */
+        
+        // Dismiss this controller.
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    //**************************************************************************
+    // MARK: UIViewController
+    //**************************************************************************
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
-        //playButton.enabled = false
-        //stopButton.enabled = false
+        self.playback.hidden = true
+        self.reset.hidden = true
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Manages functionality of the alert view.
+        self._alertView = AlertView(viewController: self)
         
         let dirPaths =
         NSSearchPathForDirectoriesInDomains(.DocumentDirectory,
             .UserDomainMask, true)
-        let docsDir = dirPaths[0] as! String
+        let docsDir = dirPaths[0]
         let soundFilePath = (docsDir as NSString) .stringByAppendingPathComponent("sound.caf")
         let soundFileURL = NSURL(fileURLWithPath: soundFilePath)
         let recordSettings: [String: AnyObject] =
@@ -82,67 +227,43 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
             AVSampleRateKey: 44100.0]
         
         let audioSession = AVAudioSession.sharedInstance()
-        do{
-         try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+        do {
+            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
         }
-        catch
-        {
-            print("Cant setup audio");
-        }
-        
-        do{
-            try audioRecorder = AVAudioRecorder(URL: soundFileURL, settings: recordSettings)
-
-        }
-        catch
-        {
-            print("Cannot setup recording object");
+        catch {
+            // If an error occurred, show an alert.
+            self._alertView!.showAlert(
+                "Error occurred",
+                message: "Cannot setup audio.",
+                callback: {() -> Void in
+                    // Dismiss this controller.
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                })
         }
         
-        audioRecorder?.prepareToRecord()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        do {
+            try self._audioRecorder =
+                AVAudioRecorder(URL: soundFileURL, settings: recordSettings)
+            
+        }
+        catch {
+            // If an error occurred, show an alert.
+            self._alertView!.showAlert(
+                "Error occurred",
+                message: "Cannot setup recording device.",
+                callback: {() -> Void in
+                    // Dismiss this controller.
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                })
+        }
+        
+        self._audioRecorder!.prepareToRecord()
     }
     
-    /*
-     * Arvind to add audio stuff here
-     */
-
-    @IBAction func publishSpokenMessage(sender: AnyObject) {
-        //add the code to take the message from X and send to server
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         
-        /*
-            Method to publish to a channel.
-            
-            - (void)publish:(NSDictionary *)messageContent success:(void ( ^ ) ( MMXMessage *message ))success failure:(void ( ^ ) ( NSError *error ))failure
-            Parameters
-            messageContent
-            The content you want to publish
-            success
-            Block with the published message
-            failure
-            Block with an NSError with details about the call failure.
-            Discussion
-            Method to publish to a channel.
-            
-            Declared In
-            MMXChannel.h
-        */
-        
-        // segue back to channel screen
-        performSegueWithIdentifier("SpokenToMapSegue", sender: sender)
+        // Release the alert view's reference to this view controller.
+        self._alertView = nil
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
