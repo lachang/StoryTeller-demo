@@ -58,10 +58,6 @@ class MessagesViewController: UITableViewController {
     // MARK: Instance Methods (Private)
     //**************************************************************************
     
-    @IBAction func _leaveMemory(sender: AnyObject) {
-        UIApplication.sharedApplication().openURL(NSURL(string: "tel://2142349963")!)
-    }
-    
     func didReceiveMessage(notification: NSNotification) {
         let message: MMXMessage? = (notification.userInfo as! [String:AnyObject]?)![MMXMessageKey] as? MMXMessage;
         

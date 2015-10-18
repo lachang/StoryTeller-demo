@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             options: .TransitionFlipFromRight,
             animations: { () -> Void in
 
-                // This fixes some odd animation artifcats that occur when
+                // This fixes some odd animation artifacts that occur when
                 // switching to the new view.
                 //
                 // http://stackoverflow.com/questions/8053832/rootviewcontroller-animation-transition-initial-orientation-is-wrong
@@ -146,16 +146,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // application was inactive. If the application was previously in the
         // background, optionally refresh the user interface.
         //
-
-        if channel != nil {
-            channel!.publish(["Clip":"http://anthonyalayo.com/alcatrazshort.mp3"],
-                success: {(message) -> Void in
-                    print("Published!")
-                },
-                failure: {(error) -> Void in
-                    print("ERROR: Failed to publish!")
-            })
-        }
     }
 
     func applicationWillTerminate(application: UIApplication) {
