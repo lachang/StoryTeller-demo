@@ -54,6 +54,9 @@ LocationManagerDelegate {
     // Determines whether the view attempts to retrieve channels.
     private var _attemptChannelRetrieval = false
     
+    private var _StoryPointNameTextField: UITextField?
+    private var _StoryPointTagsTextField: UITextField?
+    
     //**************************************************************************
     // MARK: Class Methods (Public)
     //**************************************************************************
@@ -116,7 +119,7 @@ LocationManagerDelegate {
         
         let alertController = UIAlertController(
             title: "Add New Storypoint",
-            message: "Please enter a name",
+            message: "Please enter a Storypoint name and at least 3 tags that help identify it",
             preferredStyle: .Alert)
         
         let okAction = UIAlertAction(
@@ -124,46 +127,56 @@ LocationManagerDelegate {
             style: .Default)
             { (action) -> Void in
                 
-                if let nameField = alertController.textFields?.first {
-                    if nameField.text == "" {
-                        // TODO: handle this case
-                    } else {
-                        // get the channel necessities
-                        let userLocation = self._locationManager.getLocation()
-                        
-                        let pointOfInterest = PointOfInterest(
-                            title: nameField.text!,
-                            numMessages: 0,
-                            longitude: userLocation!.coordinate.longitude,
-                            latitude: userLocation!.coordinate.latitude,
-                            userLocation: userLocation!)
-                        
-                        pointOfInterest.create(callback: {(error) -> Void in
-                            if error != nil {
-                                // If an error occurred, show an alert.
-                                var message = error!.localizedDescription
-                                if error!.localizedFailureReason != nil {
-                                    message = error!.localizedFailureReason!
-                                }
-                                self._alertView!.showAlert(
-                                    "Storypoint Creation Failed",
-                                    message: message,
-                                    callback: nil)
+                let nameField = self._StoryPointNameTextField
+                    
+                if nameField!.text == "" {
+                    // TODO: handle this case
+                } else {
+                    // get the channel necessities
+                    let userLocation = self._locationManager.getLocation()
+                    
+                    // initialize the point of interest
+                    let pointOfInterest = PointOfInterest(
+                        title: nameField!.text!,
+                        numMessages: 0,
+                        longitude: userLocation!.coordinate.longitude,
+                        latitude: userLocation!.coordinate.latitude,
+                        userLocation: userLocation!)
+                    
+                    // add the point of interest on the server
+                    pointOfInterest.create(callback: {(error) -> Void in
+                        if error != nil {
+                            // If an error occurred, show an alert.
+                            var message = error!.localizedDescription
+                            if error!.localizedFailureReason != nil {
+                                message = error!.localizedFailureReason!
                             }
-                            else {
-                                var annotation:MKAnnotation?
-                                
-                                // add the point of interest
-                                self.addPointOfInterestAndSubscribe(pointOfInterest)
-                                annotation = pointOfInterest
-                                
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    self._mapView!.addAnnotation(annotation!)
-                                    self.tableView.reloadData()
-                                }
+                            self._alertView!.showAlert(
+                                "Storypoint Creation Failed",
+                                message: message,
+                                callback: nil)
+                        }
+                        else {
+                            var annotation:MKAnnotation?
+                            
+                            // add the point of interest
+                            self.addPointOfInterestAndSubscribe(pointOfInterest)
+                            annotation = pointOfInterest
+                            
+                            // set the tags to associate with the channel
+                            let tagField = self._StoryPointTagsTextField
+                            if tagField!.text == "" {
+                                // TODO: handle this case
+                            } else {
+                                pointOfInterest.setTags(tagField!.text!)
                             }
-                        })
-                    }
+                            
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self._mapView!.addAnnotation(annotation!)
+                                self.tableView.reloadData()
+                            }
+                        }
+                    })
                 }
         }
         
@@ -178,7 +191,13 @@ LocationManagerDelegate {
         alertController.addAction(cancelAction)
         
         alertController.addTextFieldWithConfigurationHandler { (UITextField) -> Void in
-            UITextField.placeholder = "Storypoint name"
+            UITextField.placeholder = "Enter Storypoint Name"
+            self._StoryPointNameTextField = UITextField
+        }
+        
+        alertController.addTextFieldWithConfigurationHandler { (UITextField) -> Void in
+            UITextField.placeholder = "Enter Tags Seperated By Spaces"
+            self._StoryPointTagsTextField = UITextField
         }
         
         presentViewController(alertController, animated: true, completion: nil)

@@ -16,10 +16,51 @@ class PublishWrittenStoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
 
+    @IBAction func getTags(sender: AnyObject) {
+        self.pointOfInterest.getTags()
+    }
+    
+    @IBAction func setTags(sender: AnyObject) {
+        
+        let alertController = UIAlertController(
+            title: "Add tags",
+            message: "Please enter space separated tags",
+            preferredStyle: .Alert)
+        
+        let okAction = UIAlertAction(
+            title: "OK",
+            style: .Default)
+            { (action) -> Void in
+                
+                if let nameField = alertController.textFields?.first {
+                    if nameField.text == "" {
+                        // TODO: handle this case
+                    } else {
+                        self.pointOfInterest.setTags("hello")
+                    }
+                }
+        }
+        
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: .Cancel)
+            { (action) -> Void in
+                // do nothing
+        }
+        
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        alertController.addTextFieldWithConfigurationHandler { (UITextField) -> Void in
+            UITextField.placeholder = "Storypoint name"
+        }
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
     @IBAction func cancel(sender: AnyObject) {
         // Dismiss this controller.
         self.dismissViewControllerAnimated(true, completion: nil)

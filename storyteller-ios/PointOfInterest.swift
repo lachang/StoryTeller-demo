@@ -287,6 +287,52 @@ class PointOfInterest: NSObject, MKAnnotation {
             })
     }
     
+   /**
+    * Set the tags on the server for this PointOfInterest instance
+    *
+    * - parameter callback: Callback invoked once the message creation attempt
+    *                       completes.
+    *
+    * - returns: N/A
+    */
+    
+    func setTags(tagsString: String) -> Void {
+        
+        // split the large string at spaces into an array of tags
+        let tagsStringArray = tagsString.componentsSeparatedByString(" ")
+        
+        // transform the string into a set for magnet
+        var tagsSet = Set<String>()
+        for tag in tagsStringArray {
+            tagsSet.insert(tag)
+        }
+
+        self.channel!.setTags(tagsSet, success: { () -> Void in
+            
+            }) { (error) -> Void in
+                print("ERROR: Failed to set tags!")
+        }
+    }
+    
+    /**
+    * Get the tags on the server for this PointOfInterest instance
+    *
+    * - parameter callback: Callback invoked once the message creation attempt
+    *                       completes.
+    *
+    * - returns: N/A
+    */
+    
+    func getTags() -> Void {
+        self.channel!.tagsWithSuccess({ (tags) -> Void in
+            print("Success calling get tags")
+            for tag in tags {
+                print("\(tag)")
+            }
+            }) { (error) -> Void in
+              print("ERROR: Failed to get tags!")
+        }
+    }
     
     func delete(callback callback: ((NSError?) -> Void)) {
         

@@ -256,7 +256,7 @@ class MessagesViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let message                = self._messages[indexPath.row]
+        let message = self._messages[indexPath.row]
 
         if let messageContent = message.messageContent["spoken"] {
             // for now grab the messageContent as url
