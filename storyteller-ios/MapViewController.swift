@@ -121,8 +121,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     }
                 }
                 
-                // Hide the activity indicator and re-display the login
-                // button.
+                // Hide the activity indicator and re-display the reload button.
                 dispatch_async(dispatch_get_main_queue()) {
                     self.activityIndicatorView.hidden = true
                     self.reload.enabled = true

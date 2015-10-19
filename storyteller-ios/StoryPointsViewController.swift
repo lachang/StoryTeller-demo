@@ -27,6 +27,8 @@ LocationManagerDelegate {
 
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var reload: UIBarButtonItem!
+    @IBOutlet var activityIndicatorView: UIView!
     
     //**************************************************************************
     // MARK: Attributes (Internal)
@@ -67,6 +69,19 @@ LocationManagerDelegate {
     //**************************************************************************
     // MARK: Instance Methods (Public)
     //**************************************************************************
+    
+    /**
+     * Triggered when the user presses the reload button.
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
+    
+    @IBAction func reload(sender: AnyObject) {
+        let location: CLLocation? = self._locationManager.getLocation()
+        self._index(location)
+    }
     
     //**************************************************************************
     // MARK: Instance Methods (Internal)
@@ -194,6 +209,9 @@ LocationManagerDelegate {
     
     private func _index(userLocation: CLLocation?) {
 
+        self.activityIndicatorView.hidden = false
+        self.reload.enabled = false
+        
         if userLocation == nil {
 
             if !self._locationManager.isAuthorized() {
@@ -214,6 +232,12 @@ LocationManagerDelegate {
                 // but no locations have yet been received. Request a location.
 
                 self._locationManager.requestLocation()
+            }
+            
+            // Hide the activity indicator and re-display the reload button.
+            dispatch_async(dispatch_get_main_queue()) {
+                self.activityIndicatorView.hidden = true
+                self.reload.enabled = true
             }
         }
         else {
@@ -261,6 +285,12 @@ LocationManagerDelegate {
                             // Reload the table view.
                             self.tableView.reloadData()
                         }
+                    }
+                    
+                    // Hide the activity indicator and re-display the reload button.
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.activityIndicatorView.hidden = true
+                        self.reload.enabled = true
                     }
                 })
         }

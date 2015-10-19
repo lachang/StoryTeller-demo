@@ -371,28 +371,53 @@
                                     <outlet property="delegate" destination="zhf-Fc-88K" id="pxA-v0-ibL"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tRB-dY-2Kd">
+                                <rect key="frame" x="250" y="250" width="100" height="100"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="GV2-iv-Qje">
+                                        <rect key="frame" x="32" y="31" width="37" height="37"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="0.54000000000000004" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="GV2-iv-Qje" firstAttribute="centerY" secondItem="tRB-dY-2Kd" secondAttribute="centerY" id="FXW-oH-rRR"/>
+                                    <constraint firstItem="GV2-iv-Qje" firstAttribute="centerX" secondItem="tRB-dY-2Kd" secondAttribute="centerX" id="RkK-QH-RqB"/>
+                                    <constraint firstAttribute="width" constant="100" id="Rrv-HA-g5y"/>
+                                    <constraint firstAttribute="height" constant="100" id="wgq-xj-nTQ"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Tjd-MU-XJi" firstAttribute="top" secondItem="hap-Mm-Ohz" secondAttribute="bottom" id="Nt7-1f-LYI"/>
                             <constraint firstItem="Tjd-MU-XJi" firstAttribute="leading" secondItem="lmM-4c-CrO" secondAttribute="leadingMargin" constant="-20" id="UVZ-w3-zQG"/>
                             <constraint firstItem="BaX-HZ-akB" firstAttribute="leading" secondItem="lmM-4c-CrO" secondAttribute="leadingMargin" constant="-20" id="aDG-Uz-gE1"/>
+                            <constraint firstItem="tRB-dY-2Kd" firstAttribute="centerY" secondItem="lmM-4c-CrO" secondAttribute="centerY" id="cAo-G4-AYD"/>
                             <constraint firstItem="vgU-4q-BaE" firstAttribute="top" secondItem="BaX-HZ-akB" secondAttribute="bottom" id="mZQ-EN-kc8"/>
                             <constraint firstItem="BaX-HZ-akB" firstAttribute="top" secondItem="Tjd-MU-XJi" secondAttribute="bottom" id="nBo-Wv-hwx"/>
+                            <constraint firstItem="tRB-dY-2Kd" firstAttribute="centerX" secondItem="lmM-4c-CrO" secondAttribute="centerX" id="r9M-SK-2Ax"/>
                             <constraint firstAttribute="trailingMargin" secondItem="BaX-HZ-akB" secondAttribute="trailing" constant="-20" id="ydG-eu-28G"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Tjd-MU-XJi" secondAttribute="trailing" constant="-20" id="zK1-FO-FmL"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="StoryTeller" id="WmU-Im-Y1b">
-                        <barButtonItem key="rightBarButtonItem" image="plus" id="18f-sI-1Eb">
+                        <barButtonItem key="leftBarButtonItem" image="plus" id="18f-sI-1Eb">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="addNewStoryPoint:" destination="zhf-Fc-88K" id="PA9-jJ-Sek"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="syncing" id="TqI-gu-lgH">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="reload:" destination="zhf-Fc-88K" id="x6C-nZ-c16"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="tRB-dY-2Kd" id="L2A-Vq-YW5"/>
                         <outlet property="mapView" destination="Tjd-MU-XJi" id="TBV-Fn-PjK"/>
+                        <outlet property="reload" destination="TqI-gu-lgH" id="ZHd-O6-MdE"/>
                         <outlet property="tableView" destination="BaX-HZ-akB" id="dkH-wK-KIw"/>
                     </connections>
                 </viewController>
