@@ -22,6 +22,7 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
     
     @IBOutlet var initialStorypoints: UIButton!
     @IBOutlet var nearbyStorypoints: UIButton!
+    @IBOutlet var deleteAll: UIButton!
 
     @IBOutlet var activityIndicatorView: UIView!
     
@@ -123,15 +124,15 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
     
     @IBAction func populateInitialStorypoints(sender: AnyObject) {
         
-        var pointsOfInterest: [PointOfInterest] = []
         var numCallbacks = 0
-
-        let userLocation = self._locationManager.getLocation()
         let numTotal = DemoKnobsController._initialPoints.count
+        
+        let userLocation = self._locationManager.getLocation()
         
         // Hide the buttons and start the activity indicator.
         self.initialStorypoints.hidden = true
         self.nearbyStorypoints.hidden = true
+        self.deleteAll.hidden = true
         self.activityIndicatorView.hidden = false
         
         for point in DemoKnobsController._initialPoints {
@@ -143,40 +144,23 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
                 userLocation: userLocation!)
 
             pointOfInterest.create(callback: {(error) -> Void in
-                if error == nil {
-                    pointsOfInterest.append(pointOfInterest)
-                }
                 
                 dispatch_async(self._serialQueue) {
                     numCallbacks++
                     
                     // Wait till callbacks for every channel have been invoked.
                     if numCallbacks == numTotal {
-                        let numCreated = pointsOfInterest.count
-                        if numCreated < numTotal {
-                            
-                            dispatch_async(dispatch_get_main_queue()) {
-                                // If an error occurred, show an alert.
-                                self._alertView!.showAlert(
-                                    "Not All Storypoints Were Created",
-                                    message: "\(numCreated) were created.",
-                                    callback: nil)
-                            }
-                        }
-                        else {
-                            dispatch_async(dispatch_get_main_queue()) {
-                                self._alertView!.showAlert(
-                                    "Storypoints Created",
-                                    message: "\(numCreated) were created.",
-                                    callback: nil)
-                            }
-                        }
-                        
                         dispatch_async(dispatch_get_main_queue()) {
+                            self._alertView!.showAlert(
+                                "Storypoints Created",
+                                message: "\(numCallbacks) were processed.",
+                                callback: nil)
+
                             // Hide the activity indicator and re-display the
                             // buttons.
                             self.initialStorypoints.hidden = false
                             self.nearbyStorypoints.hidden = false
+                            self.deleteAll.hidden = false
                             self.activityIndicatorView.hidden = true
                         }
                     }
@@ -195,15 +179,15 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
     
     @IBAction func createNearbyStorypoints(sender: AnyObject) {
         
-        var pointsOfInterest: [PointOfInterest] = []
         var numCallbacks = 0
+        let numTotal = DemoKnobsController._nearbyPoints.count
         
         let userLocation = self._locationManager.getLocation()
-        let numTotal = DemoKnobsController._nearbyPoints.count
         
         // Hide the buttons and start the activity indicator.
         self.initialStorypoints.hidden = true
         self.nearbyStorypoints.hidden = true
+        self.deleteAll.hidden = true
         self.activityIndicatorView.hidden = false
         
         for point in DemoKnobsController._nearbyPoints {
@@ -220,9 +204,6 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
                 userLocation: userLocation!)
             
             pointOfInterest.create(callback: {(error) -> Void in
-                if error == nil {
-                    pointsOfInterest.append(pointOfInterest)
-                }
                 
                 // Once the channel is created, add the sample messages.
                 // This is an asynchronous function but ignoring this for now as
@@ -242,31 +223,17 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
                     
                     // Wait till callbacks for every channel have been invoked.
                     if numCallbacks == numTotal {
-                        let numCreated = pointsOfInterest.count
-                        if numCreated < numTotal {
-                            
-                            dispatch_async(dispatch_get_main_queue()) {
-                                // If an error occurred, show an alert.
-                                self._alertView!.showAlert(
-                                    "Not All Storypoints Were Created",
-                                    message: "\(numCreated) were created.",
-                                    callback: nil)
-                            }
-                        }
-                        else {
-                            dispatch_async(dispatch_get_main_queue()) {
-                                self._alertView!.showAlert(
-                                    "Storypoints Created",
-                                    message: "\(numCreated) were created.",
-                                    callback: nil)
-                            }
-                        }
-                        
                         dispatch_async(dispatch_get_main_queue()) {
+                            self._alertView!.showAlert(
+                                "Storypoints Created",
+                                message: "\(numCallbacks) were processed.",
+                                callback: nil)
+
                             // Hide the activity indicator and re-display the
                             // buttons.
                             self.initialStorypoints.hidden = false
                             self.nearbyStorypoints.hidden = false
+                            self.deleteAll.hidden = false
                             self.activityIndicatorView.hidden = true
                         }
                     }
@@ -274,6 +241,52 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
             })
         }
     }
+    
+    @IBAction func deleteAll(sender: AnyObject) {
+        
+        PointOfInterest.index(100, offset: 0, userLocation: nil,
+            callback: {(pointsOfInterest, error) -> Void in
+
+                var numCallbacks = 0
+                var numDeleted = 0
+                let numTotal = pointsOfInterest.count
+                
+                for pointOfInterest in pointsOfInterest {
+
+                    pointOfInterest.delete( callback: {(error) -> Void in
+                        
+                        // Only those channels owned by the logged-in user can
+                        // be deleted.
+                        if (error == nil) {
+                            numDeleted++
+                        }
+                        
+                        dispatch_async(self._serialQueue) {
+                            numCallbacks++
+                            
+                            // Wait till callbacks for every channel have been
+                            // invoked.
+                            if numCallbacks == numTotal {
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    self._alertView!.showAlert(
+                                        "Storypoints Deleted",
+                                        message: "\(numDeleted) processed.",
+                                        callback: nil)
+
+                                    // Hide the activity indicator and re-display the
+                                    // buttons.
+                                    self.initialStorypoints.hidden = false
+                                    self.nearbyStorypoints.hidden = false
+                                    self.deleteAll.hidden = false
+                                    self.activityIndicatorView.hidden = true
+                                }
+                            }
+                        }
+                    })
+                }
+            })
+    }
+
     
     /**
      * Triggered when the user presses the cancel button.
@@ -352,7 +365,6 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
                 // Register with the LocationManager for location updates.
                 self._locationManager.delegate = self
                 self._locationManager.requestLocation()
-
             }
         }
     }

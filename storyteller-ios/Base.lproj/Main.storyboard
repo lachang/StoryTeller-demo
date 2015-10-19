@@ -82,6 +82,21 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blue-background" translatesAutoresizingMaskIntoConstraints="NO" id="AZL-xR-JLf">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TEe-AB-eKg">
+                                <rect key="frame" x="175" y="419" width="250" height="33"/>
+                                <color key="backgroundColor" red="0.20392156859999999" green="0.59607843140000005" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="PPH-WW-Aku"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <state key="normal" title="Delete all Your Channels">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteAll:" destination="swd-2v-60r" eventType="touchUpInside" id="h4X-hp-3C2"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jdu-1t-dp4">
                                 <rect key="frame" x="175" y="132" width="250" height="33"/>
                                 <color key="backgroundColor" red="0.20392156859999999" green="0.59607843140000005" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
@@ -145,7 +160,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Demo Knobs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KtY-PU-oiS">
-                                <rect key="frame" x="228.5" y="40" width="143.5" height="33"/>
+                                <rect key="frame" x="228" y="40" width="143.5" height="33"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="24"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -166,6 +181,16 @@
                                     <constraint firstItem="SRF-wO-HW6" firstAttribute="centerX" secondItem="6Ub-Bb-m98" secondAttribute="centerX" id="yVd-vy-uAO"/>
                                 </constraints>
                             </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Delete all your own channels in the database." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dJP-cf-5fC">
+                                <rect key="frame" x="150" y="460" width="300" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="YRN-dI-LtJ"/>
+                                    <constraint firstAttribute="height" constant="35" id="p7J-OP-ksB"/>
+                                </constraints>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -173,24 +198,29 @@
                             <constraint firstItem="KtY-PU-oiS" firstAttribute="centerX" secondItem="GrI-Mv-tjq" secondAttribute="centerX" id="3gn-uF-4nz"/>
                             <constraint firstItem="twe-3R-eeZ" firstAttribute="centerX" secondItem="KtY-PU-oiS" secondAttribute="centerX" id="4UJ-Mb-9uN"/>
                             <constraint firstItem="KtY-PU-oiS" firstAttribute="top" secondItem="lsg-tf-DSE" secondAttribute="bottom" constant="20" id="5aM-xa-hWL"/>
+                            <constraint firstItem="dJP-cf-5fC" firstAttribute="top" secondItem="TEe-AB-eKg" secondAttribute="bottom" constant="8" id="7MQ-4W-uJ9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="AZL-xR-JLf" secondAttribute="trailing" constant="-20" id="9tS-qm-Ebc"/>
                             <constraint firstItem="Lcc-05-v6o" firstAttribute="top" secondItem="AZL-xR-JLf" secondAttribute="bottom" id="D9a-aU-XZs"/>
+                            <constraint firstItem="TEe-AB-eKg" firstAttribute="centerX" secondItem="NH4-mQ-5mx" secondAttribute="centerX" id="FJ7-s8-xsF"/>
                             <constraint firstItem="DDI-T4-1vb" firstAttribute="centerX" secondItem="7y0-Xv-W1s" secondAttribute="centerX" id="Qfu-zg-84x"/>
                             <constraint firstItem="6Ub-Bb-m98" firstAttribute="centerX" secondItem="GrI-Mv-tjq" secondAttribute="centerX" id="RSe-bf-wPb"/>
                             <constraint firstItem="Jdu-1t-dp4" firstAttribute="centerX" secondItem="DDI-T4-1vb" secondAttribute="centerX" id="UUf-8A-DCA"/>
                             <constraint firstItem="7y0-Xv-W1s" firstAttribute="centerX" secondItem="GrI-Mv-tjq" secondAttribute="centerX" id="Wvs-lq-ksE"/>
                             <constraint firstItem="DDI-T4-1vb" firstAttribute="top" secondItem="Jdu-1t-dp4" secondAttribute="bottom" constant="8" id="XTZ-kv-tIC"/>
+                            <constraint firstItem="dJP-cf-5fC" firstAttribute="centerX" secondItem="TEe-AB-eKg" secondAttribute="centerX" id="aHt-Dk-RYD"/>
                             <constraint firstItem="Lcc-05-v6o" firstAttribute="top" secondItem="twe-3R-eeZ" secondAttribute="bottom" constant="20" id="dpR-ON-fEb"/>
                             <constraint firstItem="6Ub-Bb-m98" firstAttribute="centerY" secondItem="GrI-Mv-tjq" secondAttribute="centerY" id="eYK-iZ-u2f"/>
                             <constraint firstItem="NH4-mQ-5mx" firstAttribute="top" secondItem="7y0-Xv-W1s" secondAttribute="bottom" constant="8" id="eZ5-pP-Ci9"/>
                             <constraint firstItem="NH4-mQ-5mx" firstAttribute="centerX" secondItem="7y0-Xv-W1s" secondAttribute="centerX" id="mrK-H6-55c"/>
                             <constraint firstItem="7y0-Xv-W1s" firstAttribute="centerY" secondItem="GrI-Mv-tjq" secondAttribute="centerY" id="rUv-hc-V2U"/>
                             <constraint firstItem="AZL-xR-JLf" firstAttribute="top" secondItem="lsg-tf-DSE" secondAttribute="bottom" constant="-20" id="srm-fh-G99"/>
+                            <constraint firstItem="TEe-AB-eKg" firstAttribute="top" secondItem="NH4-mQ-5mx" secondAttribute="bottom" constant="20" id="wf6-Ey-yoM"/>
                             <constraint firstItem="AZL-xR-JLf" firstAttribute="leading" secondItem="GrI-Mv-tjq" secondAttribute="leadingMargin" constant="-20" id="zzl-vF-X2I"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityIndicatorView" destination="6Ub-Bb-m98" id="IuR-gz-orZ"/>
+                        <outlet property="deleteAll" destination="TEe-AB-eKg" id="6l6-OU-wao"/>
                         <outlet property="initialStorypoints" destination="7y0-Xv-W1s" id="fdf-mV-yjJ"/>
                         <outlet property="nearbyStorypoints" destination="Jdu-1t-dp4" id="IDx-LV-29n"/>
                     </connections>

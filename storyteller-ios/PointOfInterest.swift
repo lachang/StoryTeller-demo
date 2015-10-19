@@ -105,7 +105,7 @@ class PointOfInterest: NSObject, MKAnnotation {
             callback([], error)
         }
     }
-    
+        
     //**************************************************************************
     // MARK: Class Methods (Internal)
     //**************************************************************************
@@ -285,6 +285,19 @@ class PointOfInterest: NSObject, MKAnnotation {
                 print("Couldn't publish to \(self.channel).\n")
                 callback(error)
             })
+    }
+    
+    
+    func delete(callback callback: ((NSError?) -> Void)) {
+        
+        // Delete the given channel.
+        self.channel!.deleteWithSuccess({() -> Void in
+            callback(nil)
+        },
+        failure: {(error) -> Void in
+            print("ERROR: Failed to delete channel!")
+            callback(error)
+        })
     }
     
     //**************************************************************************
