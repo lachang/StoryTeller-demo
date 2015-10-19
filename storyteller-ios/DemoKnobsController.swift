@@ -20,10 +20,10 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
     // MARK: Attributes (Public)
     //**************************************************************************
     
+    @IBOutlet var initialStorypoints: UIButton!
     @IBOutlet var nearbyStorypoints: UIButton!
 
     @IBOutlet var activityIndicatorView: UIView!
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     //**************************************************************************
     // MARK: Attributes (Internal)
@@ -85,6 +85,18 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
             "latitude":37.808],
     ]
     
+    private static let _nearbyPoints = [
+        ["title":"Best Coffee Ever",
+            "distance":5,
+            "bearing":45],
+        ["title":"Something Happened Here",
+            "distance":25,
+            "bearing":135],
+        ["title":"Secret Door",
+            "distance":150,
+            "bearing":270],
+    ]
+    
     //**************************************************************************
     // MARK: Instance Methods (Public)
     //**************************************************************************
@@ -103,11 +115,12 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
         var numCallbacks = 0
 
         let userLocation = self._locationManager.getLocation()
-        let numInitial = DemoKnobsController._initialPoints.count
+        let numTotal = DemoKnobsController._initialPoints.count
         
-        // Hide the nearby-storypoints button and start the activity indicator.
+        // Hide the buttons and start the activity indicator.
+        self.initialStorypoints.hidden = true
         self.nearbyStorypoints.hidden = true
-        self.activityIndicator.hidden = false
+        self.activityIndicatorView.hidden = false
         
         for point in DemoKnobsController._initialPoints {
             let pointOfInterest = PointOfInterest(
@@ -126,9 +139,9 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
                     numCallbacks++
                     
                     // Wait till callbacks for every channel have been invoked.
-                    if numCallbacks == numInitial {
+                    if numCallbacks == numTotal {
                         let numCreated = pointsOfInterest.count
-                        if numCreated < numInitial {
+                        if numCreated < numTotal {
                             
                             dispatch_async(dispatch_get_main_queue()) {
                                 // If an error occurred, show an alert.
@@ -149,15 +162,92 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
                         
                         dispatch_async(dispatch_get_main_queue()) {
                             // Hide the activity indicator and re-display the
-                            // nearby-storypoints button.
+                            // buttons.
+                            self.initialStorypoints.hidden = false
                             self.nearbyStorypoints.hidden = false
-                            self.activityIndicator.hidden = true
+                            self.activityIndicatorView.hidden = true
                         }
                     }
                 }
             })
         }
+    }
+    
+    /**
+    * Triggered to create nearby story points.
+    *
+    * - parameter sender: The source that triggered this function.
+    *
+    * - returns: N/A
+    */
+    
+    @IBAction func createNearbyStorypoints(sender: AnyObject) {
         
+        var pointsOfInterest: [PointOfInterest] = []
+        var numCallbacks = 0
+        
+        let userLocation = self._locationManager.getLocation()
+        let numTotal = DemoKnobsController._nearbyPoints.count
+        
+        // Hide the buttons and start the activity indicator.
+        self.initialStorypoints.hidden = true
+        self.nearbyStorypoints.hidden = true
+        self.activityIndicatorView.hidden = false
+        
+        for point in DemoKnobsController._nearbyPoints {
+            
+            let coordinate = MapView.coordinateFromCoord(userLocation!.coordinate,
+                distanceInMeters: point["distance"] as! Double,
+                atBearingDegrees: point["bearing"] as! Double)
+            
+            let pointOfInterest = PointOfInterest(
+                title: point["title"] as! String,
+                numMessages: 0,
+                longitude: coordinate.longitude,
+                latitude: coordinate.latitude,
+                userLocation: userLocation!)
+            
+            pointOfInterest.create(callback: {(error) -> Void in
+                if error == nil {
+                    pointsOfInterest.append(pointOfInterest)
+                }
+                
+                dispatch_async(self._serialQueue) {
+                    numCallbacks++
+                    
+                    // Wait till callbacks for every channel have been invoked.
+                    if numCallbacks == numTotal {
+                        let numCreated = pointsOfInterest.count
+                        if numCreated < numTotal {
+                            
+                            dispatch_async(dispatch_get_main_queue()) {
+                                // If an error occurred, show an alert.
+                                self._alertView!.showAlert(
+                                    "Not All Storypoints Were Created",
+                                    message: "\(numCreated) were created.",
+                                    callback: nil)
+                            }
+                        }
+                        else {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self._alertView!.showAlert(
+                                    "Storypoints Created",
+                                    message: "\(numCreated) were created.",
+                                    callback: nil)
+                            }
+                        }
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            // Hide the activity indicator and re-display the
+                            // buttons.
+                            self.initialStorypoints.hidden = false
+                            self.nearbyStorypoints.hidden = false
+                            self.activityIndicatorView.hidden = true
+                        }
+                    }
+                }
+            })
+        }
     }
     
     /**
@@ -199,9 +289,6 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Initially hide the signup activity indicator.
-        self.activityIndicator.hidden = true
         
         // Beautify and setup the activity indicator.
         self.activityIndicatorView.layer.cornerRadius = 10
