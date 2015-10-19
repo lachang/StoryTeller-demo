@@ -14,7 +14,7 @@ import MMX
  * Manages user creation and maintenance with the user server.
  */
 
-class User: JSONApi {
+class User: NSObject {
     
     //**************************************************************************
     // MARK: Attributes (Public)

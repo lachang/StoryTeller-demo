@@ -14,7 +14,7 @@ import MMX
  * Manages login and logout to and from the session server.
  */
 
-class Session: JSONApi {
+class Session: NSObject {
     
     //**************************************************************************
     // MARK: Attributes (Public)
@@ -122,10 +122,8 @@ class Session: JSONApi {
      *
      * - returns: N/A
      */
-    
     override init () {
         super.init()
-        
     }
     
     /**

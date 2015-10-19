@@ -150,6 +150,8 @@ class PointOfInterest: NSObject, MKAnnotation {
         if userLocation != nil {
             self.distance = self.location.distanceFromLocation(userLocation!)
         }
+            
+        super.init()
     }
 
     /**

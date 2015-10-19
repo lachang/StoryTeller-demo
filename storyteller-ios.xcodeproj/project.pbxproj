@@ -16,9 +16,6 @@
 		259E388C1BBD166B009C9218 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 259E388A1BBD166B009C9218 /* Main.storyboard */; };
 		259E388E1BBD166B009C9218 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 259E388D1BBD166B009C9218 /* Assets.xcassets */; };
 		259E38911BBD166B009C9218 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 259E388F1BBD166B009C9218 /* LaunchScreen.storyboard */; };
-		259E389B1BBD1CEA009C9218 /* JSONApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38981BBD1CEA009C9218 /* JSONApi.swift */; settings = {ASSET_TAGS = (); }; };
-		259E389C1BBD1CEA009C9218 /* JSONConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38991BBD1CEA009C9218 /* JSONConnection.swift */; settings = {ASSET_TAGS = (); }; };
-		259E389D1BBD1CEA009C9218 /* JSONErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E389A1BBD1CEA009C9218 /* JSONErrors.swift */; settings = {ASSET_TAGS = (); }; };
 		259E38A11BBD2B8C009C9218 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E389F1BBD2B8C009C9218 /* LocationManager.swift */; settings = {ASSET_TAGS = (); }; };
 		259E38A21BBD2B8C009C9218 /* PointOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38A01BBD2B8C009C9218 /* PointOfInterest.swift */; settings = {ASSET_TAGS = (); }; };
 		259E38A71BBE4F6D009C9218 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259E38A41BBE4F6D009C9218 /* AlertView.swift */; settings = {ASSET_TAGS = (); }; };
@@ -48,9 +45,6 @@
 		259E388D1BBD166B009C9218 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		259E38901BBD166B009C9218 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		259E38921BBD166B009C9218 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		259E38981BBD1CEA009C9218 /* JSONApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONApi.swift; sourceTree = "<group>"; };
-		259E38991BBD1CEA009C9218 /* JSONConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONConnection.swift; sourceTree = "<group>"; };
-		259E389A1BBD1CEA009C9218 /* JSONErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONErrors.swift; sourceTree = "<group>"; };
 		259E389F1BBD2B8C009C9218 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		259E38A01BBD2B8C009C9218 /* PointOfInterest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointOfInterest.swift; sourceTree = "<group>"; };
 		259E38A41BBE4F6D009C9218 /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
@@ -115,20 +109,9 @@
 			path = "storyteller-ios";
 			sourceTree = "<group>";
 		};
-		259E389E1BBD1D0E009C9218 /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-				259E38981BBD1CEA009C9218 /* JSONApi.swift */,
-				259E38991BBD1CEA009C9218 /* JSONConnection.swift */,
-				259E389A1BBD1CEA009C9218 /* JSONErrors.swift */,
-			);
-			name = Networking;
-			sourceTree = "<group>";
-		};
 		259E38A31BBD2B95009C9218 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				259E389E1BBD1D0E009C9218 /* Networking */,
 				259E38A01BBD2B8C009C9218 /* PointOfInterest.swift */,
 				259E389F1BBD2B8C009C9218 /* LocationManager.swift */,
 				258B92171BC65AFD0003EA12 /* Session.swift */,
@@ -308,11 +291,9 @@
 			files = (
 				259E38AE1BBE50C1009C9218 /* StoryPointsViewController.swift in Sources */,
 				259E38A21BBD2B8C009C9218 /* PointOfInterest.swift in Sources */,
-				259E389C1BBD1CEA009C9218 /* JSONConnection.swift in Sources */,
 				259135551BD0E3A000B9F226 /* DemoKnobsController.swift in Sources */,
 				259E38A11BBD2B8C009C9218 /* LocationManager.swift in Sources */,
 				2516665C1BC7A7C5007B82BC /* User.swift in Sources */,
-				259E389D1BBD1CEA009C9218 /* JSONErrors.swift in Sources */,
 				259135571BD206C000B9F226 /* MapViewController.swift in Sources */,
 				258B92181BC65AFD0003EA12 /* Session.swift in Sources */,
 				251666601BC8E28B007B82BC /* ProfileViewController.swift in Sources */,
@@ -327,7 +308,6 @@
 				259E38A81BBE4F6D009C9218 /* MapView.swift in Sources */,
 				25AFC1321BC5097400AE8AF9 /* LoginViewController.swift in Sources */,
 				B1DB63661BD328CC004F1358 /* PublishFilmedStoryViewController.swift in Sources */,
-				259E389B1BBD1CEA009C9218 /* JSONApi.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
