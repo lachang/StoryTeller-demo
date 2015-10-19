@@ -264,6 +264,29 @@ class PointOfInterest: NSObject, MKAnnotation {
             })
     }
     
+    /**
+     * Add a message on the server for this PointOfInterest instance.
+     *
+     * - parameter callback: Callback invoked once the message creation attempt
+     *                       completes.
+     *
+     * - returns: N/A
+     */
+    
+    func addMessage(content: [String:String],
+        callback: ((NSError?) -> Void)) {
+        
+        self.channel!.publish(content,
+            success: {(message) -> Void in
+                print("Successfully published to \(self.channel)")
+                callback(nil)
+            },
+            failure: {(error) -> Void in
+                print("Couldn't publish to \(self.channel).\n")
+                callback(error)
+            })
+    }
+    
     //**************************************************************************
     // MARK: Instance Methods (Internal)
     //**************************************************************************

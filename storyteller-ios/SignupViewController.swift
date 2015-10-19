@@ -139,14 +139,17 @@ class SignupViewController: UIViewController {
                             if error!.localizedFailureReason != nil {
                                 message = error!.localizedFailureReason!
                             }
-                            self._alertView!.showAlert(
-                                "Signup Succeeded But Login Failed",
-                                message: message,
-                                callback: nil)
-                            
-                            // Dismiss this controller so that the user can try
-                            // to login again.
-                            self.dismissViewControllerAnimated(true, completion: nil)
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self._alertView!.showAlert(
+                                    "Signup Succeeded But Login Failed",
+                                    message: message,
+                                    callback: {() -> Void in
+                                        // Dismiss this controller so that the
+                                        // user can try to login again.
+                                        self.dismissViewControllerAnimated(
+                                            true, completion: nil)
+                                    })
+                            }
                         }
                         else {
                             

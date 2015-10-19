@@ -7,8 +7,6 @@
 
 import UIKit
 
-import MMX
-
 class PublishWrittenStoryViewController: UIViewController {
     
     var pointOfInterest: PointOfInterest!
@@ -36,32 +34,64 @@ class PublishWrittenStoryViewController: UIViewController {
         //add the code to take the message from X and send to server
         let messageContent = ["written" : "Hello Channel!"]
         
-        self.pointOfInterest.channel!.publish(messageContent,
-            success: {(message) -> Void in
-                print("Successfully published to \(self.pointOfInterest.channel!)")
-            },
-            failure: {(error) -> Void in
-                print("Couldn't publish to \(self.pointOfInterest.channel!).\nError= \(error)")
-        }) // end of channel.publish()
-        
-        // Dismiss this controller.
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.pointOfInterest.addMessage(messageContent,
+            callback: {(error) -> Void in
+                
+                if (error != nil) {
+                    // If an error occurred, show an alert.
+                    var message = error!.localizedDescription
+                    if error!.localizedFailureReason != nil {
+                        message = error!.localizedFailureReason!
+                    }
+                    self._alertView!.showAlert(
+                        "Story Failed to Add!",
+                        message: message,
+                        callback: nil)
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self._alertView!.showAlert(
+                            "Success!",
+                            message: "Story was added.",
+                            callback: {() -> Void in
+                                // Dismiss this controller.
+                                self.dismissViewControllerAnimated(true, completion: nil)
+                            })
+                    }
+                }
+            })
     }
     
     @IBAction func publishSpokenStory(sender: AnyObject) {
         //add the code to take the message from X and send to server
         let messageContent = ["spoken" : "http://anthonyalayo.com/haunted.wav"]
         
-        self.pointOfInterest.channel!.publish(messageContent,
-            success: {(message) -> Void in
-                print("Successfully published to \(self.pointOfInterest.channel!)")
-            },
-            failure: {(error) -> Void in
-                print("Couldn't publish to \(self.pointOfInterest.channel!).\nError= \(error)")
-        }) // end of channel.publish()
-        
-        // Dismiss this controller.
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.pointOfInterest.addMessage(messageContent,
+            callback: {(error) -> Void in
+                
+                if (error != nil) {
+                    // If an error occurred, show an alert.
+                    var message = error!.localizedDescription
+                    if error!.localizedFailureReason != nil {
+                        message = error!.localizedFailureReason!
+                    }
+                    self._alertView!.showAlert(
+                        "Story Failed to Add!",
+                        message: message,
+                        callback: nil)
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self._alertView!.showAlert(
+                            "Success!",
+                            message: "Story was added.",
+                            callback: {() -> Void in
+                                // Dismiss this controller.
+                                self.dismissViewControllerAnimated(true, completion: nil)
+                        })
+                    }
+                }
+            })
     }
     
     
@@ -71,16 +101,32 @@ class PublishWrittenStoryViewController: UIViewController {
             "videoUrl" : "http://anthonyalayo.com/kawasaki.mp4",
             "imageUrl" : "http://anthonyalayo.com/kawasaki.jpg"]
         
-        self.pointOfInterest.channel!.publish(messageContent,
-            success: {(message) -> Void in
-                print("Successfully published to \(self.pointOfInterest.channel!)")
-            },
-            failure: {(error) -> Void in
-                print("Couldn't publish to \(self.pointOfInterest.channel!).\nError= \(error)")
-        }) // end of channel.publish()
-        
-        // Dismiss this controller.
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.pointOfInterest.addMessage(messageContent,
+            callback: {(error) -> Void in
+                
+                if (error != nil) {
+                    // If an error occurred, show an alert.
+                    var message = error!.localizedDescription
+                    if error!.localizedFailureReason != nil {
+                        message = error!.localizedFailureReason!
+                    }
+                    self._alertView!.showAlert(
+                        "Story Failed to Add!",
+                        message: message,
+                        callback: nil)
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self._alertView!.showAlert(
+                            "Success!",
+                            message: "Story was added.",
+                            callback: {() -> Void in
+                                // Dismiss this controller.
+                                self.dismissViewControllerAnimated(true, completion: nil)
+                        })
+                    }
+                }
+            })
     }
     
     override func viewWillAppear(animated: Bool) {
