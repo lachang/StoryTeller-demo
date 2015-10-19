@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //**************************************************************************
     
     var window: UIWindow?
-    var channel: MMXChannel? = nil
 
     //**************************************************************************
     // MARK: Attributes (Internal)

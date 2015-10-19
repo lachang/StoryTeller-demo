@@ -22,7 +22,7 @@ class MessagesViewController: UITableViewController {
     // MARK: Attributes (Public)
     //**************************************************************************
 
-    var channel: MMXChannel!
+    var pointOfInterest: PointOfInterest!
     
     //**************************************************************************
     // MARK: Attributes (Internal)
@@ -130,7 +130,7 @@ class MessagesViewController: UITableViewController {
         let message = userInfo[MMXMessageKey] as! MMXMessage
         
         // Process the message if it's for this channel.
-        if message.channel == self.channel {
+        if message.channel == self.pointOfInterest.channel! {
             
             // Insert the new message at the top (since newer messages come
             // first) and then reload the table view.
@@ -152,10 +152,8 @@ class MessagesViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        (UIApplication.sharedApplication().delegate as! AppDelegate).channel = self.channel
-        
         // Fetch all the messages for the given channel.
-        self.channel.messagesBetweenStartDate(nil, endDate: nil, limit: 25, offset: 0, ascending: false, success: { (totalCount, messages) -> Void in
+        self.pointOfInterest.channel!.messagesBetweenStartDate(nil, endDate: nil, limit: 25, offset: 0, ascending: false, success: { (totalCount, messages) -> Void in
             
             self._messages = messages as! [MMXMessage]
             dispatch_async(dispatch_get_main_queue()) {
@@ -185,21 +183,21 @@ class MessagesViewController: UITableViewController {
             let viewController =
             segue.destinationViewController as! PublishWrittenStoryViewController
             
-            viewController.channel = self.channel
+            viewController.pointOfInterest = self.pointOfInterest
             
         } else if segue.identifier == "MessagesToSpokenSegue" {
             
             let viewController =
             segue.destinationViewController as! PublishSpokenStoryViewController
             
-            viewController.channel = self.channel
+            viewController.pointOfInterest = self.pointOfInterest
             
         } else if segue.identifier == "MessagesToFilmedSegue" {
             
             let viewController =
             segue.destinationViewController as! PublishFilmedStoryViewController
             
-            viewController.channel = self.channel
+            viewController.pointOfInterest = self.pointOfInterest
         }
         
     }

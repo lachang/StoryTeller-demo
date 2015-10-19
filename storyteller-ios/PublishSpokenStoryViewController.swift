@@ -28,7 +28,7 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
     @IBOutlet var reset: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
-    var channel: MMXChannel!
+    var pointOfInterest: PointOfInterest!
     
     //**************************************************************************
     // MARK: Attributes (Internal)

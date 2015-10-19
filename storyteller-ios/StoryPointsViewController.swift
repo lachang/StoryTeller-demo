@@ -382,8 +382,8 @@ LocationManagerDelegate {
                 segue.destinationViewController as! MessagesViewController
             
             let selectedRow = self.tableView.indexPathForSelectedRow!.row
-            messagesViewController.channel =
-                self._pointsOfInterest[selectedRow].channel
+            messagesViewController.pointOfInterest =
+                self._pointsOfInterest[selectedRow]
         }
     }
     

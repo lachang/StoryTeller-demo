@@ -1,10 +1,9 @@
-//
+//******************************************************************************
 //  PublishWrittenStoryViewController.swift
-//  
+//  storyteller-ios
 //
-//  Created by Anthony Alayo on 10/17/15.
-//
-//
+//  Copyright (c) 2015 storyteller. All rights reserved.
+//******************************************************************************
 
 import UIKit
 
@@ -12,9 +11,11 @@ import MMX
 
 class PublishWrittenStoryViewController: UIViewController {
     
-    
-    var channel: MMXChannel!
+    var pointOfInterest: PointOfInterest!
 
+    // Manages the alert view.
+    private var _alertView: AlertView? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,12 +36,12 @@ class PublishWrittenStoryViewController: UIViewController {
         //add the code to take the message from X and send to server
         let messageContent = ["written" : "Hello Channel!"]
         
-        channel.publish(messageContent,
+        self.pointOfInterest.channel!.publish(messageContent,
             success: {(message) -> Void in
-                print("Successfully published to \(self.channel)")
+                print("Successfully published to \(self.pointOfInterest.channel!)")
             },
             failure: {(error) -> Void in
-                print("Couldn't publish to \(self.channel).\nError= \(error)")
+                print("Couldn't publish to \(self.pointOfInterest.channel!).\nError= \(error)")
         }) // end of channel.publish()
         
         // Dismiss this controller.
@@ -51,12 +52,12 @@ class PublishWrittenStoryViewController: UIViewController {
         //add the code to take the message from X and send to server
         let messageContent = ["spoken" : "http://anthonyalayo.com/haunted.wav"]
         
-        channel.publish(messageContent,
+        self.pointOfInterest.channel!.publish(messageContent,
             success: {(message) -> Void in
-                print("Successfully published to \(self.channel)")
+                print("Successfully published to \(self.pointOfInterest.channel!)")
             },
             failure: {(error) -> Void in
-                print("Couldn't publish to \(self.channel).\nError= \(error)")
+                print("Couldn't publish to \(self.pointOfInterest.channel!).\nError= \(error)")
         }) // end of channel.publish()
         
         // Dismiss this controller.
@@ -70,15 +71,29 @@ class PublishWrittenStoryViewController: UIViewController {
             "videoUrl" : "http://anthonyalayo.com/kawasaki.mp4",
             "imageUrl" : "http://anthonyalayo.com/kawasaki.jpg"]
         
-        channel.publish(messageContent,
+        self.pointOfInterest.channel!.publish(messageContent,
             success: {(message) -> Void in
-                print("Successfully published to \(self.channel)")
+                print("Successfully published to \(self.pointOfInterest.channel!)")
             },
             failure: {(error) -> Void in
-                print("Couldn't publish to \(self.channel).\nError= \(error)")
+                print("Couldn't publish to \(self.pointOfInterest.channel!).\nError= \(error)")
         }) // end of channel.publish()
         
         // Dismiss this controller.
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Manages functionality of the alert view.
+        self._alertView = AlertView(viewController: self)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // Release the alert view's reference to this view controller.
+        self._alertView = nil
     }
 }
