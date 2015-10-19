@@ -187,9 +187,9 @@ LocationManagerDelegate {
     // helper function to add a point of interest to the list and subscribe to the channel
     private func addPointOfInterestAndSubscribe(pointOfInterest: PointOfInterest) -> Void {
         
-        // Only show points-of-interest within 10000 m for the
+        // Only show points-of-interest within 100 m for the
         // table view.
-        if Int(pointOfInterest.distance!) < 10000 {
+        if Int(pointOfInterest.distance!) < 100 {
             self._pointsOfInterest.append(pointOfInterest)
             
             // Auto-subscribe to channels in view.
@@ -265,8 +265,8 @@ LocationManagerDelegate {
                         for pointOfInterest in pointsOfInterest {
                             
                             // Add the point-of-interest to the map if its within
-                            // 100000 m.
-                            if Int(pointOfInterest.distance!) < 100000 {
+                            // 10000 m.
+                            if Int(pointOfInterest.distance!) < 10000 {
                                 self.addPointOfInterestAndSubscribe(pointOfInterest)
                                 annotations.append(pointOfInterest)
                             }
