@@ -356,7 +356,9 @@ class PointOfInterest: NSObject, MKAnnotation {
     
     // make a properly formatted string for magnet message's standard
     private func _makeTitleString() -> String {
-        let titleString = self.title!.stringByReplacingOccurrencesOfString(" ", withString: "_").lowercaseString
+
+        let time = NSDate().timeIntervalSince1970
+        let titleString = User.currentUser()!.username + "_" + String(time)
         return titleString
     }
     

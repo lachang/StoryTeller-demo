@@ -87,7 +87,7 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
     ]
     
     private static let _nearbyPoints = [
-        ["title":"Best Coffee Ever",
+        ["title":"Demo - Best Coffee Ever",
             "distance":5,
             "bearing":45,
             "messages":[
@@ -95,13 +95,13 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
                 ["written":"In the breakroom"],
                 ["written":"No cream, no sugar please!"],
             ]],
-        ["title":"Something Happened Here",
+        ["title":"Demo - What Happened Here",
             "distance":25,
             "bearing":135,
             "messages":[
                 ["written":"Found a note, it reads..."],
             ]],
-        ["title":"Secret Door",
+        ["title":"Demo - Secret Door",
             "distance":150,
             "bearing":270,
             "messages":[
@@ -205,17 +205,19 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
             
             pointOfInterest.create(callback: {(error) -> Void in
                 
-                // Once the channel is created, add the sample messages.
-                // This is an asynchronous function but ignoring this for now as
-                // this is a debug / development function.
-                
-                let messages = point["messages"] as! [[String:String]]
-                for message in messages {
-                    pointOfInterest.addMessage(message,
-                        callback: {(error) -> Void in
-                            // Ignore errors for now since this is a debug /
-                            // development function.
-                    })
+                if error == nil {
+                    // Once the channel is created, add the sample messages.
+                    // This is an asynchronous function but ignoring this for
+                    // now as this is a debug / development code path.
+                    
+                    let messages = point["messages"] as! [[String:String]]
+                    for message in messages {
+                        pointOfInterest.addMessage(message,
+                            callback: {(error) -> Void in
+                                // Ignore errors for now since this is a debug /
+                                // development function.
+                        })
+                    }
                 }
                 
                 dispatch_async(self._serialQueue) {
