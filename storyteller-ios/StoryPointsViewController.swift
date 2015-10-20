@@ -394,6 +394,13 @@ LocationManagerDelegate {
             let location: CLLocation? = self._locationManager.getLocation()
             self._index(location)
         }
+        
+        // Clear the selected index path, if any.
+        if self.tableView.indexPathForSelectedRow != nil {
+            self.tableView.deselectRowAtIndexPath(
+                self.tableView.indexPathForSelectedRow!,
+                animated: false)
+        }
     }
 
     override func viewDidDisappear(animated: Bool) {
