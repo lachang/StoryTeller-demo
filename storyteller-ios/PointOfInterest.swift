@@ -34,6 +34,7 @@ class PointOfInterest: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     var numMessages: Int
     var distance: CLLocationDistance?
+    var locked: Bool
     
     var channel: MMXChannel?
     
@@ -141,6 +142,7 @@ class PointOfInterest: NSObject, MKAnnotation {
         self.channel     = channel
         self.longitude   = longitude
         self.latitude    = latitude
+        self.locked      = false
 
         self.location  = CLLocation(latitude: self.latitude,
             longitude: self.longitude)
@@ -149,6 +151,9 @@ class PointOfInterest: NSObject, MKAnnotation {
 
         if userLocation != nil {
             self.distance = self.location.distanceFromLocation(userLocation!)
+            if self.distance >= 100 {
+                self.locked = true
+            }
         }
             
         super.init()

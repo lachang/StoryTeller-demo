@@ -196,34 +196,45 @@ LocationManagerDelegate {
         }
         
         alertController.addTextFieldWithConfigurationHandler { (UITextField) -> Void in
-            UITextField.placeholder = "Enter Tags Seperated By Spaces"
+            UITextField.placeholder = "Enter Tags Separated By Spaces"
             self._StoryPointTagsTextField = UITextField
         }
         
         presentViewController(alertController, animated: true, completion: nil)
     }
     
-    // helper function to add a point of interest to the list and subscribe to the channel
-    private func addPointOfInterestAndSubscribe(pointOfInterest: PointOfInterest) -> Void {
+    /**
+     * Helper function to add a point-of-interest to the table view and if
+     * necessary, subscribe to its channel.
+     *
+     * - parameter pointOfInterest: The point-of-interest to process.
+     *
+     * - returns: N/A
+     */
+
+    private func addPointOfInterestAndSubscribe(
+        pointOfInterest: PointOfInterest) -> Void {
         
-        // Only show points-of-interest within 100 m for the
-        // table view.
-        if Int(pointOfInterest.distance!) < 100 {
-            self._pointsOfInterest.append(pointOfInterest)
-            
-            // Auto-subscribe to channels in view.
+        // Add the point of interest to the table view.
+        self._pointsOfInterest.append(pointOfInterest)
+        
+        if !pointOfInterest.locked {
+
+            // Only subscribe to points-of-interests within 100 m.
             pointOfInterest.channel!.subscribeWithSuccess({ () -> Void in
                 }, failure: { (error) -> Void in
-                    print("ERROR: Failed to subscribe!")
-            })
+                    print("ERROR: Failed to subscribe to " +
+                          pointOfInterest.channel!.name)
+                })
         }
         else {
+            
             pointOfInterest.channel!.unSubscribeWithSuccess({ () -> Void in
                 }, failure: { (error) -> Void in
-                    //print("ERROR: Failed to unsubscribe for " + channel.name)
-            })
+//                    print("ERROR: Failed to unsubscribe for " +
+//                          pointOfInterest.channel!.name)
+                })
         }
-        
     }
     
     private func _index(userLocation: CLLocation?) {
@@ -290,6 +301,12 @@ LocationManagerDelegate {
                                 annotations.append(pointOfInterest)
                             }
                         }
+                        
+                        // Sort the collected points-of-interest in descending
+                        // order.
+                        self._pointsOfInterest.sortInPlace({
+                            $0.distance! < $1.distance!
+                        })
                         
                         // Show all the points of interest on the map.
                         dispatch_async(dispatch_get_main_queue()) {
@@ -437,6 +454,15 @@ LocationManagerDelegate {
     // MARK: UITableViewDelegate
     //**************************************************************************
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        
+        let pointOfInterest = self._pointsOfInterest[indexPath.row]
+
+        if pointOfInterest.locked {
+            return nil
+        }
+        else {
+            return indexPath
+        }
     }
 }

@@ -57,10 +57,25 @@ class PointOfInterestTableViewCell: UITableViewCell {
      */
     func configureCell(pointOfInterest: PointOfInterest) {
 
+        let distance = Int(pointOfInterest.distance!)
+        if pointOfInterest.locked {
+            self.title.textColor    = UIColor.lightGrayColor()
+            self.subtitle.textColor = UIColor.lightGrayColor()
+            self.distance.textColor = UIColor.lightGrayColor()
+
+            self.subtitle.text = "(Locked)"
+        }
+        else {
+            self.title.textColor    = UIColor.blackColor()
+            self.subtitle.textColor = UIColor.blackColor()
+            self.distance.textColor = UIColor.blackColor()
+            
+            self.subtitle.text = String(pointOfInterest.numMessages) + " Messages"
+        }
+        
         self.title.text = pointOfInterest.title
-        self.subtitle.text = String(pointOfInterest.numMessages) + " Messages"
         if self.distance != nil {
-            self.distance!.text = "Distance: \(Int(pointOfInterest.distance!)) m"
+            self.distance!.text = "Distance: \(distance) m"
         }
     }
     
