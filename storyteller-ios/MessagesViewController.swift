@@ -8,6 +8,7 @@
 import UIKit
 import AVKit
 import AVFoundation
+import QuartzCore
 
 import MMX
 
@@ -152,6 +153,10 @@ class MessagesViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Make the table view row height dynamic.
+        self.tableView.estimatedRowHeight = self.tableView.rowHeight
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        
         // Fetch all the messages for the given channel.
         self.pointOfInterest.channel!.messagesBetweenStartDate(nil, endDate: nil, limit: 25, offset: 0, ascending: false, success: { (totalCount, messages) -> Void in
             
@@ -220,7 +225,7 @@ class MessagesViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("Message Cell", forIndexPath: indexPath)
+        let cell:MessagesTableViewCell = tableView.dequeueReusableCellWithIdentifier("MessagesTableViewCell", forIndexPath: indexPath) as! MessagesTableViewCell
         
         // Display the message content to the table cell.
         let message                = self._messages[indexPath.row]
@@ -229,14 +234,21 @@ class MessagesViewController: UITableViewController {
         
 
         if let messageContent = message.messageContent["written"] {
-            cell.textLabel?.text = "\(messageContent)"
+            cell.title.text = "\(messageContent)"
+            //cell.thumbnail.image = UIImage(named: "catdog.jpg")
+
         } else if let messageContent = message.messageContent["spoken"] {
-            cell.textLabel?.text = "\(messageContent)"
+            cell.title.text = "\(messageContent)"
+            //cell.thumbnail.image = UIImage(named: "kitty.jpg")
+            //cell.thumbnail.layer.cornerRadius = 5
+            //cell.thumbnail.layer.masksToBounds = true
         } else if let messageContent = message.messageContent["filmed"] {
-            cell.textLabel?.text = "\(messageContent)"
+            cell.title.text = "\(messageContent)"
+            //cell.thumbnail.image = UIImage(named: "cat1.jpg")
         } else {
             let messageContent = message.messageContent["message"]!
-            cell.textLabel?.text = "\(messageContent)"
+            cell.title.text = "\(messageContent)"
+            //cell.thumbnail.image = UIImage(named: "cat1.jpg")
         }
         
         /*

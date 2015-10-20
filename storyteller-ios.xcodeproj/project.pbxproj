@@ -29,6 +29,11 @@
 		25AFC1341BC5098300AE8AF9 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AFC1331BC5098300AE8AF9 /* SignupViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		25E55B1E1BD4B674003666BA /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E55B1D1BD4B674003666BA /* Configuration.swift */; settings = {ASSET_TAGS = (); }; };
 		5BBC94EB504AD0904C4BABEC /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1057EE34CCBC13EBCBBE929 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		B1AB9DFA1BD5FE240088C4AD /* MessagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AB9DF91BD5FE240088C4AD /* MessagesTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		B1AB9DFC1BD603170088C4AD /* cat1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B1AB9DFB1BD603170088C4AD /* cat1.jpg */; settings = {ASSET_TAGS = (); }; };
+		B1AB9DFE1BD60D770088C4AD /* kitty.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B1AB9DFD1BD60D770088C4AD /* kitty.jpg */; settings = {ASSET_TAGS = (); }; };
+		B1AB9E001BD60DBC0088C4AD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1AB9DFF1BD60DBC0088C4AD /* QuartzCore.framework */; };
+		B1AB9E021BD617730088C4AD /* catdog.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B1AB9E011BD617730088C4AD /* catdog.jpg */; settings = {ASSET_TAGS = (); }; };
 		B1DB63621BD32383004F1358 /* PublishWrittenStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DB63611BD32383004F1358 /* PublishWrittenStoryViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B1DB63641BD327B3004F1358 /* PublishSpokenStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DB63631BD327B3004F1358 /* PublishSpokenStoryViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B1DB63661BD328CC004F1358 /* PublishFilmedStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DB63651BD328CC004F1358 /* PublishFilmedStoryViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -60,6 +65,11 @@
 		25E55B1D1BD4B674003666BA /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		38DBD837DCD19F9BA1451D60 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		A1057EE34CCBC13EBCBBE929 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1AB9DF91BD5FE240088C4AD /* MessagesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesTableViewCell.swift; sourceTree = "<group>"; };
+		B1AB9DFB1BD603170088C4AD /* cat1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat1.jpg; sourceTree = "<group>"; };
+		B1AB9DFD1BD60D770088C4AD /* kitty.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = kitty.jpg; sourceTree = "<group>"; };
+		B1AB9DFF1BD60DBC0088C4AD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B1AB9E011BD617730088C4AD /* catdog.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = catdog.jpg; sourceTree = "<group>"; };
 		B1DB63611BD32383004F1358 /* PublishWrittenStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PublishWrittenStoryViewController.swift; path = ../PublishWrittenStoryViewController.swift; sourceTree = "<group>"; };
 		B1DB63631BD327B3004F1358 /* PublishSpokenStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublishSpokenStoryViewController.swift; sourceTree = "<group>"; };
 		B1DB63651BD328CC004F1358 /* PublishFilmedStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublishFilmedStoryViewController.swift; sourceTree = "<group>"; };
@@ -71,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1AB9E001BD60DBC0088C4AD /* QuartzCore.framework in Frameworks */,
 				5BBC94EB504AD0904C4BABEC /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,6 +114,9 @@
 				259E38A31BBD2B95009C9218 /* Models */,
 				259E38AA1BBE4F74009C9218 /* Controllers */,
 				259E38861BBD166B009C9218 /* AppDelegate.swift */,
+				B1AB9E011BD617730088C4AD /* catdog.jpg */,
+				B1AB9DFB1BD603170088C4AD /* cat1.jpg */,
+				B1AB9DFD1BD60D770088C4AD /* kitty.jpg */,
 				259E388A1BBD166B009C9218 /* Main.storyboard */,
 				259E388D1BBD166B009C9218 /* Assets.xcassets */,
 				259E388F1BBD166B009C9218 /* LaunchScreen.storyboard */,
@@ -146,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				259E38A61BBE4F6D009C9218 /* PointOfInterestTableViewCell.swift */,
+				B1AB9DF91BD5FE240088C4AD /* MessagesTableViewCell.swift */,
 				259E38A51BBE4F6D009C9218 /* MapView.swift */,
 				259E38A41BBE4F6D009C9218 /* AlertView.swift */,
 			);
@@ -163,6 +178,7 @@
 		3EC617F538FA7712AA37F22E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B1AB9DFF1BD60DBC0088C4AD /* QuartzCore.framework */,
 				A1057EE34CCBC13EBCBBE929 /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -239,7 +255,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				259E38911BBD166B009C9218 /* LaunchScreen.storyboard in Resources */,
+				B1AB9DFE1BD60D770088C4AD /* kitty.jpg in Resources */,
+				B1AB9DFC1BD603170088C4AD /* cat1.jpg in Resources */,
 				259E38B11BBE5442009C9218 /* Configurations.plist in Resources */,
+				B1AB9E021BD617730088C4AD /* catdog.jpg in Resources */,
 				259E388E1BBD166B009C9218 /* Assets.xcassets in Resources */,
 				259E388C1BBD166B009C9218 /* Main.storyboard in Resources */,
 			);
@@ -319,6 +338,7 @@
 				259E38A91BBE4F6D009C9218 /* PointOfInterestTableViewCell.swift in Sources */,
 				259E38A81BBE4F6D009C9218 /* MapView.swift in Sources */,
 				25AFC1321BC5097400AE8AF9 /* LoginViewController.swift in Sources */,
+				B1AB9DFA1BD5FE240088C4AD /* MessagesTableViewCell.swift in Sources */,
 				B1DB63661BD328CC004F1358 /* PublishFilmedStoryViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
