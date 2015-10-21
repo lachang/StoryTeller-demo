@@ -422,7 +422,7 @@ LocationManagerDelegate {
 
             // Pass the selected channel to the messages view.
             let messagesViewController =
-                segue.destinationViewController as! MessagesViewController
+                segue.destinationViewController as! StoriesViewController
             
             let selectedRow = self.tableView.indexPathForSelectedRow!.row
             messagesViewController.pointOfInterest =

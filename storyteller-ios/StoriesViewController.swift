@@ -1,5 +1,5 @@
 //******************************************************************************
-//  MessagesViewController.swift
+//  StoriesViewController.swift
 //  storyteller-ios
 //
 //  Copyright (c) 2015 storyteller. All rights reserved.
@@ -13,11 +13,11 @@ import QuartzCore
 import MMX
 
 /**
- * MessagesViewController
+ * StoriesViewController
  *
  * Displays the messages within a channel.
  */
-class MessagesViewController: UITableViewController {
+class StoriesViewController: UITableViewController {
 
     //**************************************************************************
     // MARK: Attributes (Public)
