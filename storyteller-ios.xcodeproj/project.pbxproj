@@ -33,9 +33,9 @@
 		B1B1CAA21BD76049000DD9F1 /* AudioStoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B1CAA11BD76049000DD9F1 /* AudioStoryTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		B1B1CAA61BD760FD000DD9F1 /* StoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B1CAA51BD760FD000DD9F1 /* StoryTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		B1B1CAA81BD76112000DD9F1 /* VideoStoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B1CAA71BD76112000DD9F1 /* VideoStoryTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		B1DB63621BD32383004F1358 /* PublishWrittenStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DB63611BD32383004F1358 /* PublishWrittenStoryViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B1DB63641BD327B3004F1358 /* PublishSpokenStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DB63631BD327B3004F1358 /* PublishSpokenStoryViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B1DB63661BD328CC004F1358 /* PublishFilmedStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DB63651BD328CC004F1358 /* PublishFilmedStoryViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		B1FD8EA31BD79D8C00E45840 /* PublishWrittenStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1FD8EA21BD79D8C00E45840 /* PublishWrittenStoryViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,9 +69,9 @@
 		B1B1CAA11BD76049000DD9F1 /* AudioStoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioStoryTableViewCell.swift; sourceTree = "<group>"; };
 		B1B1CAA51BD760FD000DD9F1 /* StoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryTableViewCell.swift; sourceTree = "<group>"; };
 		B1B1CAA71BD76112000DD9F1 /* VideoStoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoStoryTableViewCell.swift; sourceTree = "<group>"; };
-		B1DB63611BD32383004F1358 /* PublishWrittenStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PublishWrittenStoryViewController.swift; path = ../PublishWrittenStoryViewController.swift; sourceTree = "<group>"; };
 		B1DB63631BD327B3004F1358 /* PublishSpokenStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublishSpokenStoryViewController.swift; sourceTree = "<group>"; };
 		B1DB63651BD328CC004F1358 /* PublishFilmedStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublishFilmedStoryViewController.swift; sourceTree = "<group>"; };
+		B1FD8EA21BD79D8C00E45840 /* PublishWrittenStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublishWrittenStoryViewController.swift; sourceTree = "<group>"; };
 		C113C575D715EF81DAA4845B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,7 +145,7 @@
 				25AFC1311BC5097400AE8AF9 /* LoginViewController.swift */,
 				25AFC1331BC5098300AE8AF9 /* SignupViewController.swift */,
 				25AFC12F1BC501EA00AE8AF9 /* WelcomeViewController.swift */,
-				B1DB63611BD32383004F1358 /* PublishWrittenStoryViewController.swift */,
+				B1FD8EA21BD79D8C00E45840 /* PublishWrittenStoryViewController.swift */,
 				B1DB63631BD327B3004F1358 /* PublishSpokenStoryViewController.swift */,
 				B1DB63651BD328CC004F1358 /* PublishFilmedStoryViewController.swift */,
 			);
@@ -319,6 +319,7 @@
 				259E38A21BBD2B8C009C9218 /* PointOfInterest.swift in Sources */,
 				B1B1CAA81BD76112000DD9F1 /* VideoStoryTableViewCell.swift in Sources */,
 				259135551BD0E3A000B9F226 /* DemoKnobsController.swift in Sources */,
+				B1FD8EA31BD79D8C00E45840 /* PublishWrittenStoryViewController.swift in Sources */,
 				B1B1CAA61BD760FD000DD9F1 /* StoryTableViewCell.swift in Sources */,
 				259E38A11BBD2B8C009C9218 /* LocationManager.swift in Sources */,
 				2516665C1BC7A7C5007B82BC /* User.swift in Sources */,
@@ -327,7 +328,6 @@
 				258B92181BC65AFD0003EA12 /* Session.swift in Sources */,
 				B1B1CAA21BD76049000DD9F1 /* AudioStoryTableViewCell.swift in Sources */,
 				251666601BC8E28B007B82BC /* ProfileViewController.swift in Sources */,
-				B1DB63621BD32383004F1358 /* PublishWrittenStoryViewController.swift in Sources */,
 				259E38AF1BBE50C1009C9218 /* StoriesViewController.swift in Sources */,
 				259E38A71BBE4F6D009C9218 /* AlertView.swift in Sources */,
 				25AFC1301BC501EA00AE8AF9 /* WelcomeViewController.swift in Sources */,
