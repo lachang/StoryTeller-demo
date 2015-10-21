@@ -9,6 +9,7 @@ import UIKit
 import AVFoundation
 
 import MMX
+import AWSS3
 
 /**
  * PublishSpokenStoryViewController
@@ -40,6 +41,7 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
     
     private var _audioPlayer: AVAudioPlayer?
     private var _audioRecorder: AVAudioRecorder?
+    private var _audioFileUrl: NSURL?
     
     // Manages the alert view.
     private var _alertView: AlertView? = nil
@@ -187,31 +189,68 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
     
     func _publish() {
         
-        //AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
-        //let uploadRequest = AWSS3TransferManagerUploadRequest()
-        //let transferManager = AWSS3TransferManager.defaultS3TransferManager()
+        
+        
+        let transferManager = AWSS3TransferManager.defaultS3TransferManager()
+        let uploadRequest1 : AWSS3TransferManagerUploadRequest = AWSS3TransferManagerUploadRequest()
+        let filename = NSProcessInfo.processInfo().globallyUniqueString.stringByAppendingString(".caf")
+        
+        uploadRequest1.bucket = config.S3BucketName
+        uploadRequest1.key = filename
+        uploadRequest1.body = self._audioFileUrl
+        
+        transferManager.upload(uploadRequest1).continueWithBlock { (task) -> AnyObject! in
+            if let error = task.error {
+                if error.domain == AWSS3TransferManagerErrorDomain as String {
+                    if let errorCode = AWSS3TransferManagerErrorType(rawValue: error.code) {
+                        switch (errorCode) {
+                        default:
+                            print("upload() failed: [\(error)]")
+                            break;
+                        }
+                    } else {
+                        print("upload() failed: [\(error)]")
+                    }
+                } else {
+                    print("upload() failed: [\(error)]")
+                }
+            }
+            
+            if let exception = task.exception {
+                print("upload() failed: [\(exception)]")
+            }
+        return nil
+        }
+        let awsLink = "https://s3.amazonaws.com/storyteler/"
+        let fulllink = awsLink + filename
+        let messageContent = ["spoken" : fulllink]
 
-        //let transferManager = AWSS3TransferManager.defaultS3TransferManager()
-        //
-        //add the code to take the message from X and send to server
-        
-        /*
-        Method to publish to a channel.
-        
-        - (void)publish:(NSDictionary *)messageContent success:(void ( ^ ) ( MMXMessage *message ))success failure:(void ( ^ ) ( NSError *error ))failure
-        Parameters
-        messageContent
-        The content you want to publish
-        success
-        Block with the published message
-        failure
-        Block with an NSError with details about the call failure.
-        Discussion
-        Method to publish to a channel.
-        
-        Declared In
-        MMXChannel.h
-        */
+        self.pointOfInterest.addMessage(messageContent,
+            callback: {(error) -> Void in
+                
+                if (error != nil) {
+                    // If an error occurred, show an alert.
+                    var message = error!.localizedDescription
+                    if error!.localizedFailureReason != nil {
+                        message = error!.localizedFailureReason!
+                    }
+                    self._alertView!.showAlert(
+                        "Story Failed to Add!",
+                        message: message,
+                        callback: nil)
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self._alertView!.showAlert(
+                            "Success!",
+                            message: "Story was added.",
+                            callback: {() -> Void in
+                                // Dismiss this controller.
+                                self.dismissViewControllerAnimated(true, completion: nil)
+                        })
+                    }
+                }
+        })
         
         if (messageName.text!.isEmpty) {
             // If an error occurred, show an alert.
@@ -250,7 +289,8 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
             .UserDomainMask, true)
         let docsDir = dirPaths[0]
         let soundFilePath = (docsDir as NSString) .stringByAppendingPathComponent("sound.caf")
-        let soundFileURL = NSURL(fileURLWithPath: soundFilePath)
+        self._audioFileUrl = NSURL(fileURLWithPath: soundFilePath)
+        //let soundFileURL = NSURL(fileURLWithPath: soundFilePath)
         let recordSettings: [String: AnyObject] =
         [AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
             AVEncoderBitRateKey: 16,
@@ -274,7 +314,7 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
         
         do {
             try self._audioRecorder =
-                AVAudioRecorder(URL: soundFileURL, settings: recordSettings)
+                AVAudioRecorder(URL: self._audioFileUrl!, settings: recordSettings)
             
         }
         catch {

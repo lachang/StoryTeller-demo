@@ -63,6 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let configuration = AWSServiceConfiguration(region: config.DefaultServiceRegionType, credentialsProvider: credentialsProvider)
         AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = configuration
         
+            
         if Session.isValid() {
             viewController =
                 UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
