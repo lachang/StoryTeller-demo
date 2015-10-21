@@ -533,12 +533,12 @@
                                 <rect key="frame" x="0.0" y="86" width="600" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
 <<<<<<< HEAD
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rst-kF-hvK" id="4y9-ZO-T8A">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="79"/>
-=======
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6zq-zd-WuT" id="Mb7-j4-aKi">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="276.5"/>
->>>>>>> 0fb608637519fd1ee9767434a288ebd4be826480
+=======
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rst-kF-hvK" id="4y9-ZO-T8A">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="79"/>
+>>>>>>> StoriesViewController Updates
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OpY-Vk-2CG">
