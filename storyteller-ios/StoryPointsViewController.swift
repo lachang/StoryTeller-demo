@@ -28,7 +28,6 @@ LocationManagerDelegate {
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var reload: UIBarButtonItem!
-    @IBOutlet var activityIndicatorView: UIView!
     
     //**************************************************************************
     // MARK: Attributes (Internal)
@@ -58,6 +57,9 @@ LocationManagerDelegate {
     // at once.
     private var _showAllAnnotations = false
 
+    // Activity indicator to denote processing with the server.
+    private var _activityIndicatorBarButton: UIBarButtonItem?
+    
     private var _StoryPointNameTextField: UITextField?
     private var _StoryPointTagsTextField: UITextField?
     
@@ -243,8 +245,10 @@ LocationManagerDelegate {
     
     private func _index(userLocation: CLLocation?) {
 
-        self.activityIndicatorView.hidden = false
-        self.reload.enabled = false
+        dispatch_async(dispatch_get_main_queue()) {
+            self.navigationItem.rightBarButtonItem =
+                self._activityIndicatorBarButton
+        }
         
         if userLocation == nil {
 
@@ -267,8 +271,7 @@ LocationManagerDelegate {
             
             // Hide the activity indicator and re-display the reload button.
             dispatch_async(dispatch_get_main_queue()) {
-                self.activityIndicatorView.hidden = true
-                self.reload.enabled = true
+                self.navigationItem.rightBarButtonItem = self.reload
             }
         }
         else {
@@ -329,8 +332,7 @@ LocationManagerDelegate {
                     
                     // Hide the activity indicator and re-display the reload button.
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.activityIndicatorView.hidden = true
-                        self.reload.enabled = true
+                        self.navigationItem.rightBarButtonItem = self.reload
                     }
                 })
         }
@@ -363,6 +365,14 @@ LocationManagerDelegate {
             UIImage(named: "blue-background")!.resizableImageWithCapInsets(UIEdgeInsetsMake(0, 0, 0, 0),
                 resizingMode: .Stretch), forBarMetrics: .Default)
 
+        // Create an activity indictor which can be temporarily shown on the
+        // navigation bar when activity occurs with the server.
+        let activityIndicator = UIActivityIndicatorView(
+            activityIndicatorStyle: .White)
+        activityIndicator.startAnimating()
+        self._activityIndicatorBarButton = UIBarButtonItem(
+            customView: activityIndicator)
+        
         // Make the table view row height dynamic.
         self.tableView.estimatedRowHeight = self.tableView.rowHeight
         self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -414,8 +424,10 @@ LocationManagerDelegate {
             }
             else {
                 // The application has authorization to receive location data.
-                // Request a location.
+                // Start the activity indicator and request a location.
 
+                self.navigationItem.rightBarButtonItem =
+                    self._activityIndicatorBarButton
                 self._locationManager.requestLocation()
             }
         }
