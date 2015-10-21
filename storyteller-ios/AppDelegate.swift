@@ -9,7 +9,8 @@ import UIKit
 
 // Magnet Message
 import MMX
-
+import AWSS3
+ 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -58,6 +59,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
            example : class func isValid() -> Bool
          */
         
+        let credentialsProvider = AWSCognitoCredentialsProvider(regionType: config.CognitoRegionType, identityPoolId: config.CognitoIdentityPoolId)
+        let configuration = AWSServiceConfiguration(region: config.DefaultServiceRegionType, credentialsProvider: credentialsProvider)
+        AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = configuration
+        let transferManager = AWSS3TransferManager.defaultS3TransferManager()
+
         if Session.isValid() {
             viewController =
                 UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!

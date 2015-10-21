@@ -186,6 +186,13 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
      */
     
     func _publish() {
+        
+        //AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
+        //let uploadRequest = AWSS3TransferManagerUploadRequest()
+        //let transferManager = AWSS3TransferManager.defaultS3TransferManager()
+
+        //let transferManager = AWSS3TransferManager.defaultS3TransferManager()
+        //
         //add the code to take the message from X and send to server
         
         /*

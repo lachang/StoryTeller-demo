@@ -1,4 +1,7 @@
 PODS:
+  - AWSCore (2.2.7)
+  - AWSS3 (2.2.7):
+    - AWSCore (= 2.2.7)
   - CocoaAsyncSocket (7.4.1)
   - CocoaLumberjack (1.9.2):
     - CocoaLumberjack/Extensions (= 1.9.2)
@@ -60,9 +63,12 @@ PODS:
     - MMXXMPPFramework/XEP-0082
 
 DEPENDENCIES:
+  - AWSS3
   - MMX
 
 SPEC CHECKSUMS:
+  AWSCore: d81e1e534040780deb0f3877aaa207d297e54b4c
+  AWSS3: d39bae2ebbcdc450aef30635c85e556317b92a33
   CocoaAsyncSocket: 7cbf214b27f8e7f7574db6a3fd96352ffaed433d
   CocoaLumberjack: 628fca2e88ef06f7cf6817309aa405f325d9a6fa
   Mantle: 60acd0cd363e27d945bda0a6b8e90577112d28f3
@@ -70,4 +76,4 @@ SPEC CHECKSUMS:
   MMX: d2992ed5cf3e322ccf31294f592e846e2cf7fc8d
   MMXXMPPFramework: 20ad9c176eac51ff190c361204876c6583347878
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0
