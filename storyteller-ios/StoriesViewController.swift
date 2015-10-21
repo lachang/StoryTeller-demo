@@ -35,6 +35,10 @@ class StoriesViewController: UITableViewController {
     
     var _messages: [MMXMessage] = []
     
+    let storyCellIdentifier = "StoryTableViewCell"
+    let audioStoryCellIdentifier = "AudioStoryTableViewCell"
+    let videoStoryCellIdentifier = "VideoStoryTableViewCell"
+    
     //**************************************************************************
     // MARK: Class Methods (Public)
     //**************************************************************************
@@ -104,6 +108,11 @@ class StoriesViewController: UITableViewController {
         self.performSegueWithIdentifier("MessagesToFilmedSegue", sender: self)
     }
     
+    private func _configureTableView() {
+        tableView.estimatedRowHeight = self.tableView.rowHeight
+        tableView.rowHeight = UITableViewAutomaticDimension
+    }
+    
     //**************************************************************************
     // MARK: Instance Methods (Public)
     //**************************************************************************
@@ -152,10 +161,8 @@ class StoriesViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Make the table view row height dynamic.
-        self.tableView.estimatedRowHeight = self.tableView.rowHeight
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+
+        self._configureTableView()
         
         // Fetch all the messages for the given channel.
         self.pointOfInterest.channel!.messagesBetweenStartDate(nil, endDate: nil, limit: 25, offset: 0, ascending: false, success: { (totalCount, messages) -> Void in
@@ -224,41 +231,74 @@ class StoriesViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let message = self._messages[indexPath.row]
         
-        let cell:MessagesTableViewCell = tableView.dequeueReusableCellWithIdentifier("MessagesTableViewCell", forIndexPath: indexPath) as! MessagesTableViewCell
-        
-        // Display the message content to the table cell.
-        let message                = self._messages[indexPath.row]
-        //let messageContent         = message.messageContent as! [String:String]
-        //let messageContent = message.messageContent["message"]!
-        
-
-        if let messageContent = message.messageContent["written"] {
-            cell.title.text = "\(messageContent)"
-            //cell.thumbnail.image = UIImage(named: "catdog.jpg")
-
-        } else if let messageContent = message.messageContent["spoken"] {
-            cell.title.text = "\(messageContent)"
-            //cell.thumbnail.image = UIImage(named: "kitty.jpg")
-            //cell.thumbnail.layer.cornerRadius = 5
-            //cell.thumbnail.layer.masksToBounds = true
-        } else if let messageContent = message.messageContent["filmed"] {
-            cell.title.text = "\(messageContent)"
-            //cell.thumbnail.image = UIImage(named: "cat1.jpg")
+        if let _ = message.messageContent["written"] {
+            return _storyCellAtIndexPath(tableView, message: self._messages[indexPath.row])
+            
+        } else if let _ = message.messageContent["spoken"] {
+            return _audioStoryCellAtIndexPath(tableView, message: self._messages[indexPath.row])
+            
+        } else if let _ = message.messageContent["filmed"] {
+            return _videoStoryCellAtIndexPath(tableView, message: self._messages[indexPath.row])
+            
         } else {
-            let messageContent = message.messageContent["message"]!
-            cell.title.text = "\(messageContent)"
-            //cell.thumbnail.image = UIImage(named: "cat1.jpg")
+            return _storyCellAtIndexPath(tableView, message: self._messages[indexPath.row])
         }
+    }
+    
+    private func _storyCellAtIndexPath(tableView: UITableView, message: MMXMessage) -> StoryTableViewCell {
         
-        /*
-        let str: NSMutableAttributedString =
-        NSMutableAttributedString(string: "Clip")
-        str.addAttribute(NSLinkAttributeName, value: messageContent["Clip"]!, range: NSMakeRange(0, str.length))
-        cell.textLabel!.attributedText = str
-        cell.detailTextLabel!.text = message.sender.displayName
-        */
-
+        let cell = tableView.dequeueReusableCellWithIdentifier(storyCellIdentifier) as! StoryTableViewCell
+        
+        let messageType = message.messageContent["written"]
+        
+        cell.titleLabel.text = "written" ?? "[No Title]"
+        cell.messageLabel.text = "\(messageType!)" ?? "[No Content]"
+        
+        cell.usernameLabel.text = "\(message.sender.username)"
+        var timestampArray = message.timestamp.description.componentsSeparatedByString(" ")
+        cell.timestampLabel.text = "\(timestampArray[0])"
+        
+        return cell
+    }
+    
+    private func _audioStoryCellAtIndexPath(tableView: UITableView, message: MMXMessage) -> StoryTableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(storyCellIdentifier) as! StoryTableViewCell
+        //let cell = tableView.dequeueReusableCellWithIdentifier(audioStoryCellIdentifier) as! AudioStoryTableViewCell
+        
+        let messageType = message.messageContent["spoken"]
+        
+        cell.titleLabel.text = "written" ?? "[No Title]"
+        cell.messageLabel.text = "\(messageType!)" ?? "[No Content]"
+        
+        cell.usernameLabel.text = "\(message.sender.username)"
+        var timestampArray = message.timestamp.description.componentsSeparatedByString(" ")
+        cell.timestampLabel.text = "\(timestampArray[0])"
+        
+        return cell
+    }
+    
+    private func _videoStoryCellAtIndexPath(tableView: UITableView, message: MMXMessage) -> StoryTableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(storyCellIdentifier) as! StoryTableViewCell
+        //let cell = tableView.dequeueReusableCellWithIdentifier(videoStoryCellIdentifier) as! VideoStoryTableViewCell
+        
+        let messageType = message.messageContent["filmed"]
+        
+        cell.titleLabel.text = "written" ?? "[No Title]"
+        cell.messageLabel.text = "\(messageType!)" ?? "[No Content]"
+        
+        cell.usernameLabel.text = "\(message.sender.username)"
+        var timestampArray = message.timestamp.description.componentsSeparatedByString(" ")
+        cell.timestampLabel.text = "\(timestampArray[0])"
+        
+        //cell.thumbnail.image = UIImage(named: "catdog.jpg")
+        //cell.thumbnail.image = UIImage(named: "kitty.jpg")
+        //cell.thumbnail.layer.cornerRadius = 5
+        //cell.thumbnail.layer.masksToBounds = true
+        
         return cell
     }
     
