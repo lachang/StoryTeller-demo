@@ -54,6 +54,10 @@ LocationManagerDelegate {
     // Determines whether the view attempts to retrieve channels.
     private var _attemptChannelRetrieval = false
     
+    // Determines whether the view attempts to show all annotations on the map
+    // at once.
+    private var _showAllAnnotations = false
+
     private var _StoryPointNameTextField: UITextField?
     private var _StoryPointTagsTextField: UITextField?
     
@@ -246,16 +250,13 @@ LocationManagerDelegate {
 
             if !self._locationManager.isAuthorized() {
 
-                if self._locationManager.isAuthorizationDetermined() {
+                // Show an alert stating that the application does not have the
+                // authorization to receive location data.
 
-                    // Show an alert stating that the application does not have
-                    // the authorization to receive location data.
-
-                    self._alertView!.showAlert(
-                        "No Location Available",
-                        message: "Please enable location services.",
-                        callback: nil)
-                }
+                self._alertView!.showAlert(
+                    "No Location Available",
+                    message: "Please enable location services.",
+                    callback: nil)
             }
             else {
                 // The application has authorization to receive location data
@@ -272,7 +273,6 @@ LocationManagerDelegate {
         }
         else {
 
-            let userLocation = self._locationManager.getLocation()
             PointOfInterest.index(100, offset: 0,
                 userLocation: userLocation,
                 callback: { (pointsOfInterest, error) -> Void in
@@ -314,8 +314,12 @@ LocationManagerDelegate {
                             if self._mapView != nil {
                                 self._mapView!.removeAllAnnotations()
                                 self._mapView!.addAnnotations(annotations)
-                                self._mapView!.showAllAnnotations(
-                                    showUserLocation: true)
+
+                                if self._showAllAnnotations {
+                                    self._showAllAnnotations = false
+                                    self._mapView!.showAllAnnotations(
+                                        showUserLocation: true)
+                                }
                             }
                             
                             // Reload the table view.
@@ -366,6 +370,9 @@ LocationManagerDelegate {
         // Attempt channel retrieval when the controller initially loads.
         self._attemptChannelRetrieval = true
         
+        // Initially show all annotations when the view loads.
+        self._showAllAnnotations = true
+
         // Setup a notifier for receiving further messages for subscribed
         // channels.
         MMX.start()
@@ -385,14 +392,32 @@ LocationManagerDelegate {
 
         // Register with the LocationManager for location updates.
         self._locationManager.delegate = self
-
+        
         // If requested, attempt to retrieve channels.
         if self._attemptChannelRetrieval {
-            
+
             self._attemptChannelRetrieval = false
-            
-            let location: CLLocation? = self._locationManager.getLocation()
-            self._index(location)
+
+            // Retrieve at least one location.
+            if !self._locationManager.isAuthorized() {
+
+                // Show an alert stating that the application does not have
+                // the authorization to receive location data.
+
+                self._alertView!.showAlert(
+                    "No Location Available",
+                    message: "Please enable location services.",
+                    callback: {() -> Void in
+                        // Dismiss this controller.
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                })
+            }
+            else {
+                // The application has authorization to receive location data.
+                // Request a location.
+
+                self._locationManager.requestLocation()
+            }
         }
         
         // Clear the selected index path, if any.
