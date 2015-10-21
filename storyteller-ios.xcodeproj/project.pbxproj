@@ -28,12 +28,7 @@
 		25AFC1321BC5097400AE8AF9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AFC1311BC5097400AE8AF9 /* LoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		25AFC1341BC5098300AE8AF9 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AFC1331BC5098300AE8AF9 /* SignupViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		25E55B1E1BD4B674003666BA /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E55B1D1BD4B674003666BA /* Configuration.swift */; settings = {ASSET_TAGS = (); }; };
-<<<<<<< HEAD
 		5BBC94EB504AD0904C4BABEC /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1057EE34CCBC13EBCBBE929 /* Pods.framework */; };
-		B1AB9DFA1BD5FE240088C4AD /* MessagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AB9DF91BD5FE240088C4AD /* MessagesTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-=======
-		5BBC94EB504AD0904C4BABEC /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1057EE34CCBC13EBCBBE929 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
->>>>>>> StoriesViewController Updates
 		B1AB9E001BD60DBC0088C4AD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1AB9DFF1BD60DBC0088C4AD /* QuartzCore.framework */; };
 		B1B1CAA21BD76049000DD9F1 /* AudioStoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B1CAA11BD76049000DD9F1 /* AudioStoryTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		B1B1CAA61BD760FD000DD9F1 /* StoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B1CAA51BD760FD000DD9F1 /* StoryTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
