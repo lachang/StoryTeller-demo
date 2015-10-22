@@ -29,6 +29,9 @@
 		25AFC1341BC5098300AE8AF9 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AFC1331BC5098300AE8AF9 /* SignupViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		25E55B1E1BD4B674003666BA /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E55B1D1BD4B674003666BA /* Configuration.swift */; settings = {ASSET_TAGS = (); }; };
 		5BBC94EB504AD0904C4BABEC /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1057EE34CCBC13EBCBBE929 /* Pods.framework */; };
+		B137372E1BD8AB420003D401 /* icon-play-128.png in Resources */ = {isa = PBXBuildFile; fileRef = B137372D1BD8AB420003D401 /* icon-play-128.png */; settings = {ASSET_TAGS = (); }; };
+		B13737301BD8AB4F0003D401 /* icon-pause-128.png in Resources */ = {isa = PBXBuildFile; fileRef = B137372F1BD8AB4F0003D401 /* icon-pause-128.png */; settings = {ASSET_TAGS = (); }; };
+		B13737321BD8AD7D0003D401 /* video-play-178.png in Resources */ = {isa = PBXBuildFile; fileRef = B13737311BD8AD7D0003D401 /* video-play-178.png */; settings = {ASSET_TAGS = (); }; };
 		B1AB9E001BD60DBC0088C4AD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1AB9DFF1BD60DBC0088C4AD /* QuartzCore.framework */; };
 		B1B1CAA21BD76049000DD9F1 /* AudioStoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B1CAA11BD76049000DD9F1 /* AudioStoryTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		B1B1CAA61BD760FD000DD9F1 /* StoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B1CAA51BD760FD000DD9F1 /* StoryTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
@@ -65,6 +68,9 @@
 		25E8A6121BD72830005070E3 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		38DBD837DCD19F9BA1451D60 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		A1057EE34CCBC13EBCBBE929 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B137372D1BD8AB420003D401 /* icon-play-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-play-128.png"; sourceTree = "<group>"; };
+		B137372F1BD8AB4F0003D401 /* icon-pause-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-pause-128.png"; sourceTree = "<group>"; };
+		B13737311BD8AD7D0003D401 /* video-play-178.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-play-178.png"; sourceTree = "<group>"; };
 		B1AB9DFF1BD60DBC0088C4AD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B1B1CAA11BD76049000DD9F1 /* AudioStoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioStoryTableViewCell.swift; sourceTree = "<group>"; };
 		B1B1CAA51BD760FD000DD9F1 /* StoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -114,6 +120,9 @@
 				259E38AA1BBE4F74009C9218 /* Controllers */,
 				259E38861BBD166B009C9218 /* AppDelegate.swift */,
 				259E388A1BBD166B009C9218 /* Main.storyboard */,
+				B13737311BD8AD7D0003D401 /* video-play-178.png */,
+				B137372F1BD8AB4F0003D401 /* icon-pause-128.png */,
+				B137372D1BD8AB420003D401 /* icon-play-128.png */,
 				259E388D1BBD166B009C9218 /* Assets.xcassets */,
 				259E388F1BBD166B009C9218 /* LaunchScreen.storyboard */,
 				259E38921BBD166B009C9218 /* Info.plist */,
@@ -255,8 +264,11 @@
 			files = (
 				259E38911BBD166B009C9218 /* LaunchScreen.storyboard in Resources */,
 				259E38B11BBE5442009C9218 /* Configurations.plist in Resources */,
+				B13737321BD8AD7D0003D401 /* video-play-178.png in Resources */,
+				B137372E1BD8AB420003D401 /* icon-play-128.png in Resources */,
 				259E388E1BBD166B009C9218 /* Assets.xcassets in Resources */,
 				259E388C1BBD166B009C9218 /* Main.storyboard in Resources */,
+				B13737301BD8AB4F0003D401 /* icon-pause-128.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

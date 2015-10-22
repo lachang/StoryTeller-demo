@@ -265,13 +265,13 @@ class StoriesViewController: UITableViewController {
     
     private func _audioStoryCellAtIndexPath(tableView: UITableView, message: MMXMessage) -> StoryTableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(storyCellIdentifier) as! StoryTableViewCell
-        //let cell = tableView.dequeueReusableCellWithIdentifier(audioStoryCellIdentifier) as! AudioStoryTableViewCell
+        //let cell = tableView.dequeueReusableCellWithIdentifier(storyCellIdentifier) as! StoryTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(audioStoryCellIdentifier) as! AudioStoryTableViewCell
         
-        let messageType = message.messageContent["spoken"]
+        //let messageType = message.messageContent["spoken"]
         
-        cell.titleLabel.text = "written" ?? "[No Title]"
-        cell.messageLabel.text = "\(messageType!)" ?? "[No Content]"
+        cell.titleLabel.text = "spoken" ?? "[No Title]"
+        //cell.messageLabel.text = "\(messageType!)" ?? "[No Content]"
         
         cell.usernameLabel.text = "\(message.sender.username)"
         var timestampArray = message.timestamp.description.componentsSeparatedByString(" ")
@@ -282,13 +282,13 @@ class StoriesViewController: UITableViewController {
     
     private func _videoStoryCellAtIndexPath(tableView: UITableView, message: MMXMessage) -> StoryTableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(storyCellIdentifier) as! StoryTableViewCell
-        //let cell = tableView.dequeueReusableCellWithIdentifier(videoStoryCellIdentifier) as! VideoStoryTableViewCell
+        //let cell = tableView.dequeueReusableCellWithIdentifier(storyCellIdentifier) as! StoryTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(videoStoryCellIdentifier) as! VideoStoryTableViewCell
         
-        let messageType = message.messageContent["filmed"]
+        //let messageType = message.messageContent["filmed"]
         
-        cell.titleLabel.text = "written" ?? "[No Title]"
-        cell.messageLabel.text = "\(messageType!)" ?? "[No Content]"
+        cell.titleLabel.text = "filmed" ?? "[No Title]"
+        //cell.messageLabel.text = "\(messageType!)" ?? "[No Content]"
         
         cell.usernameLabel.text = "\(message.sender.username)"
         var timestampArray = message.timestamp.description.componentsSeparatedByString(" ")

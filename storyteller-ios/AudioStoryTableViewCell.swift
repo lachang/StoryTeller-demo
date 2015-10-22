@@ -10,4 +10,5 @@ import Foundation
 
 class AudioStoryTableViewCell : StoryTableViewCell {
     // add audio unique thing here
+    @IBOutlet var customImageView: UIImageView!
 }
