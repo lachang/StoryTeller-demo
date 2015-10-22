@@ -223,7 +223,7 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
         }
         let awsLink = "https://s3.amazonaws.com/storyteler/"
         let fulllink = awsLink + filename
-        let messageContent = ["spoken" : fulllink]
+        let messageContent = ["spoken" : fulllink, "titleName" : messageName.text!]
 
         self.pointOfInterest.addMessage(messageContent,
             callback: {(error) -> Void in
