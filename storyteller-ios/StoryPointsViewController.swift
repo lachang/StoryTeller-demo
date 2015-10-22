@@ -88,6 +88,7 @@ LocationManagerDelegate {
      */
     
     @IBAction func reload(sender: AnyObject) {
+        self._showAllAnnotations = true
         let location: CLLocation? = self._locationManager.getLocation()
         self._index(location)
     }
