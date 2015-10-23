@@ -98,6 +98,27 @@ class AlertView {
             animated: true,
             completion: nil)
     }
+    
+    /**
+     * Create and present a simple alert view with the given title. The message
+     * to show is extracted from the given error. An optional callback can be
+     * given that is called once the alert view is dismissed.
+     *
+     * - parameter title: The title to show in the alert view.
+     * - parameter error: The error to extract a message from.
+     * - parameter callback: Callback invoked once the alert view is dismissed.
+     *
+     * - returns: N/A
+     */
+    
+    func showAlert(title: String, error: NSError, callback: ((Void) -> Void)?) {
+            
+        var message = error.localizedDescription
+        if error.localizedFailureReason != nil {
+            message = error.localizedFailureReason!
+        }
+        self.showAlert(title, message: message, callback: callback)
+    }
 
     //**************************************************************************
     // MARK: Instance Methods (Internal)

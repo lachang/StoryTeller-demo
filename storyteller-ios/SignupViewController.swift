@@ -109,13 +109,9 @@ class SignupViewController: UIViewController {
 
             if error != nil {
                 // If an error occurred, show an alert.
-                var message = error!.localizedDescription
-                if error!.localizedFailureReason != nil {
-                    message = error!.localizedFailureReason!
-                }
                 self._alertView!.showAlert(
                     "Signup Failed",
-                    message: message,
+                    error: error!,
                     callback: nil)
 
                 // Hide the activity indicator and re-display the signup button.
@@ -135,14 +131,10 @@ class SignupViewController: UIViewController {
                         
                         if error != nil {
                             // If an error occurred, show an alert.
-                            var message = error!.localizedDescription
-                            if error!.localizedFailureReason != nil {
-                                message = error!.localizedFailureReason!
-                            }
                             dispatch_async(dispatch_get_main_queue()) {
                                 self._alertView!.showAlert(
                                     "Signup Succeeded But Login Failed",
-                                    message: message,
+                                    error: error!,
                                     callback: {() -> Void in
                                         // Dismiss this controller so that the
                                         // user can try to login again.

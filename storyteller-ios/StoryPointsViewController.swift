@@ -149,13 +149,9 @@ LocationManagerDelegate {
                 pointOfInterest.create(callback: {(error) -> Void in
                     if error != nil {
                         // If an error occurred, show an alert.
-                        var message = error!.localizedDescription
-                        if error!.localizedFailureReason != nil {
-                            message = error!.localizedFailureReason!
-                        }
                         self._alertView!.showAlert(
                             "Storypoint Creation Failed",
-                            message: message,
+                            error: error!,
                             callback: nil)
                     }
                     else {
@@ -277,13 +273,9 @@ LocationManagerDelegate {
                     
                     if error != nil {
                         // If an error occurred, show an alert.
-                        var message = error!.localizedDescription
-                        if error!.localizedFailureReason != nil {
-                            message = error!.localizedFailureReason!
-                        }
                         self._alertView!.showAlert(
                             "Storypoint Retrieval Failed",
-                            message: message,
+                            error: error!,
                             callback: nil)
                     }
                     else {

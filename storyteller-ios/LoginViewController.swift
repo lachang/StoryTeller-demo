@@ -106,13 +106,9 @@ class LoginViewController: UIViewController {
                 
                 if error != nil {
                     // If an error occurred, show an alert.
-                    var message = error!.localizedDescription
-                    if error!.localizedFailureReason != nil {
-                        message = error!.localizedFailureReason!
-                    }
                     self._alertView!.showAlert(
                         "Login Failed",
-                        message: message,
+                        error: error!,
                         callback: nil)
 
                     // Hide the activity indicator and re-display the login

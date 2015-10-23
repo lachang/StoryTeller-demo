@@ -80,13 +80,9 @@ class PublishWrittenStoryViewController: UIViewController {
                 
                 if (error != nil) {
                     // If an error occurred, show an alert.
-                    var message = error!.localizedDescription
-                    if error!.localizedFailureReason != nil {
-                        message = error!.localizedFailureReason!
-                    }
                     self._alertView!.showAlert(
                         "Story Failed to Add!",
-                        message: message,
+                        error: error!,
                         callback: nil)
                 }
                 else {
@@ -112,13 +108,9 @@ class PublishWrittenStoryViewController: UIViewController {
                 
                 if (error != nil) {
                     // If an error occurred, show an alert.
-                    var message = error!.localizedDescription
-                    if error!.localizedFailureReason != nil {
-                        message = error!.localizedFailureReason!
-                    }
                     self._alertView!.showAlert(
                         "Story Failed to Add!",
-                        message: message,
+                        error: error!,
                         callback: nil)
                 }
                 else {
@@ -147,13 +139,9 @@ class PublishWrittenStoryViewController: UIViewController {
                 
                 if (error != nil) {
                     // If an error occurred, show an alert.
-                    var message = error!.localizedDescription
-                    if error!.localizedFailureReason != nil {
-                        message = error!.localizedFailureReason!
-                    }
                     self._alertView!.showAlert(
                         "Story Failed to Add!",
-                        message: message,
+                        error: error!,
                         callback: nil)
                 }
                 else {
