@@ -14,12 +14,12 @@ import MMX
 /**
  * StoryPointsViewController
  *
- * Displays the index of nearby messages as pins on a map.
+ * Displays the index of nearby points-of-interests (aka storypoints) as pins on
+ * a map.
  */
 
 class StoryPointsViewController: UIViewController, UITableViewDataSource,
-    UITableViewDelegate, MKMapViewDelegate,
-LocationManagerDelegate {
+    UITableViewDelegate, MKMapViewDelegate, LocationManagerDelegate {
 
     //**************************************************************************
     // MARK: Attributes (Public)
@@ -37,7 +37,7 @@ LocationManagerDelegate {
     // MARK: Attributes (Private)
     //**************************************************************************
     
-    // Messages to display.
+    // An array of points-of-interest to display.
     private var _pointsOfInterest: [PointOfInterest] = []
     
     // Manages the map view.
@@ -50,18 +50,19 @@ LocationManagerDelegate {
     private var _locationManager: LocationManager =
     LocationManager.sharedLocationManager()
     
-    // Determines whether the view attempts to retrieve channels.
-    private var _attemptChannelRetrieval = false
+    // Determines whether the view attempts to retrieve points-of-interest.
+    private var _attemptPointRetrieval = false
     
     // Determines whether the view attempts to show all annotations on the map
     // at once.
     private var _showAllAnnotations = false
 
-    // Activity indicator to denote processing with the server.
+    // Activity indicator to denote processing with a remote server.
     private var _activityIndicatorBarButton: UIBarButtonItem?
     
-    private var _StoryPointNameTextField: UITextField?
-    private var _StoryPointTagsTextField: UITextField?
+    // Fields shown in an alertview when adding a new point-of-interest.
+    private var _storyPointNameTextField: UITextField?
+    private var _storyPointTagsTextField: UITextField?
     
     //**************************************************************************
     // MARK: Class Methods (Public)
@@ -78,6 +79,61 @@ LocationManagerDelegate {
     //**************************************************************************
     // MARK: Instance Methods (Public)
     //**************************************************************************
+    
+    /**
+     * Triggered when the user presses the create button.
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
+
+    @IBAction func create(sender: AnyObject) {
+        
+        let alertController = UIAlertController(
+            title: "Add New StoryPoint",
+            message: "Please enter a name and at least 3 tags that help identify it.",
+            preferredStyle: .Alert)
+        
+        // Create the OK action.
+        let okAction = UIAlertAction(
+            title: "OK",
+            style: .Default,
+            handler: { (action) -> Void in
+
+                // Create the point-of-interest.
+                self._create(self._storyPointNameTextField!.text!,
+                    tags: self._storyPointTagsTextField!.text!,
+                    userLocation: self._locationManager.getLocation()!)
+            })
+        
+        // Create the cancel action.
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: .Cancel,
+            handler: { (action) -> Void in
+            })
+        
+        // Add the actions to the alert view.
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        // Add text fields to the alert view.
+        alertController.addTextFieldWithConfigurationHandler(
+            { (UITextField) -> Void in
+                UITextField.placeholder = "Enter Storypoint Name"
+                self._storyPointNameTextField = UITextField
+            })
+        
+        alertController.addTextFieldWithConfigurationHandler(
+            { (UITextField) -> Void in
+                UITextField.placeholder = "Enter Tags Separated By Spaces"
+                self._storyPointTagsTextField = UITextField
+            })
+        
+        // Show the alert view.
+        presentViewController(alertController, animated: true, completion: nil)
+    }
     
     /**
      * Triggered when the user presses the reload button.
@@ -120,119 +176,6 @@ LocationManagerDelegate {
     //**************************************************************************
     // MARK: Instance Methods (Private)
     //**************************************************************************
-    
-    // add a new story point
-    @IBAction func addNewStoryPoint(sender: AnyObject) {
-        
-        let alertController = UIAlertController(
-            title: "Add New Storypoint",
-            message: "Please enter a Storypoint name and at least 3 tags that help identify it",
-            preferredStyle: .Alert)
-        
-        let okAction = UIAlertAction(
-            title: "OK",
-            style: .Default)
-            { (action) -> Void in
-                
-                let nameField = self._StoryPointNameTextField
-                let userLocation = self._locationManager.getLocation()
-                    
-                // Initialize a new StoryPoint (aka PointOfInterest).
-                let pointOfInterest = PointOfInterest(
-                    title: nameField!.text!,
-                    numMessages: 0,
-                    longitude: userLocation!.coordinate.longitude,
-                    latitude: userLocation!.coordinate.latitude,
-                    userLocation: userLocation!)
-                
-                // add the point of interest on the server
-                pointOfInterest.create(callback: {(error) -> Void in
-                    if error != nil {
-                        // If an error occurred, show an alert.
-                        self._alertView!.showAlert(
-                            "Storypoint Creation Failed",
-                            error: error!,
-                            callback: nil)
-                    }
-                    else {
-                        var annotation:MKAnnotation?
-                        
-                        // add the point of interest
-                        self.addPointOfInterestAndSubscribe(pointOfInterest)
-                        annotation = pointOfInterest
-                        
-                        // set the tags to associate with the channel
-                        let tagField = self._StoryPointTagsTextField
-                        if tagField!.text == "" {
-                            // TODO: handle this case
-                        } else {
-                            pointOfInterest.setTags(tagField!.text!)
-                        }
-                        
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self._mapView!.addAnnotation(annotation!)
-                            self.tableView.reloadData()
-                        }
-                    }
-                })
-        }
-        
-        let cancelAction = UIAlertAction(
-            title: "Cancel",
-            style: .Cancel)
-            { (action) -> Void in
-                // do nothing
-        }
-        
-        alertController.addAction(okAction)
-        alertController.addAction(cancelAction)
-        
-        alertController.addTextFieldWithConfigurationHandler { (UITextField) -> Void in
-            UITextField.placeholder = "Enter Storypoint Name"
-            self._StoryPointNameTextField = UITextField
-        }
-        
-        alertController.addTextFieldWithConfigurationHandler { (UITextField) -> Void in
-            UITextField.placeholder = "Enter Tags Separated By Spaces"
-            self._StoryPointTagsTextField = UITextField
-        }
-        
-        presentViewController(alertController, animated: true, completion: nil)
-    }
-    
-    /**
-     * Helper function to add a point-of-interest to the table view and if
-     * necessary, subscribe to its channel.
-     *
-     * - parameter pointOfInterest: The point-of-interest to process.
-     *
-     * - returns: N/A
-     */
-
-    private func addPointOfInterestAndSubscribe(
-        pointOfInterest: PointOfInterest) -> Void {
-        
-        // Add the point of interest to the table view.
-        self._pointsOfInterest.append(pointOfInterest)
-        
-        if !pointOfInterest.locked {
-
-            // Only subscribe to points-of-interests within 100 m.
-            pointOfInterest.channel!.subscribeWithSuccess({ () -> Void in
-                }, failure: { (error) -> Void in
-                    print("ERROR: Failed to subscribe to " +
-                          pointOfInterest.channel!.name)
-                })
-        }
-        else {
-            
-            pointOfInterest.channel!.unSubscribeWithSuccess({ () -> Void in
-                }, failure: { (error) -> Void in
-//                    print("ERROR: Failed to unsubscribe for " +
-//                          pointOfInterest.channel!.name)
-                })
-        }
-    }
     
     private func _index(userLocation: CLLocation?) {
 
@@ -284,12 +227,24 @@ LocationManagerDelegate {
                         
                         for pointOfInterest in pointsOfInterest {
                             
-                            // Add the point-of-interest to the map if its
-                            // within a preset distance.
+                            // Save off the point-of-interest if its within a
+                            // preset distance.
                             if Int(pointOfInterest.distance!) <
-                                config.StoryPointLockedDistance {
-                                self.addPointOfInterestAndSubscribe(pointOfInterest)
+                               config.StoryPointLockedDistance {
+
                                 annotations.append(pointOfInterest)
+                                self._pointsOfInterest.append(pointOfInterest)
+                                
+                                // Subscribe or unsubscribe to the
+                                // point-of-interest based on distance.
+                                pointOfInterest.subscribeOrUnsubscribe(
+                                    callback: {(error) -> Void in
+                                        
+                                    self._alertView!.showAlert(
+                                        "StoryPoint Creation Failed",
+                                        error: error!,
+                                        callback: nil)
+                                })
                             }
                         }
                         
@@ -299,9 +254,10 @@ LocationManagerDelegate {
                             $0.distance! < $1.distance!
                         })
                         
-                        // Show all the points of interest on the map.
                         dispatch_async(dispatch_get_main_queue()) {
-                            
+
+                            // Show all the points of interest on the map, if
+                            // available.
                             if self._mapView != nil {
                                 self._mapView!.removeAllAnnotations()
                                 self._mapView!.addAnnotations(annotations)
@@ -324,6 +280,50 @@ LocationManagerDelegate {
                     }
                 })
         }
+    }
+    
+    private func _create(name: String, tags: String, userLocation: CLLocation) {
+        
+        // Initialize a new point-of-interest.
+        let pointOfInterest = PointOfInterest(
+            title: name,
+            numMessages: 0,
+            longitude: userLocation.coordinate.longitude,
+            latitude: userLocation.coordinate.latitude,
+            userLocation: userLocation)
+        
+        // Create the point-of-interest.
+        pointOfInterest.create(callback: {(error) -> Void in
+            
+            if error != nil {
+                self._alertView!.showAlert(
+                    "StoryPoint Creation Failed",
+                    error: error!,
+                    callback: nil)
+            }
+            else {
+                // Subscribe or unsubscribe to the point-of-interest based on
+                // distance.
+                pointOfInterest.subscribeOrUnsubscribe(callback: {(error) -> Void in
+                    self._alertView!.showAlert(
+                        "StoryPoint Creation Failed",
+                        error: error!,
+                        callback: nil)
+                })
+                
+                // Set the tags to associate with the point-of-interest.
+                if !tags.isEmpty {
+                    pointOfInterest.setTags(tags)
+                }
+                
+                // Add the point-of-interest to the view.
+                dispatch_async(dispatch_get_main_queue()) {
+                    self._mapView!.addAnnotation(pointOfInterest)
+                    self._pointsOfInterest.append(pointOfInterest)
+                    self.tableView.reloadData()
+                }
+            }
+        })
     }
 
     //**************************************************************************
@@ -365,8 +365,9 @@ LocationManagerDelegate {
         self.tableView.estimatedRowHeight = self.tableView.rowHeight
         self.tableView.rowHeight = UITableViewAutomaticDimension
         
-        // Attempt channel retrieval when the controller initially loads.
-        self._attemptChannelRetrieval = true
+        // Attempt point-of-interest retrieval when the controller initially
+        // loads.
+        self._attemptPointRetrieval = true
         
         // Initially show all annotations when the view loads.
         self._showAllAnnotations = true
@@ -391,10 +392,10 @@ LocationManagerDelegate {
         // Register with the LocationManager for location updates.
         self._locationManager.delegate = self
         
-        // If requested, attempt to retrieve channels.
-        if self._attemptChannelRetrieval {
+        // If requested, attempt to retrieve points-of-interest.
+        if self._attemptPointRetrieval {
 
-            self._attemptChannelRetrieval = false
+            self._attemptPointRetrieval = false
 
             // Retrieve at least one location.
             if !self._locationManager.isAuthorized() {

@@ -336,13 +336,13 @@ class PointOfInterest: NSObject, MKAnnotation {
     }
     
     /**
-    * Get the tags on the server for this PointOfInterest instance
-    *
-    * - parameter callback: Callback invoked once the message creation attempt
-    *                       completes.
-    *
-    * - returns: N/A
-    */
+     * Get the tags on the server for this PointOfInterest instance
+     *
+     * - parameter callback: Callback invoked once the message creation attempt
+     *                       completes.
+     *
+     * - returns: N/A
+     */
     
     func getTags() -> Void {
         self.channel!.tagsWithSuccess({ (tags) -> Void in
@@ -365,6 +365,24 @@ class PointOfInterest: NSObject, MKAnnotation {
             print("ERROR: Failed to delete channel!")
             callback(error)
         })
+    }
+    
+    func subscribeOrUnsubscribe(callback callback: ((NSError?) -> Void)) {
+     
+        if !self.locked {
+            // Only subscribe to points-of-interests within a preset discance.
+            self.channel!.subscribeWithSuccess({ () -> Void in
+            }, failure: { (error) -> Void in
+                print("ERROR: Failed to subscribe!")
+                callback(error)
+            })
+        }
+        else {
+            // Unsubscribe from a channel that is too far away.
+            self.channel!.unSubscribeWithSuccess({ () -> Void in
+            }, failure: { (error) -> Void in
+            })
+        }
     }
     
     //**************************************************************************
