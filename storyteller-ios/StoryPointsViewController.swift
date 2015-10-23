@@ -135,56 +135,50 @@ LocationManagerDelegate {
             { (action) -> Void in
                 
                 let nameField = self._StoryPointNameTextField
+                let userLocation = self._locationManager.getLocation()
                     
-                if nameField!.text == "" {
-                    // TODO: handle this case
-                } else {
-                    // get the channel necessities
-                    let userLocation = self._locationManager.getLocation()
-                    
-                    // initialize the point of interest
-                    let pointOfInterest = PointOfInterest(
-                        title: nameField!.text!,
-                        numMessages: 0,
-                        longitude: userLocation!.coordinate.longitude,
-                        latitude: userLocation!.coordinate.latitude,
-                        userLocation: userLocation!)
-                    
-                    // add the point of interest on the server
-                    pointOfInterest.create(callback: {(error) -> Void in
-                        if error != nil {
-                            // If an error occurred, show an alert.
-                            var message = error!.localizedDescription
-                            if error!.localizedFailureReason != nil {
-                                message = error!.localizedFailureReason!
-                            }
-                            self._alertView!.showAlert(
-                                "Storypoint Creation Failed",
-                                message: message,
-                                callback: nil)
+                // Initialize a new StoryPoint (aka PointOfInterest).
+                let pointOfInterest = PointOfInterest(
+                    title: nameField!.text!,
+                    numMessages: 0,
+                    longitude: userLocation!.coordinate.longitude,
+                    latitude: userLocation!.coordinate.latitude,
+                    userLocation: userLocation!)
+                
+                // add the point of interest on the server
+                pointOfInterest.create(callback: {(error) -> Void in
+                    if error != nil {
+                        // If an error occurred, show an alert.
+                        var message = error!.localizedDescription
+                        if error!.localizedFailureReason != nil {
+                            message = error!.localizedFailureReason!
                         }
-                        else {
-                            var annotation:MKAnnotation?
-                            
-                            // add the point of interest
-                            self.addPointOfInterestAndSubscribe(pointOfInterest)
-                            annotation = pointOfInterest
-                            
-                            // set the tags to associate with the channel
-                            let tagField = self._StoryPointTagsTextField
-                            if tagField!.text == "" {
-                                // TODO: handle this case
-                            } else {
-                                pointOfInterest.setTags(tagField!.text!)
-                            }
-                            
-                            dispatch_async(dispatch_get_main_queue()) {
-                                self._mapView!.addAnnotation(annotation!)
-                                self.tableView.reloadData()
-                            }
+                        self._alertView!.showAlert(
+                            "Storypoint Creation Failed",
+                            message: message,
+                            callback: nil)
+                    }
+                    else {
+                        var annotation:MKAnnotation?
+                        
+                        // add the point of interest
+                        self.addPointOfInterestAndSubscribe(pointOfInterest)
+                        annotation = pointOfInterest
+                        
+                        // set the tags to associate with the channel
+                        let tagField = self._StoryPointTagsTextField
+                        if tagField!.text == "" {
+                            // TODO: handle this case
+                        } else {
+                            pointOfInterest.setTags(tagField!.text!)
                         }
-                    })
-                }
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self._mapView!.addAnnotation(annotation!)
+                            self.tableView.reloadData()
+                        }
+                    }
+                })
         }
         
         let cancelAction = UIAlertAction(

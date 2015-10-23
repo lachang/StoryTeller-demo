@@ -25,7 +25,8 @@ class PointOfInterest: NSObject, MKAnnotation {
     //**************************************************************************
 
     // Various error codes.
-    static let errorIndexCode = 1
+    static let errorIndexCode  = 1
+    static let errorCreateCode = 2
     
     var title: String?
     var longitude: CLLocationDegrees
@@ -249,24 +250,39 @@ class PointOfInterest: NSObject, MKAnnotation {
     
     func create(callback callback: ((NSError?) -> Void)) {
         
-        // make strings that are friendly for the magnet API
-        let magnetTitleString = self._makeTitleString()
-        let magnetSummaryString = self._makeSummaryString()
-        
-        // Create a new channel for Magnet Message.
-        MMXChannel.createWithName(
-            magnetTitleString,
-            summary: magnetSummaryString,
-            isPublic: true,
-            success: {(channel) -> Void in
-                print("Added channel " + channel!.name)
-                self.channel = channel
-                callback(nil)
-            },
-            failure: {(error) -> Void in
-                print("ERROR: Failed to add channel!")
-                callback(error)
-            })
+        if self.title!.isEmpty {
+            // A title is required.
+            let userInfo = [
+                NSLocalizedDescriptionKey: "Invalid Title",
+                NSLocalizedFailureReasonErrorKey: "A title is required."
+            ]
+            let error = NSError(domain: "PointOfInterest",
+                code: PointOfInterest.errorCreateCode,
+                userInfo: userInfo)
+            
+            print("ERROR: Failed to add channel!")
+            callback(error)
+        }
+        else {
+            // Create strings that are properly-formatted for the server.
+            let formattedTitleString   = self._makeTitleString()
+            let formattedSummaryString = self._makeSummaryString()
+            
+            // Create a new channel for Magnet Message.
+            MMXChannel.createWithName(
+                formattedTitleString,
+                summary: formattedSummaryString,
+                isPublic: true,
+                success: {(channel) -> Void in
+                    print("Added channel " + channel!.name)
+                    self.channel = channel
+                    callback(nil)
+                },
+                failure: {(error) -> Void in
+                    print("ERROR: Failed to add channel!")
+                    callback(error)
+                })
+        }
     }
     
     /**
