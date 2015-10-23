@@ -1,9 +1,9 @@
-//
+//******************************************************************************
 //  AppDelegate.swift
 //  storyteller-ios
 //
 //  Copyright (c) 2015 storyteller. All rights reserved.
-//
+//******************************************************************************
 
 import UIKit
 
@@ -51,26 +51,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // http://stackoverflow.com/questions/19962276/best-practices-for-storyboard-login-screen-handling-clearing-of-data-upon-logou?lq=1
         
         var viewController: UIViewController
-        
-        /*
-         * Add Arvind's Authentication for AWS here
-           Create a model for AWSSession
-           Call your validation function here
-           example : class func isValid() -> Bool
-         */
-        
-        let credentialsProvider = AWSCognitoCredentialsProvider(regionType: config.CognitoRegionType, identityPoolId: config.CognitoIdentityPoolId)
-        let configuration = AWSServiceConfiguration(region: config.DefaultServiceRegionType, credentialsProvider: credentialsProvider)
-        AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = configuration
-        
             
         if Session.isValid() {
             viewController =
-                UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
+                UIStoryboard(name: "Main",
+                    bundle: nil).instantiateInitialViewController()!
         }
         else {
             viewController =
-                UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("WelcomeView")
+                UIStoryboard(name: "Main",
+                    bundle: nil).instantiateViewControllerWithIdentifier(
+                        "WelcomeView")
         }
         
         // http://stackoverflow.com/questions/7703806/rootviewcontroller-switch-transition-animation
@@ -106,11 +97,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-            
-        // Override point for customization after application launch.
 
         // Initialize Magnet Message
         MMX.setupWithConfiguration("default")
+            
+        // Initialize AWS
+        let credentialsProvider =
+            AWSCognitoCredentialsProvider(
+                regionType: config.CognitoRegionType,
+                identityPoolId: config.CognitoIdentityPoolId)
+        
+        let configuration = AWSServiceConfiguration(
+            region: config.CognitoRegionType,
+            credentialsProvider: credentialsProvider)
+            
+        AWSServiceManager.defaultServiceManager().defaultServiceConfiguration =
+            configuration
 
         // Switch to the initial view.
         self.switchToInitialView()
