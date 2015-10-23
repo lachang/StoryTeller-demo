@@ -151,7 +151,7 @@ class PointOfInterest: NSObject, MKAnnotation {
 
         if userLocation != nil {
             self.distance = self.location.distanceFromLocation(userLocation!)
-            if self.distance >= 100 {
+            if Int(self.distance!) >= config.StoryPointUnlockedDistance {
                 self.locked = true
             }
         }

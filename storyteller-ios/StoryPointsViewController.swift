@@ -298,9 +298,10 @@ LocationManagerDelegate {
                         
                         for pointOfInterest in pointsOfInterest {
                             
-                            // Add the point-of-interest to the map if its within
-                            // 10000 m.
-                            if Int(pointOfInterest.distance!) < 10000 {
+                            // Add the point-of-interest to the map if its
+                            // within a preset distance.
+                            if Int(pointOfInterest.distance!) <
+                                config.StoryPointLockedDistance {
                                 self.addPointOfInterestAndSubscribe(pointOfInterest)
                                 annotations.append(pointOfInterest)
                             }
