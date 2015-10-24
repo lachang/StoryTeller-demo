@@ -68,7 +68,7 @@ class PointOfInterestTableViewCell: UITableViewCell {
         else {
             self.title.textColor    = UIColor.blackColor()
             self.subtitle.textColor = UIColor.blackColor()
-            self.distance.textColor = UIColor.blackColor()
+            self.distance.textColor = UIColor.darkGrayColor()
             
             self.subtitle.text = String(pointOfInterest.numMessages) + " Messages"
         }
