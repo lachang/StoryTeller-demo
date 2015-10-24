@@ -50,8 +50,8 @@ class PointOfInterestTableViewCell: UITableViewCell {
     /**
      * Configure outlets based on a given PointOfInterest instance.
      *
-     * - parameter callback: Callback invoked once the geo msg destroy attempt
-     *                       completes.
+     * - parameter pointOfInterest: The PointOfInterest instance used to
+     *                              configure with.
      *
      * - returns: N/A
      */

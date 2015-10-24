@@ -1,13 +1,11 @@
 //******************************************************************************
-//  PublishSpokenStoryViewController.swift
+//  PublishFilmedStoryViewController.swift
 //  storyteller-ios
 //
 //  Copyright (c) 2015 storyteller. All rights reserved.
 //******************************************************************************
 
 import UIKit
-
-import MMX
 
 /**
  * PublishFilmedStoryViewController
@@ -27,6 +25,7 @@ class PublishFilmedStoryViewController: UIViewController {
     @IBOutlet var reset: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
+    // The PointOfInterest instance to add the story to.
     var pointOfInterest: PointOfInterest!
     
     //**************************************************************************
@@ -83,14 +82,17 @@ class PublishFilmedStoryViewController: UIViewController {
         
         if text == "Record" {
 
+            // Transition the button from "Record" -> "Stop".
             self.record.setTitle("Stop", forState: .Normal)
             self.activityIndicator.hidden = false
         }
         else if text == "Stop" {
             
+            // Transition the button from "Stop" -> "Publish".
             self.activityIndicator.hidden = true
             self.record.setTitle("Publish", forState: .Normal)
             
+            // Show other buttons / fields related to publishing.
             self.messageName.hidden = false
             self.playback.hidden = false
             self.reset.hidden = false
@@ -112,9 +114,13 @@ class PublishFilmedStoryViewController: UIViewController {
     @IBAction func playbackOrStop(sender: AnyObject) {
         
         if self.playback.titleLabel!.text == "Playback" {
+            
+            // Transition the button from "Playback" -> "Stop".
             self.playback.setTitle("Stop", forState: .Normal)
         }
         else if self.playback.titleLabel!.text == "Stop" {
+            
+            // Transition the button from "Stop" -> "Playback".
             self.playback.setTitle("Playback", forState: .Normal)
         }
     }
@@ -143,31 +149,15 @@ class PublishFilmedStoryViewController: UIViewController {
     // MARK: Instance Methods (Private)
     //**************************************************************************
     
-    /*
-    * Arvind to add video stuff here
-    */
+    /**
+     * Publishes the video to the server.
+     *
+     * - parameter N/A
+     *
+     * - returns: N/A
+     */
     
     private func _publish() {
-        //add the code to take the message from X and send to server
-        
-        /*
-        Method to publish to a channel.
-        
-        - (void)publish:(NSDictionary *)messageContent success:(void ( ^ ) ( MMXMessage *message ))success failure:(void ( ^ ) ( NSError *error ))failure
-        Parameters
-        messageContent
-        The content you want to publish
-        success
-        Block with the published message
-        failure
-        Block with an NSError with details about the call failure.
-        Discussion
-        Method to publish to a channel.
-        
-        Declared In
-        MMXChannel.h
-        */
-        
         if (messageName.text!.isEmpty) {
             // If an error occurred, show an alert.
             self._alertView!.showAlert(
@@ -176,9 +166,35 @@ class PublishFilmedStoryViewController: UIViewController {
                 callback: nil)
         }
         else {
+            self.activityIndicator.hidden = false
+            self.messageName.enabled = false
+            self.record.hidden = true
+            self.playback.hidden = true
+            self.reset.hidden = true
+            
+            // Create a unique string to use for the filename.
+            //let filename = self._makeFilename()
+            
+            // TODO: Add code here...
+            
             // Dismiss this controller.
             self.dismissViewControllerAnimated(true, completion: nil)
         }
+    }
+    
+    /**
+     * Construct the filename for use on the server.
+     *
+     * - parameter N/A
+     *
+     * - returns: Constructed filename
+     */
+    
+    private func _makeFilename() -> String {
+        
+        let time = NSDate().timeIntervalSince1970
+        let filename = User.currentUser()!.username + "_" + String(time)
+        return filename.stringByAppendingString(".caf")
     }
     
     //**************************************************************************

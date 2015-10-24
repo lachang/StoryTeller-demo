@@ -220,7 +220,6 @@ AVAudioRecorderDelegate {
             self.record.hidden = true
             self.playback.hidden = true
             self.reset.hidden = true
-
             
             // Create a unique string to use for the filename.
             let filename = self._makeFilename()
@@ -332,7 +331,7 @@ AVAudioRecorderDelegate {
         self.playback.hidden = true
         self.reset.hidden = true
         
-        // Create the temporary file that will hold the recordings.
+        // Construct the filename that will temporiarly hold the recordings.
         let documentsURL = NSFileManager.defaultManager().URLsForDirectory(
             .DocumentDirectory, inDomains: .UserDomainMask)[0]
         let fileURL = documentsURL.URLByAppendingPathComponent("sound.caf")
@@ -362,8 +361,8 @@ AVAudioRecorderDelegate {
         // Create the audio recorder.
         do {
             try self._audioRecorder =
-                AVAudioRecorder(URL: self._audioFileUrl!, settings: recordSettings)
-            
+                AVAudioRecorder(URL: self._audioFileUrl!,
+                    settings: recordSettings)
         }
         catch {
             // If an error occurred, show an alert.
@@ -375,6 +374,10 @@ AVAudioRecorderDelegate {
                     self.dismissViewControllerAnimated(true, completion: nil)
             })
         }
+        
+        // Prepare the recorder ahead of time to create the temporary file for
+        // the recording in order to start recording later more quickly.
+
         self._audioRecorder!.prepareToRecord()
     }
     

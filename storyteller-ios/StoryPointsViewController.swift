@@ -333,8 +333,8 @@ class StoryPointsViewController: UIViewController, UITableViewDataSource,
 
     func updateLocation(manager: LocationManager, location: CLLocation) {
 
-        // Now that at least one location is available, retrieve nearby geo
-        // messages.
+        // Now that at least one location is available, retrieve nearby points-
+        // of-interest.
         self._index(location)
     }
 
