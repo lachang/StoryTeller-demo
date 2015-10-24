@@ -72,6 +72,7 @@ class PointOfInterest: NSObject, MKAnnotation {
         let maxCount  = Int(Int32.max)
         let maxOffset = Int(Int32.max - Int32(count))
         if (count <= maxCount && offset < maxOffset) {
+            
             // Fetch the requested number of channels from the given offset.
             MMXChannel.allPublicChannelsWithLimit(Int32(count),
                 offset: Int32(offset),
@@ -121,28 +122,28 @@ class PointOfInterest: NSObject, MKAnnotation {
     //**************************************************************************
     
     /**
-     * Initialize a new point-of-interest.
+     * Initialize a new PointOfInterest instance.
      *
      * - parameter title: Name of the point-of-interest.
      * - parameter numMessages: Number of messages at this point-of-interest.
-     * - parameter channel: MMXChannel associated with this point of interest.
      * - parameter longitude: The point-of-interest longitude.
      * - parameter latitude: The point-of-interest latitude.
+     * - parameter channel: MMXChannel associated with this point of interest.
      * - parameter userLocation: The user's location used to calculate distance
      *                           to this point-of-interest.
      *
-     * - returns: Void
+     * - returns: N/A
      */
     
-    init (title: String, numMessages: Int, channel: MMXChannel?,
-        longitude: CLLocationDegrees, latitude: CLLocationDegrees,
+    init (title: String, numMessages: Int, longitude: CLLocationDegrees,
+        latitude: CLLocationDegrees, channel: MMXChannel?,
         userLocation: CLLocation?) {
 
         self.title       = title
         self.numMessages = numMessages
-        self.channel     = channel
         self.longitude   = longitude
         self.latitude    = latitude
+        self.channel     = channel
         self.locked      = false
 
         self.location  = CLLocation(latitude: self.latitude,
@@ -151,8 +152,14 @@ class PointOfInterest: NSObject, MKAnnotation {
             self.longitude)
 
         if userLocation != nil {
+
+            // If a user location was given, calculate the distance from the
+            // user to this point-of-interest.
+            
             self.distance = self.location.distanceFromLocation(userLocation!)
             if Int(self.distance!) >= config.StoryPointUnlockedDistance {
+                
+                // Points-of-interest are "locked" if they are too far away.
                 self.locked = true
             }
         }
@@ -161,12 +168,14 @@ class PointOfInterest: NSObject, MKAnnotation {
     }
 
     /**
-     * Initialize a new point-of-interest.
+     * Initialize a new PointOfInterest instance.
      *
-     * - parameter firstname: The user's first name.
-     * - parameter lastname: The user's last name.
-     * - parameter username: The user's handle.
-     * - parameter email: The user's email.
+    * - parameter title: Name of the point-of-interest.
+    * - parameter numMessages: Number of messages at this point-of-interest.
+    * - parameter longitude: The point-of-interest longitude.
+    * - parameter latitude: The point-of-interest latitude.
+    * - parameter userLocation: The user's location used to calculate distance
+    *                           to this point-of-interest.
      *
      * - returns: N/A
      */
@@ -180,16 +189,16 @@ class PointOfInterest: NSObject, MKAnnotation {
         
         self.init(title: title,
             numMessages: numMessages,
-            channel: nil,
             longitude: longitude,
             latitude: latitude,
+            channel: nil,
             userLocation: userLocation)
     }
     
     /**
-     * Initialize a new point-of-interest given an MMX Channel.
+     * Initialize a new PointOfInterest instance given an MMX Channel.
      *
-     * - parameter channel: The MMX Channel from which to initialize.
+     * - parameter channel: The MMX Channel from which to initialize from.
      * - parameter userLocation: The location of the user (for distance
      *                           purposes).
      *
@@ -215,9 +224,11 @@ class PointOfInterest: NSObject, MKAnnotation {
                 latitude = Double(channelInfo[i])!
             }
             else if channelInfo[i] == "title" {
-                // title is special. it is currently always at the end
-                // because it could have spaces and this makes parsing
-                // much easier... read until end of array
+
+                // "title" is special. It is currently always at the end because
+                // it could have spaces and this makes parsing much easier...
+                // Read until the end of array.
+
                 i++
                 while i < channelInfo.count {
                     title += channelInfo[i]
@@ -233,9 +244,9 @@ class PointOfInterest: NSObject, MKAnnotation {
         
         self.init(title: title,
             numMessages: Int(channel.numberOfMessages),
-            channel: channel,
             longitude: longitude,
             latitude: latitude,
+            channel: channel,
             userLocation: userLocation)
     }
     
@@ -251,6 +262,7 @@ class PointOfInterest: NSObject, MKAnnotation {
     func create(callback callback: ((NSError?) -> Void)) {
         
         if self.title!.isEmpty {
+            
             // A title is required.
             let userInfo = [
                 NSLocalizedDescriptionKey: "Invalid Title",
@@ -264,6 +276,7 @@ class PointOfInterest: NSObject, MKAnnotation {
             callback(error)
         }
         else {
+
             // Create strings that are properly-formatted for the server.
             let formattedTitleString   = self._makeTitleString()
             let formattedSummaryString = self._makeSummaryString()
@@ -274,7 +287,9 @@ class PointOfInterest: NSObject, MKAnnotation {
                 summary: formattedSummaryString,
                 isPublic: true,
                 success: {(channel) -> Void in
-                    print("Added channel " + channel!.name)
+                    
+                    // Save off a reference to the channel.
+                    print("Added channel \(channel!.name)")
                     self.channel = channel
                     callback(nil)
                 },
@@ -294,16 +309,16 @@ class PointOfInterest: NSObject, MKAnnotation {
      * - returns: N/A
      */
     
-    func addMessage(content: [String:String],
-        callback: ((NSError?) -> Void)) {
+    func addMessage(content: [String:String], callback: ((NSError?) -> Void)) {
         
+        // Publish the message to Magnet Message.
         self.channel!.publish(content,
             success: {(message) -> Void in
-                print("Successfully published to \(self.channel)")
+                print("Published to \(self.channel!.name)")
                 callback(nil)
             },
             failure: {(error) -> Void in
-                print("Couldn't publish to \(self.channel).\n")
+                print("ERROR: Failed to add message!")
                 callback(error)
             })
     }
@@ -311,64 +326,92 @@ class PointOfInterest: NSObject, MKAnnotation {
    /**
     * Set the tags on the server for this PointOfInterest instance
     *
-    * - parameter callback: Callback invoked once the message creation attempt
+    * - parameter callback: Callback invoked once the attempt to set tags
     *                       completes.
     *
     * - returns: N/A
     */
     
-    func setTags(tagsString: String) -> Void {
+    func setTags(tagsString: String, callback: ((NSError?) -> Void)) {
         
-        // split the large string at spaces into an array of tags
+        // Split the large string at spaces into an array of tags.
         let tagsStringArray = tagsString.componentsSeparatedByString(" ")
         
-        // transform the string into a set for magnet
+        // Transform the string into a set for Magnet Message.
         var tagsSet = Set<String>()
         for tag in tagsStringArray {
             tagsSet.insert(tag)
         }
 
-        self.channel!.setTags(tagsSet, success: { () -> Void in
-            
-            }) { (error) -> Void in
+        // Send the tags to Magnet Message to set onto the channel.
+        self.channel!.setTags(tagsSet,
+            success: {() -> Void in
+                callback(nil)
+            },
+            failure: {(error) -> Void in
                 print("ERROR: Failed to set tags!")
-        }
+                callback(error)
+            })
     }
     
     /**
      * Get the tags on the server for this PointOfInterest instance
      *
-     * - parameter callback: Callback invoked once the message creation attempt
+     * - parameter callback: Callback invoked once the retrieval attempt
      *                       completes.
      *
      * - returns: N/A
      */
     
-    func getTags() -> Void {
-        self.channel!.tagsWithSuccess({ (tags) -> Void in
-            print("Success calling get tags")
-            for tag in tags {
-                print("\(tag)")
-            }
-            }) { (error) -> Void in
-              print("ERROR: Failed to get tags!")
-        }
+    func getTags(callback callback: ((NSError?) -> Void)) {
+
+        // Retrieve the tags from Magnet Message for the channel.
+        self.channel!.tagsWithSuccess(
+            { (tags) -> Void in
+                callback(nil)
+            },
+            failure: {(error) -> Void in
+                print("ERROR: Failed to get tags!")
+                callback(error)
+            })
     }
-    
+
+    /**
+     * Delete this PointOfInterest instance from the server.
+     *
+     * - parameter callback: Callback invoked once the deletion attempt
+     *                       completes.
+     *
+     * - returns: N/A
+     */
+
     func delete(callback callback: ((NSError?) -> Void)) {
         
-        // Delete the given channel.
-        self.channel!.deleteWithSuccess({() -> Void in
-            callback(nil)
-        },
-        failure: {(error) -> Void in
-            print("ERROR: Failed to delete channel!")
-            callback(error)
-        })
+        // Delete the given channel from Magnet Message.
+        self.channel!.deleteWithSuccess(
+            { () -> Void in
+                callback(nil)
+            },
+            failure: { (error) -> Void in
+                print("ERROR: Failed to delete channel!")
+                callback(error)
+            })
     }
+
+    /**
+     * Subscribe to or unsubscribe from the PointOfInterest on the server.
+     *
+     * - parameter callback: Callback invoked once the subscription (or
+     *                       unsubscription) attempt completes.
+     *
+     * - returns: N/A
+     */
     
     func subscribeOrUnsubscribe(callback callback: ((NSError?) -> Void)) {
      
+        // Subscribe to or unsubscribe from the channel on Magnet Message based
+        // on whether the point-of-interest is locked or not.
+        
         if !self.locked {
             // Only subscribe to points-of-interests within a preset discance.
             self.channel!.subscribeWithSuccess({ () -> Void in
@@ -393,17 +436,35 @@ class PointOfInterest: NSObject, MKAnnotation {
     // MARK: Instance Methods (Private)
     //**************************************************************************
     
-    // make a properly formatted string for magnet message's standard
+    /**
+     * Construct the title string for use on the server.
+     *
+     * - parameter N/A
+     *
+     * - returns: Modified title string
+     */
+    
     private func _makeTitleString() -> String {
 
         let time = NSDate().timeIntervalSince1970
         let titleString = User.currentUser()!.username + "_" + String(time)
         return titleString
     }
-    
-    // make a properly formatted summary for us to parse later
-    //eg. longitude -122.42241 latitude 37.82728 title Alcatraz Island - Guard House
+ 
+    /**
+     * Construct the summary string for use on the server. The string is
+     * specially formatted to make it easy to re-parse out the information
+     * later.
+     *
+     * i.e. longitude -122.42241 latitude 37.82728 title Alcatraz Island - Guard House
+     *
+     * - parameter N/A
+     *
+     * - returns: Modified summary string
+     */
+
     private func _makeSummaryString() -> String {
+        
         let summaryString = "longitude " +
                             String(self.longitude) +
                             " latitude " +

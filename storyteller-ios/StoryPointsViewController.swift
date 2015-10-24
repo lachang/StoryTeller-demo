@@ -313,7 +313,8 @@ class StoryPointsViewController: UIViewController, UITableViewDataSource,
                 
                 // Set the tags to associate with the point-of-interest.
                 if !tags.isEmpty {
-                    pointOfInterest.setTags(tags)
+                    pointOfInterest.setTags(tags,
+                        callback: {(error) -> Void in })
                 }
                 
                 // Add the point-of-interest to the view.

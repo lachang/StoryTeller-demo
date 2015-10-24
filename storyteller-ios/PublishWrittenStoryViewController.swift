@@ -20,7 +20,7 @@ class PublishWrittenStoryViewController: UIViewController {
     }
 
     @IBAction func getTags(sender: AnyObject) {
-        self.pointOfInterest.getTags()
+        self.pointOfInterest.getTags(callback: {(error) -> Void in })
     }
     
     @IBAction func setTags(sender: AnyObject) {
@@ -39,7 +39,8 @@ class PublishWrittenStoryViewController: UIViewController {
                     if nameField.text == "" {
                         // TODO: handle this case
                     } else {
-                        self.pointOfInterest.setTags("hello")
+                        self.pointOfInterest.setTags("hello",
+                            callback: {(error) -> Void in })
                     }
                 }
         }
