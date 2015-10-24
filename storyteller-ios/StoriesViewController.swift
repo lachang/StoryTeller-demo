@@ -271,7 +271,7 @@ class StoriesViewController: UITableViewController {
         //let messageType = message.messageContent["spoken"]
         
         //cell.titleLabel.text = "spoken" ?? "[No Title]"
-        cell.titleLabel.text = message.messageContent["titleName"] as? String
+        cell.titleLabel.text = (message.messageContent["titleName"] as? String) ?? "[No Title]"
         //cell.messageLabel.text = "\(messageType!)" ?? "[No Content]"
         
         cell.usernameLabel.text = "\(message.sender.username)"
@@ -295,11 +295,11 @@ class StoriesViewController: UITableViewController {
         var timestampArray = message.timestamp.description.componentsSeparatedByString(" ")
         cell.timestampLabel.text = "\(timestampArray[0])"
         
-        if let url  = NSURL(string: message.messageContent["imageUrl"] as! String),
-            data = NSData(contentsOfURL: url)
-        {
-            cell.customImageView.image = UIImage(data: data)
-        }
+//        if let url  = NSURL(string: message.messageContent["imageUrl"] as! String),
+//            data = NSData(contentsOfURL: url)
+//        {
+//            cell.customImageView.image = UIImage(data: data)
+//        }
         
         //cell.thumbnail.image = UIImage(named: "catdog.jpg")
         //cell.thumbnail.image = UIImage(named: "kitty.jpg")
