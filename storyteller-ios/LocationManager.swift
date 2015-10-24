@@ -73,7 +73,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
      *
      * - parameter N/A
      *
-     * - returns: Void
+     * - returns: N/A
      */
 
     override init () {
@@ -94,7 +94,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
      *
      * - parameter N/A
      *
-     * - returns: Void
+     * - returns: N/A
      */
     
     func startLocationUpdate() {
@@ -106,7 +106,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
      *
      * - parameter N/A
      *
-     * - returns: Void
+     * - returns: N/A
      */
     
     func stopLocationUpdate() {
@@ -132,8 +132,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
      *
      * - parameter N/A
      *
-     * - returns: The current location if location updates have been authorized.
-     *            Nil otherwise.
+     * - returns: N/A
      */
 
     func requestLocation() {
@@ -193,7 +192,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         if self.delegate != nil {
             self.delegate!.updateLocation(self, location: self._location!)
         }
-        //print("Horizontal accuracy :\(location?.horizontalAccuracy)")
     }
     
     func locationManager(manager: CLLocationManager,
@@ -225,7 +223,7 @@ protocol LocationManagerDelegate {
      * - parameter manager: Instance of the location manager.
      * - parameter location: The current location.
      *
-     * - returns: Void
+     * - returns: N/A
      */
     func updateLocation(manager: LocationManager, location: CLLocation)
 }

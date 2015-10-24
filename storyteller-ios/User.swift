@@ -23,8 +23,13 @@ class User: NSObject {
     // Various error codes.
     static let errorShowCode = 1
     
+    // First and last name of the user.
     var fullname: String
+    
+    // User handle.
     var username: String
+    
+    // Email address for the user.
     var email:    String?
     
     //**************************************************************************
@@ -35,7 +40,13 @@ class User: NSObject {
     // MARK: Attributes (Private)
     //**************************************************************************
     
+    // Currently logged-in user, if any. "static" since there can only be one
+    // user logged-in at a time.
     private static var _currentUser: User? = nil
+    
+    // Denotes whether a call to the server is needed later to retrieve user
+    // details.
+    private var _needsDetails = false
     
     //**************************************************************************
     // MARK: Class Methods (Public)
@@ -56,7 +67,7 @@ class User: NSObject {
     /**
      * Set the currently logged-in user, if any.
      *
-     * - parameter N/A
+     * - parameter user The logged-in User instance.
      *
      * - returns: N/A
      */
@@ -131,17 +142,19 @@ class User: NSObject {
         
         self.init(fullname: mmxUser.displayName, username: mmxUser.username,
             email: nil)
+        
+        // Set the "needs details" flag since an MMXUser instance does not
+        // include all details such as the user's email address.
+
+        self._needsDetails = true
     }
 
     /**
      * Create a new User instance.
      *
-     * - parameter firstName: The first name of the user to create.
-     * - parameter lastname: The last name of the user to create.
-     * - parameter email: The email handle for the user to create.
      * - parameter password: The password for the user to create.
      * - parameter callback: Callback invoked once the user creation attempt
-     *                  completes.
+     *                       completes.
      *
      * - returns: N/A
      */
@@ -164,7 +177,7 @@ class User: NSObject {
     /**
      * Retrieve details of a User instance.
      *
-     * - parameter callback: Callback invoked once the geo msg destroy attempt
+     * - parameter callback: Callback invoked once the details retrieval attempt
      *                       completes.
      *
      * - returns: N/A
@@ -172,12 +185,14 @@ class User: NSObject {
     func show(callback callback: ((NSError?) -> Void)) {
         
         if User.currentUser() != nil && User.currentUser()! == self {
+            
+            // Get the shared MMX Account Manager.
             let mmxAccountManager = MMXClient.sharedClient().accountManager
             
             // For the currently logged-in user, retrieve deatils via the
             // MMXAccountManager if necessary.
             
-            if self.email == nil {
+            if self._needsDetails {
                 mmxAccountManager.userProfileWithSuccess(
                     {(profile) -> Void in
                         

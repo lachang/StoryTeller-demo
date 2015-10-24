@@ -122,6 +122,7 @@ class Session: NSObject {
      *
      * - returns: N/A
      */
+    
     override init () {
         super.init()
     }
@@ -133,7 +134,7 @@ class Session: NSObject {
      * - parameter password: The password to login with.
      * - parameter callback: Callback invoked once the login attempt completes.
      *
-     * :returns: N/A
+     * - returns: N/A
      */
     
     func login(username: String, password: String,
@@ -214,6 +215,7 @@ class Session: NSObject {
             callback(nil)
         },
         failure: { (error) -> Void in
+            print("ERROR: Failed to logout!")
             callback(error)
         })
     }
