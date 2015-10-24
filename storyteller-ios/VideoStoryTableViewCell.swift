@@ -1,12 +1,17 @@
-//
+//******************************************************************************
 //  VideoStoryTableViewCell.swift
 //  storyteller-ios
 //
-//  Created by Anthony Alayo on 10/20/15.
-//  Copyright © 2015 storyteller. All rights reserved.
-//
+//  Copyright (c) 2015 storyteller. All rights reserved.
+//******************************************************************************
 
 import Foundation
+
+/**
+ * VideoStoryTableViewCell
+ *
+ * Custom table view cell for audio stories.
+ */
 
 class VideoStoryTableViewCell : StoryTableViewCell {
     // add audio unique thing here
