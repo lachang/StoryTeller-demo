@@ -8,7 +8,6 @@
 import UIKit
 import AVFoundation
 
-import MMX
 import AWSS3
 
 /**
@@ -17,7 +16,8 @@ import AWSS3
  * Manages recording, playback, and creation of an audio story.
  */
 
-class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
+class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
+AVAudioRecorderDelegate {
 
     //**************************************************************************
     // MARK: Attributes (Public)
@@ -29,6 +29,7 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
     @IBOutlet var reset: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
+    // The PointOfInterest instance to add the story to.
     var pointOfInterest: PointOfInterest!
     
     //**************************************************************************
@@ -39,8 +40,13 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
     // MARK: Attributes (Private)
     //**************************************************************************
     
+    // Used to playback audio.
     private var _audioPlayer: AVAudioPlayer?
+    
+    // Used to record audio.
     private var _audioRecorder: AVAudioRecorder?
+    
+    // Temporary file to save the audio.
     private var _audioFileUrl: NSURL?
     
     // Manages the alert view.
@@ -90,19 +96,24 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
         if text == "Record" {
             assert(self._audioRecorder!.recording == false)
             
+            // Transition the button from "Record" -> "Stop".
             self.record.setTitle("Stop", forState: .Normal)
             self.activityIndicator.hidden = false
-            
+
+            // Start recording.
             self._audioRecorder!.record()
         }
         else if text == "Stop" {
             assert(self._audioRecorder!.recording == true)
-            
+
+            // Stop recording.
             self._audioRecorder!.stop()
 
+            // Transition the button from "Stop" -> "Publish".
             self.activityIndicator.hidden = true
             self.record.setTitle("Publish", forState: .Normal)
             
+            // Show other buttons / fields related to publishing.
             self.messageName.hidden = false
             self.playback.hidden = false
             self.reset.hidden = false
@@ -110,6 +121,7 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
         else if text == "Publish" {
             assert(self._audioRecorder!.recording == false)
             
+            // Publish the recording.
             self._publish()
         }
     }
@@ -130,29 +142,30 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
 
             do {
                 try self._audioPlayer = AVAudioPlayer(
-                    contentsOfURL: (self._audioRecorder?.url)!)
+                    contentsOfURL: (self._audioRecorder!.url))
             }
             catch {
                 // If an error occurred, show an alert.
                 self._alertView!.showAlert(
-                    "Error occurred",
+                    "Error Occurred",
                     message: "Cannot play audio.",
-                    callback: {() -> Void in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.playback.setTitle("Playback", forState: .Normal)
-                        }
-                    })
+                    callback: {() -> Void in })
+                return
             }
 
+            // Transition the button from "Playback" -> "Stop".
             self.playback.setTitle("Stop", forState: .Normal)
             
+            // Play the recording.
             self._audioPlayer?.delegate = self
             self._audioPlayer?.play()
         }
         else if self.playback.titleLabel!.text == "Stop" {
 
             self._audioPlayer?.stop()
+            self._audioPlayer?.delegate = nil
             
+            // Transition the button from "Stop" -> "Playback".
             self.playback.setTitle("Playback", forState: .Normal)
         }
     }
@@ -183,71 +196,16 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
     // MARK: Instance Methods (Private)
     //**************************************************************************
     
-    /*
-     * Arvind to add audio stuff here
+    /**
+     * Publishes the recording to the server.
+     *
+     * - parameter N/A
+     *
+     * - returns: N/A
      */
-    
-    func _publish() {
-        
-        
-        
-        let transferManager = AWSS3TransferManager.defaultS3TransferManager()
-        let uploadRequest1 : AWSS3TransferManagerUploadRequest = AWSS3TransferManagerUploadRequest()
-        let filename = NSProcessInfo.processInfo().globallyUniqueString.stringByAppendingString(".caf")
-        
-        uploadRequest1.bucket = config.S3BucketName
-        uploadRequest1.key = filename
-        uploadRequest1.body = self._audioFileUrl
-        
-        transferManager.upload(uploadRequest1).continueWithBlock { (task) -> AnyObject! in
-            if let error = task.error {
-                if error.domain == AWSS3TransferManagerErrorDomain as String {
-                    if let errorCode = AWSS3TransferManagerErrorType(rawValue: error.code) {
-                        switch (errorCode) {
-                        default:
-                            print("upload() failed: [\(error)]")
-                            break;
-                        }
-                    } else {
-                        print("upload() failed: [\(error)]")
-                    }
-                } else {
-                    print("upload() failed: [\(error)]")
-                }
-            }
-            
-            if let exception = task.exception {
-                print("upload() failed: [\(exception)]")
-            }
-        return nil
-        }
-        let awsLink = "https://s3.amazonaws.com/storyteler/"
-        let fulllink = awsLink + filename
-        let messageContent = ["spoken" : fulllink, "titleName" : messageName.text!]
 
-        self.pointOfInterest.addMessage(messageContent,
-            callback: {(error) -> Void in
-                
-                if (error != nil) {
-                    // If an error occurred, show an alert.
-                    self._alertView!.showAlert(
-                        "Story Failed to Add!",
-                        error: error!,
-                        callback: nil)
-                }
-                else {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self._alertView!.showAlert(
-                            "Success!",
-                            message: "Story was added.",
-                            callback: {() -> Void in
-                                // Dismiss this controller.
-                                self.dismissViewControllerAnimated(true, completion: nil)
-                        })
-                    }
-                }
-        })
-        
+    private func _publish() {
+
         if (messageName.text!.isEmpty) {
             // If an error occurred, show an alert.
             self._alertView!.showAlert(
@@ -256,9 +214,110 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
                 callback: nil)
         }
         else {
-            // Dismiss this controller.
-            self.dismissViewControllerAnimated(true, completion: nil)
+        
+            self.activityIndicator.hidden = false
+            self.messageName.enabled = false
+            self.record.hidden = true
+            self.playback.hidden = true
+            self.reset.hidden = true
+
+            
+            // Create a unique string to use for the filename.
+            let filename = self._makeFilename()
+
+            // Create an upload request to AWS.
+            let uploadRequest    = AWSS3TransferManagerUploadRequest()
+            uploadRequest.bucket = config.S3BucketName
+            uploadRequest.key    = filename
+            uploadRequest.body   = self._audioFileUrl
+            
+            // Create a transfer manager to AWS.
+            let transferManager = AWSS3TransferManager.defaultS3TransferManager()
+            transferManager.upload(uploadRequest).continueWithBlock(
+                {(task) -> AnyObject! in
+                    
+                    if task.error != nil {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            // If an error occurred, show an alert.
+                            self._alertView?.showAlert(
+                                "Publish Failed",
+                                error: task.error,
+                                callback: nil)
+                            
+                            self.activityIndicator.hidden = true
+                            self.messageName.enabled = true
+                            self.record.hidden = false
+                            self.playback.hidden = false
+                            self.reset.hidden = false
+                        }
+                    }
+                    else {
+                        print("Upload of \(filename) succeeded!")
+
+                        // Now that the upload is complete, create a message
+                        // associated with the recording onto the current
+                        // point-of-interest.
+
+                        let url = config.S3Domain +
+                                  config.S3BucketName +
+                                  "/" +
+                                  filename
+
+                        let messageContent = [
+                            "spoken":url,
+                            "titleName":self.messageName.text!
+                        ]
+                        
+                        self.pointOfInterest.addMessage(messageContent,
+                            callback: {(error) -> Void in
+                                
+                                if (error != nil) {
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        // If an error occurred, show an alert.
+                                        self._alertView!.showAlert(
+                                            "Story Failed to Add!",
+                                            error: error!,
+                                            callback: nil)
+                                        
+                                        self.activityIndicator.hidden = true
+                                        self.messageName.enabled = true
+                                        self.record.hidden = false
+                                        self.playback.hidden = false
+                                        self.reset.hidden = false
+                                    }
+                                }
+                                else {
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        self._alertView!.showAlert(
+                                            "Success!",
+                                            message: "Story was added.",
+                                            callback: {() -> Void in
+                                                // Dismiss this controller.
+                                                self.dismissViewControllerAnimated(true,
+                                                    completion: nil)
+                                        })
+                                    }
+                                }
+                            })
+                    }
+                    return nil
+                })
         }
+    }
+    
+    /**
+     * Construct the filename for use on the server.
+     *
+     * - parameter N/A
+     *
+     * - returns: Constructed filename
+     */
+    
+    private func _makeFilename() -> String {
+        
+        let time = NSDate().timeIntervalSince1970
+        let filename = User.currentUser()!.username + "_" + String(time)
+        return filename.stringByAppendingString(".caf")
     }
     
     //**************************************************************************
@@ -272,27 +331,19 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
         self.messageName.hidden = true
         self.playback.hidden = true
         self.reset.hidden = true
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         
-        // Manages functionality of the alert view.
-        self._alertView = AlertView(viewController: self)
+        // Create the temporary file that will hold the recordings.
+        let documentsURL = NSFileManager.defaultManager().URLsForDirectory(
+            .DocumentDirectory, inDomains: .UserDomainMask)[0]
+        let fileURL = documentsURL.URLByAppendingPathComponent("sound.caf")
+        self._audioFileUrl = fileURL
         
-        let dirPaths =
-        NSSearchPathForDirectoriesInDomains(.DocumentDirectory,
-            .UserDomainMask, true)
-        let docsDir = dirPaths[0]
-        let soundFilePath = (docsDir as NSString) .stringByAppendingPathComponent("sound.caf")
-        self._audioFileUrl = NSURL(fileURLWithPath: soundFilePath)
-        //let soundFileURL = NSURL(fileURLWithPath: soundFilePath)
+        // Setup the audio context.
         let recordSettings: [String: AnyObject] =
         [AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
             AVEncoderBitRateKey: 16,
             AVNumberOfChannelsKey: 2,
             AVSampleRateKey: 44100.0]
-        
         let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
@@ -300,14 +351,15 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
         catch {
             // If an error occurred, show an alert.
             self._alertView!.showAlert(
-                "Error occurred",
+                "Error Occurred",
                 message: "Cannot setup audio.",
                 callback: {() -> Void in
                     // Dismiss this controller.
                     self.dismissViewControllerAnimated(true, completion: nil)
-                })
+            })
         }
         
+        // Create the audio recorder.
         do {
             try self._audioRecorder =
                 AVAudioRecorder(URL: self._audioFileUrl!, settings: recordSettings)
@@ -316,15 +368,21 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
         catch {
             // If an error occurred, show an alert.
             self._alertView!.showAlert(
-                "Error occurred",
+                "Error Occurred",
                 message: "Cannot setup recording device.",
                 callback: {() -> Void in
                     // Dismiss this controller.
                     self.dismissViewControllerAnimated(true, completion: nil)
-                })
+            })
         }
-        
         self._audioRecorder!.prepareToRecord()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Manages functionality of the alert view.
+        self._alertView = AlertView(viewController: self)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -332,5 +390,18 @@ class PublishSpokenStoryViewController: UIViewController, AVAudioPlayerDelegate,
         
         // Release the alert view's reference to this view controller.
         self._alertView = nil
+    }
+    
+    //**************************************************************************
+    // MARK: AVAudioPlayerDelegate
+    //**************************************************************************
+
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer,
+        successfully flag: Bool) {
+
+        player.delegate = nil
+            
+        // Transition the button from "Stop" -> "Playback".
+        self.playback.setTitle("Playback", forState: .Normal)
     }
 }
