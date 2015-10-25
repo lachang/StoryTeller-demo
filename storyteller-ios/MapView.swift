@@ -53,7 +53,7 @@ class MapView {
         distanceInMeters: Double,
         atBearingDegrees: Double) -> CLLocationCoordinate2D {
             
-        //6,371,000 = Earth's radius in meters
+        // 6,371,000 = Earth's radius in meters
         let distanceRadians = distanceInMeters / 6371000.0
         
         let bearingRadians = self._radiansFromDegrees(atBearingDegrees)
@@ -67,7 +67,7 @@ class MapView {
             sin(distanceRadians) * cos(fromLatRadians), cos(distanceRadians) -
                 sin(fromLatRadians) * sin(toLatRadians))
         
-        // adjust toLonRadians to be in the range -180 to +180...
+        // Adjust toLonRadians to be in the range -180 to +180...
         toLonRadians = fmod((toLonRadians + 3*M_PI), (2*M_PI)) - M_PI
         
         let result = CLLocationCoordinate2DMake(
@@ -121,6 +121,7 @@ class MapView {
      *
      * - returns: N/A
      */
+    
     func addAnnotation (annotation: MKAnnotation) {
         self._mapView.addAnnotation(annotation)
     }
@@ -162,7 +163,6 @@ class MapView {
             return
         }
         
-//        self._mapView.showAnnotations(self._mapView.annotations, animated: true)
         // Initialize to a default bounding box.
         var topLeftLongitude:CLLocationDegrees     = 180
         var topLeftLatitude:CLLocationDegrees      = -90
@@ -171,14 +171,17 @@ class MapView {
 
         var annotationsToShow: [MKAnnotation] = []
         if !showUserLocation {
+            // Do not consider the user annotation when showing all annotations.
             annotationsToShow = self._mapView.annotations.filter {
                 $0 !== self._mapView.userLocation
             }
         }
         else {
+            // Show all annotations, including the user annotation.
             annotationsToShow = self._mapView.annotations
         }
         
+        // Ensure all the annotations to show are visible on the map, if any.
         if annotationsToShow.count > 0 {
             for annotation in annotationsToShow {
                 
@@ -191,15 +194,16 @@ class MapView {
                 bottomRightLatitude  = fmin(bottomRightLatitude,  coordinate.latitude)
             }
             
-            // center point
+            // Determine the center point.
             let centerLat = topLeftLatitude - (topLeftLatitude - bottomRightLatitude) * 0.5
             let centerLng = topLeftLongitude + (bottomRightLongitude - topLeftLongitude) * 0.5
             let center:CLLocationCoordinate2D = CLLocationCoordinate2DMake(centerLat, centerLng)
             
-            // edge
+            // Determine the region width / height.
             let latitudDelta   = fabs(topLeftLatitude - bottomRightLatitude) * 1.4
             let longitudeDelta = fabs(bottomRightLongitude - topLeftLongitude) * 1.4
             
+            // Create and display the region.
             self._mapSpan = MKCoordinateSpan(latitudeDelta: latitudDelta, longitudeDelta: longitudeDelta)
             let region:MKCoordinateRegion = MKCoordinateRegionMake(center, self._mapSpan!)
             self._mapView.setRegion(region, animated: false)
@@ -219,14 +223,8 @@ class MapView {
         let regionRadius: CLLocationDistance = 5
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(coordinate,
             regionRadius, regionRadius)
-        
+
         self._mapView.setRegion(coordinateRegion, animated: true)
-//        assert(self._mapSpan != nil)
-//        var span = MKCoordinateSpan(latitudeDelta: fmin(self._mapSpan!.latitudeDelta,0.01),
-//            longitudeDelta: fmin(self._mapSpan!.longitudeDelta,0.01))
-//        // TODO we probaly want to zoom-in a little bit
-//        var region:MKCoordinateRegion = MKCoordinateRegionMake(coordinate, span)
-//        self._mapView.setRegion(region, animated: true)
     }
     
     //**************************************************************************

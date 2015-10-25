@@ -49,7 +49,8 @@ class AlertView {
     /**
      * Initialize a new alert view.
      *
-     * - parameter viewController: The view controller to manage the alert view for
+     * - parameter viewController: The view controller to manage the alert view
+     *                             for.
      *
      * - returns: N/A
      */

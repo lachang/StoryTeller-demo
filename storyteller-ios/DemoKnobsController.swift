@@ -23,7 +23,6 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
     @IBOutlet var initialStorypoints: UIButton!
     @IBOutlet var nearbyStorypoints: UIButton!
     @IBOutlet var deleteAll: UIButton!
-
     @IBOutlet var activityIndicatorView: UIView!
     
     //**************************************************************************
@@ -115,7 +114,7 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
     //**************************************************************************
     
     /**
-     * Triggered to populate initial story points.
+     * Triggered to populate initial storypoints.
      *
      * - parameter sender: The source that triggered this function.
      *
@@ -170,12 +169,12 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
     }
     
     /**
-    * Triggered to create nearby story points.
-    *
-    * - parameter sender: The source that triggered this function.
-    *
-    * - returns: N/A
-    */
+     * Triggered to create nearby storypoints.
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
     
     @IBAction func createNearbyStorypoints(sender: AnyObject) {
         
@@ -243,6 +242,14 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
             })
         }
     }
+    
+    /**
+     * Triggered to delete all the current user's storypoints.
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
     
     @IBAction func deleteAll(sender: AnyObject) {
         
@@ -314,6 +321,15 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
     //**************************************************************************
     // MARK: LocationManagerDelegate
     //**************************************************************************
+    
+    /**
+     * Receives the current location.
+     *
+     * - parameter manager: Instance of the location manager.
+     * - parameter location: The current location.
+     *
+     * - returns: N/A
+     */
     
     func updateLocation(manager: LocationManager, location: CLLocation) {
         

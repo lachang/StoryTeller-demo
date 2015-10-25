@@ -218,12 +218,13 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 protocol LocationManagerDelegate {
 
     /**
-     * Pass back the current location.
+     * Receives the current location.
      *
      * - parameter manager: Instance of the location manager.
      * - parameter location: The current location.
      *
      * - returns: N/A
      */
+    
     func updateLocation(manager: LocationManager, location: CLLocation)
 }

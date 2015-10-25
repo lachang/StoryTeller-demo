@@ -55,6 +55,7 @@ class PointOfInterestTableViewCell: UITableViewCell {
      *
      * - returns: N/A
      */
+    
     func configureCell(pointOfInterest: PointOfInterest) {
 
         let distance = Int(pointOfInterest.distance!)
