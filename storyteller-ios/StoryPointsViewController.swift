@@ -320,7 +320,7 @@ class StoryPointsViewController: UIViewController, UITableViewDataSource,
                 // Add the point-of-interest to the view.
                 dispatch_async(dispatch_get_main_queue()) {
                     self._mapView!.addAnnotation(pointOfInterest)
-                    self._pointsOfInterest.append(pointOfInterest)
+                    self._pointsOfInterest.insert(pointOfInterest, atIndex: 0)
                     self.tableView.reloadData()
                 }
             }
