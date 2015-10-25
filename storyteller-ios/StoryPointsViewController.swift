@@ -441,10 +441,7 @@ class StoryPointsViewController: UIViewController, UITableViewDataSource,
             }
             else {
                 // The application has authorization to receive location data.
-                // Start the activity indicator and request a location.
-
-                self.navigationItem.rightBarButtonItem =
-                    self._activityIndicatorBarButton
+                // Attempt to retrieve points-of-interests.
                 
                 let userLocation = self._locationManager.getLocation()
                 self._index(userLocation)

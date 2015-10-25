@@ -23,6 +23,8 @@ class StoriesViewController: UITableViewController {
     // MARK: Attributes (Public)
     //**************************************************************************
 
+    @IBOutlet var memory: UIBarButtonItem!
+    
     // The PointOfInterest instance to retrieve stories from.
     var pointOfInterest: PointOfInterest!
     
@@ -39,6 +41,9 @@ class StoriesViewController: UITableViewController {
     
     // Manages the alert view.
     private var _alertView: AlertView? = nil
+    
+    // Activity indicator to denote processing with a remote server.
+    private var _activityIndicatorBarButton: UIBarButtonItem?
     
     // Table cell identifiers.
     private let _audioStoryCellIdentifier = "AudioStoryTableViewCell"
@@ -237,6 +242,14 @@ class StoriesViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Create an activity indictor which can be temporarily shown on the
+        // navigation bar when activity occurs with the server.
+        let activityIndicator = UIActivityIndicatorView(
+            activityIndicatorStyle: .White)
+        activityIndicator.startAnimating()
+        self._activityIndicatorBarButton = UIBarButtonItem(
+            customView: activityIndicator)
+        
         self._configureTableView()
         
         // Attempt message retrieval when the controller initially loads.
@@ -254,6 +267,10 @@ class StoriesViewController: UITableViewController {
             
             self._attemptMessageRetrieval = false
 
+            // Start the activity indicator.
+            self.navigationItem.rightBarButtonItem =
+                self._activityIndicatorBarButton
+            
             // Fetch all the messages for the given channel.
             self.pointOfInterest.channel!.messagesBetweenStartDate(nil,
                 endDate: nil, limit: 100, offset: 0, ascending: false,
@@ -266,6 +283,10 @@ class StoriesViewController: UITableViewController {
                         
                         // Reload the table view.
                         self.tableView.reloadData()
+                        
+                        // Hide the activity indicator and re-display the "Leave
+                        // Memory" button.
+                        self.navigationItem.rightBarButtonItem = self.memory
                         
                         // Setup a notifier for receiving further messages.
                         MMX.start()
@@ -282,6 +303,12 @@ class StoriesViewController: UITableViewController {
                         "Message Retrieval Failed",
                         error: error,
                         callback: {() -> Void in })
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        // Hide the activity indicator and re-display the "Leave
+                        // Memory" button.
+                        self.navigationItem.rightBarButtonItem = self.memory
+                    }
                 })
         }
     }

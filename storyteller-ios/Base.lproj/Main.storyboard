@@ -661,6 +661,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="memory" destination="c3B-wp-CrR" id="9x3-ya-5QC"/>
                         <segue destination="Qyn-Z8-bOI" kind="presentation" identifier="MessagesToFilmedSegue" id="7Rs-ZE-4Ia"/>
                         <segue destination="P2r-jc-0nL" kind="presentation" identifier="MessagesToSpokenSegue" id="uNU-ku-yFp"/>
                     </connections>
