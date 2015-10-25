@@ -255,7 +255,7 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
                         dispatch_async(dispatch_get_main_queue()) {
                             self._alertView!.showAlert(
                                 "Storypoints Created",
-                                message: "Press refresh on the Nearby tab.",
+                                message: "Press refresh on the Nearby and Map tabs.",
                                 callback: {() -> Void in
                                     self.dismissViewControllerAnimated(true,
                                         completion: nil)
@@ -333,7 +333,7 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
                         dispatch_async(dispatch_get_main_queue()) {
                             self._alertView!.showAlert(
                                 "Storypoints Created!",
-                                message: "Press refresh on the Nearby tab.",
+                                message: "Press refresh on the Nearby and Map tabs.",
                                 callback: {() -> Void in
                                     self.dismissViewControllerAnimated(true,
                                         completion: nil)
@@ -362,6 +362,12 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
     
     @IBAction func deleteAll(sender: AnyObject) {
         
+        // Hide the buttons and start the activity indicator.
+        self.initialStorypoints.hidden = true
+        self.nearbyStorypoints.hidden = true
+        self.deleteAll.hidden = true
+        self.activityIndicatorView.hidden = false
+        
         PointOfInterest.index(100, offset: 0, userLocation: nil,
             callback: {(pointsOfInterest, error) -> Void in
 
@@ -388,11 +394,14 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
                                 dispatch_async(dispatch_get_main_queue()) {
                                     self._alertView!.showAlert(
                                         "Storypoints Deleted",
-                                        message: "\(numDeleted) deleted.",
-                                        callback: nil)
+                                        message: "\(numDeleted) deleted. Press refresh on the Nearby and Map tabs.",
+                                        callback: {() -> Void in
+                                            self.dismissViewControllerAnimated(true,
+                                                completion: nil)
+                                        })
 
-                                    // Hide the activity indicator and re-display the
-                                    // buttons.
+                                    // Hide the activity indicator and
+                                    // re-display the buttons.
                                     self.initialStorypoints.hidden = false
                                     self.nearbyStorypoints.hidden = false
                                     self.deleteAll.hidden = false
@@ -459,6 +468,12 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
         self.activityIndicatorView.layer.cornerRadius = 10
         self.activityIndicatorView.hidden = true
 
+        // Only allow the "admin" user to use the button that populates the DB
+        // with initial points.
+        if User.currentUser()!.username != "admin" {
+            self.initialStorypoints.enabled = false
+            self.initialStorypoints.setTitle("(Admin Only)", forState: .Normal)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
