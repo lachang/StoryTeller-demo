@@ -362,8 +362,8 @@ class StoriesViewController: UITableViewController {
         // Retrieve the URL of the story.
         if let messageContent = message.messageContent["spoken"] {
             url = NSURL(string: String(messageContent))
-        } else if let _ = message.messageContent["filmed"] {
-            url = NSURL(string: String(message.messageContent["videoUrl"]!))
+        } else if let messageContent = message.messageContent["filmed"] {
+            url = NSURL(string: String(messageContent))
         }
         
         // Play the story, if available.

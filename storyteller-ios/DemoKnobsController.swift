@@ -152,6 +152,8 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
             "messages":[
                 ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
                     "titleName":"Found a note, it reads..."],
+                ["filmed":"http://anthonyalayo.com/kawasaki.mp4",
+                    "titleName":"Kawasaki is too funny!"],
             ]],
         ["title":"Demo - Secret Door",
             "distance":150,
