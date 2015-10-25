@@ -90,22 +90,28 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
             "distance":5,
             "bearing":45,
             "messages":[
-                ["written":"Pumpkin spice latte"],
-                ["written":"In the breakroom"],
-                ["written":"No cream, no sugar please!"],
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"In the breakroom"],
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Pumpkin Spice Latte!"],
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"No cream, no sugar please!"],
             ]],
-        ["title":"Demo - What Happened Here",
+        ["title":"Demo - Something Happened Here",
             "distance":25,
             "bearing":135,
             "messages":[
-                ["written":"Found a note, it reads..."],
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Found a note, it reads..."],
             ]],
         ["title":"Demo - Secret Door",
             "distance":150,
             "bearing":270,
             "messages":[
-                ["written":"A door behind the wall"],
-                ["written":"Tilt the third book"],
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"A door behind the wall"],
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Tilt the third book"],
             ]],
     ]
     
@@ -226,9 +232,12 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
                     if numCallbacks == numTotal {
                         dispatch_async(dispatch_get_main_queue()) {
                             self._alertView!.showAlert(
-                                "Storypoints Created",
-                                message: "\(numCallbacks) were processed.",
-                                callback: nil)
+                                "Storypoints Created!",
+                                message: "Press refresh on the Nearby tab.",
+                                callback: {() -> Void in
+                                    self.dismissViewControllerAnimated(true,
+                                        completion: nil)
+                                })
 
                             // Hide the activity indicator and re-display the
                             // buttons.
