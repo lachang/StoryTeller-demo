@@ -170,7 +170,8 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
     // The internal location manager.
     private var _locationManager: LocationManager =
     LocationManager.sharedLocationManager()
-    
+
+    // Serial queue to serialize entry into critical sections.
     private var _serialQueue: dispatch_queue_t =
         dispatch_queue_create("DemoKnobsController", DISPATCH_QUEUE_SERIAL)
     

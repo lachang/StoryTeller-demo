@@ -162,6 +162,8 @@ class ProfileViewController: UIViewController {
     private func _show(user: User?) {
         
         if user != nil {
+            
+            // Retrieve details about the given user.
             user!.show(
                 callback: { (error) -> Void in
                     

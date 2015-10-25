@@ -177,6 +177,15 @@ class StoryPointsViewController: UIViewController, UITableViewDataSource,
     // MARK: Instance Methods (Private)
     //**************************************************************************
     
+    /**
+     * Retrieves points-of-interests based on the given user location.
+     *
+     * - parameter userLocation: Location at which points-of-interests will be
+     *                           shown.
+     *
+     * - returns: N/A
+     */
+    
     private func _index(userLocation: CLLocation?) {
 
         dispatch_async(dispatch_get_main_queue()) {
@@ -280,6 +289,17 @@ class StoryPointsViewController: UIViewController, UITableViewDataSource,
         }
     }
     
+    /**
+     * Creates a point-of-interest with the given parameters.
+     *
+     * - parameter name: Name of the point-of-interest.
+     * - parameter tags: Tags for the point-of-interest.
+     * - parameter userLocation: Location at which the point-of-interest will be
+     *                           located.
+     *
+     * - returns: N/A
+     */
+    
     private func _create(name: String, tags: String, userLocation: CLLocation) {
         
         // Initialize a new point-of-interest.
@@ -329,6 +349,15 @@ class StoryPointsViewController: UIViewController, UITableViewDataSource,
     // MARK: LocationManagerDelegate
     //**************************************************************************
 
+    /**
+     * Receives the current location.
+     *
+     * - parameter manager: Instance of the location manager.
+     * - parameter location: The current location.
+     *
+     * - returns: N/A
+     */
+    
     func updateLocation(manager: LocationManager, location: CLLocation) {
 
         // Now that at least one location is available, retrieve nearby points-
