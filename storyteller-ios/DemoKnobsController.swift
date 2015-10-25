@@ -33,56 +33,105 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
     // MARK: Attributes (Private)
     //**************************************************************************
     
-    // Manages the alert view.
-    private var _alertView: AlertView? = nil
-    
-    // The internal location manager.
-    private var _locationManager: LocationManager =
-    LocationManager.sharedLocationManager()
-    
-    private var _serialQueue: dispatch_queue_t =
-        dispatch_queue_create("DemoKnobsController", DISPATCH_QUEUE_SERIAL)
-    
-    //**************************************************************************
-    // MARK: Class Methods (Public)
-    //**************************************************************************
-    
-    //**************************************************************************
-    // MARK: Class Methods (Internal)
-    //**************************************************************************
-    
-    //**************************************************************************
-    // MARK: Class Methods (Private)
-    //**************************************************************************
-    
-    private static let _initialPoints = [
-        //        ["title":"Alcatraz Main Cell House",
-        //             "longitude":-122.42319,
-        //             "latitude":37.82683],
-        //
-        //        ["title":"Alcatraz Island Guard House",
-        //             "longitude":-122.42241,
-        //             "latitude":37.82728],
-        //
-        //        ["title":"Alcatraz Apartments",
-        //             "longitude":-122.42170,
-        //             "latitude":37.82674],
-        //
-        //        ["title":"Lochness Monster",
-        //             "longitude":-122.408227,
-        //             "latitude":37.8269],
-        
+    private static let _initialPointsSanFrancisco = [
+        ["title":"Alcatraz Main Cell House",
+            "longitude":-122.42319,
+            "latitude":37.82683,
+            "messages":[
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Sean Connery was here!"],
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Tight quarters"],
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445750386.37246.caf",
+                    "titleName":"George \"Machine Gun\" Kelly was a storyteller"],
+            ]],
+        ["title":"Alcatraz Island Guard House",
+            "longitude":-122.42241,
+            "latitude":37.82728,
+            "messages":[
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Inmates used to be kept in the basement of the guardhouse"],
+            ]],
+        ["title":"Alcatraz Apartments",
+            "longitude":-122.42170,
+            "latitude":37.82674,
+            "messages":[
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Grew up on the rock"],
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"First building constructed on the island of Alcatraz"],
+            ]],
+        ["title":"Lochness Monster",
+            "longitude":-122.408227,
+            "latitude":37.8269,
+            "messages":[
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Went whale-watching, saw something else..."],
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"I saw it!"],
+            ]],
         ["title":"Treasure Island",
             "longitude":-122.370648,
-            "latitude":37.823552],
-        
-        //        ["title":"Magnet Systems",
-        //            "longitude":-122.158983,
-        //            "latitude":37.449434],
-        
+            "latitude":37.823552,
+            "messages":[
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Awesome view of San Francisco from here"],
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Proposed to my wife right here 50 years ago..."],
+            ]],
         ["title":"Pier 39",
             "longitude":-122.417743,
-            "latitude":37.808],
+            "latitude":37.808,
+            "messages":[
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Mmmm... clam chowder!"],
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445751651.76006.caf",
+                    "titleName":"Can you hear the sea lions?"],
+            ]],
+    ]
+    
+    private static let _initialPointsPaloAlto = [
+        ["title":"Magnet Systems",
+            "longitude":-122.158983,
+            "latitude":37.449434,
+            "messages":[
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"StoryTeller team met the CEO of Magnet today!"],
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Add real-time user communication to your app with just a few lines of code"],
+            ]],
+        ["title":"Paris Baguette",
+            "longitude":-122.160749,
+            "latitude":37.447173,
+            "messages":[
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Morning coffee and pastry"],
+            ]],
+        ["title":"Stanford",
+            "longitude":-122.1697189,
+            "latitude":37.4274745,
+            "messages":[
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Time to study..."],
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Go Cardinals!"],
+            ]],
+        ["title":"Blue Bottle Coffee",
+            "longitude":-122.1596170,
+            "latitude":37.447578,
+            "messages":[
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"Awesome coffee \"plus\" a place to code in the back!"],
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"There used to be a Borders here..."],
+            ]],
+        ["title":"Stanford Dish",
+            "longitude":-122.179599,
+            "latitude":37.408564,
+            "messages":[
+                ["spoken":"https://s3.amazonaws.com/storyteler/admin_1445748132.1478.caf",
+                    "titleName":"If you see this... we walked the Dish on this day"],
+            ]],
     ]
     
     private static let _nearbyPoints = [
@@ -115,6 +164,28 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
             ]],
     ]
     
+    // Manages the alert view.
+    private var _alertView: AlertView? = nil
+    
+    // The internal location manager.
+    private var _locationManager: LocationManager =
+    LocationManager.sharedLocationManager()
+    
+    private var _serialQueue: dispatch_queue_t =
+        dispatch_queue_create("DemoKnobsController", DISPATCH_QUEUE_SERIAL)
+    
+    //**************************************************************************
+    // MARK: Class Methods (Public)
+    //**************************************************************************
+    
+    //**************************************************************************
+    // MARK: Class Methods (Internal)
+    //**************************************************************************
+    
+    //**************************************************************************
+    // MARK: Class Methods (Private)
+    //**************************************************************************
+    
     //**************************************************************************
     // MARK: Instance Methods (Public)
     //**************************************************************************
@@ -130,7 +201,17 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
     @IBAction func populateInitialStorypoints(sender: AnyObject) {
         
         var numCallbacks = 0
-        let numTotal = DemoKnobsController._initialPoints.count
+        
+        // Construct the initial points array from separate arrays. Apparently
+        // XCode does not like it if one static array is too long. THus, need
+        // to split into multiple arrays and re-combine.
+
+        var _initialPoints = DemoKnobsController._initialPointsSanFrancisco
+        for point in DemoKnobsController._initialPointsPaloAlto {
+            _initialPoints.append(point)
+        }
+        
+        let numTotal = _initialPoints.count
         
         let userLocation = self._locationManager.getLocation()
         
@@ -140,7 +221,8 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
         self.deleteAll.hidden = true
         self.activityIndicatorView.hidden = false
         
-        for point in DemoKnobsController._initialPoints {
+        for point in _initialPoints {
+            
             let pointOfInterest = PointOfInterest(
                 title: point["title"] as! String,
                 numMessages: 0,
@@ -150,6 +232,21 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
 
             pointOfInterest.create(callback: {(error) -> Void in
                 
+                if error == nil {
+                    // Once the channel is created, add the sample messages.
+                    // This is an asynchronous function but ignoring this for
+                    // now as this is a debug / development code path.
+                    
+                    let messages = point["messages"] as! [[String:String]]
+                    for message in messages {
+                        pointOfInterest.addMessage(message,
+                            callback: {(error) -> Void in
+                                // Ignore errors for now since this is a debug /
+                                // development function.
+                        })
+                    }
+                }
+                
                 dispatch_async(self._serialQueue) {
                     numCallbacks++
                     
@@ -158,8 +255,11 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
                         dispatch_async(dispatch_get_main_queue()) {
                             self._alertView!.showAlert(
                                 "Storypoints Created",
-                                message: "\(numCallbacks) were processed.",
-                                callback: nil)
+                                message: "Press refresh on the Nearby tab.",
+                                callback: {() -> Void in
+                                    self.dismissViewControllerAnimated(true,
+                                        completion: nil)
+                                })
 
                             // Hide the activity indicator and re-display the
                             // buttons.
@@ -288,7 +388,7 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
                                 dispatch_async(dispatch_get_main_queue()) {
                                     self._alertView!.showAlert(
                                         "Storypoints Deleted",
-                                        message: "\(numDeleted) processed.",
+                                        message: "\(numDeleted) deleted.",
                                         callback: nil)
 
                                     // Hide the activity indicator and re-display the
