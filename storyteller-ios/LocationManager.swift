@@ -128,18 +128,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
 
     /**
-     * Request the current location.
-     *
-     * - parameter N/A
-     *
-     * - returns: N/A
-     */
-
-    func requestLocation() {
-        return self._manager.requestLocation()
-    }
-
-    /**
      * Get the current authorization status for location retrieval.
      *
      * - parameter N/A

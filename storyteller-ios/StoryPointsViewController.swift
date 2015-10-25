@@ -195,18 +195,16 @@ class StoryPointsViewController: UIViewController, UITableViewDataSource,
                     "No Location Available",
                     message: "Please enable location services.",
                     callback: nil)
+                
+                // Hide the activity indicator and re-display the reload button.
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.navigationItem.rightBarButtonItem = self.reload
+                }
             }
-            else {
-                // The application has authorization to receive location data
-                // but no locations have yet been received. Request a location.
 
-                self._locationManager.requestLocation()
-            }
             
-            // Hide the activity indicator and re-display the reload button.
-            dispatch_async(dispatch_get_main_queue()) {
-                self.navigationItem.rightBarButtonItem = self.reload
-            }
+            // The application has authorization to receive location data but no
+            // locations have yet been received. Wait for the location ...
         }
         else {
 
@@ -418,7 +416,9 @@ class StoryPointsViewController: UIViewController, UITableViewDataSource,
 
                 self.navigationItem.rightBarButtonItem =
                     self._activityIndicatorBarButton
-                self._locationManager.requestLocation()
+                
+                let userLocation = self._locationManager.getLocation()
+                self._index(userLocation)
             }
         }
         

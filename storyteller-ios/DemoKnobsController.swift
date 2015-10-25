@@ -482,6 +482,9 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
         // Manages functionality of the alert view.
         self._alertView = AlertView(viewController: self)
         
+        // Register with the LocationManager for location updates.
+        self._locationManager.delegate = self
+        
         // Retrieve at least one location.
         if self._locationManager.getLocation() == nil {
             
@@ -500,13 +503,11 @@ class DemoKnobsController: UIViewController, LocationManagerDelegate {
             }
             else {
                 // The application has authorization to receive location data
-                // but no locations have yet been received. Request a location.
+                // but no locations have yet been received. Register with the
+                // LocationManager for location updates and wait for the
+                // location...
                 
                 self.activityIndicatorView.hidden = false
-                
-                // Register with the LocationManager for location updates.
-                self._locationManager.delegate = self
-                self._locationManager.requestLocation()
             }
         }
     }
