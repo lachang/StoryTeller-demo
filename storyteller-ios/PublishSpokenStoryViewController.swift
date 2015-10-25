@@ -82,6 +82,21 @@ AVAudioRecorderDelegate {
     }
 
     /**
+     * Triggered when the user touches the view, outside of other UI controls
+     * (i.e. textfields, buttons, etc...)
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
+    
+    @IBAction func endEditing(sender: AnyObject) {
+        // Forces the view (or one of its embedded text fields) to resign the
+        // first responder.
+        self.view.endEditing(true)
+    }
+    
+    /**
      * Triggered when the user presses the record / publish button.
      *
      * - parameter sender: The source that triggered this function.

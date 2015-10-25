@@ -56,12 +56,12 @@ class PublishFilmedStoryViewController: UIViewController {
     //**************************************************************************
     
     /**
-    * Triggered when the user presses the cancel button.
-    *
-    * - parameter sender: The source that triggered this function.
-    *
-    * - returns: N/A
-    */
+     * Triggered when the user presses the cancel button.
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
     
     @IBAction func cancel(sender: AnyObject) {
         // Dismiss this controller.
@@ -69,12 +69,27 @@ class PublishFilmedStoryViewController: UIViewController {
     }
     
     /**
-    * Triggered when the user presses the record / publish button.
-    *
-    * - parameter sender: The source that triggered this function.
-    *
-    * - returns: N/A
-    */
+     * Triggered when the user touches the view, outside of other UI controls
+     * (i.e. textfields, buttons, etc...)
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
+    
+    @IBAction func endEditing(sender: AnyObject) {
+        // Forces the view (or one of its embedded text fields) to resign the
+        // first responder.
+        self.view.endEditing(true)
+    }
+    
+    /**
+     * Triggered when the user presses the record / publish button.
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
     
     @IBAction func recordOrPublish(sender: AnyObject) {
         
@@ -104,12 +119,12 @@ class PublishFilmedStoryViewController: UIViewController {
     }
     
     /**
-    * Triggered when the user presses the playback button.
-    *
-    * - parameter sender: The source that triggered this function.
-    *
-    * - returns: N/A
-    */
+     * Triggered when the user presses the playback button.
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
     
     @IBAction func playbackOrStop(sender: AnyObject) {
         
@@ -126,12 +141,12 @@ class PublishFilmedStoryViewController: UIViewController {
     }
     
     /**
-    * Triggered when the user presses the reset button.
-    *
-    * - parameter sender: The source that triggered this function.
-    *
-    * - returns: N/A
-    */
+     * Triggered when the user presses the reset button.
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
     
     @IBAction func resetView(sender: AnyObject) {
         

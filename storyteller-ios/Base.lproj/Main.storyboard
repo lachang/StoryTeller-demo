@@ -525,6 +525,140 @@
             </objects>
             <point key="canvasLocation" x="553" y="471"/>
         </scene>
+        <!--Add Story Point View Controller-->
+        <scene sceneID="U1Z-L6-HL3">
+            <objects>
+                <viewController id="1dA-lM-EzV" customClass="AddStoryPointViewController" customModule="StoryTeller" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FwP-T2-TcT"/>
+                        <viewControllerLayoutGuide type="bottom" id="98R-mw-a2h"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dI4-nc-IW5">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blue-background" translatesAutoresizingMaskIntoConstraints="NO" id="Rdm-qH-jXD">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <gestureRecognizers/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a New StoryPoint" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ybg-dj-THt">
+                                <rect key="frame" x="180" y="40" width="239" height="33"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="24"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XPO-CX-PXC">
+                                <rect key="frame" x="0.0" y="89" width="600" height="236"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="236" id="kbe-Zd-e3q"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name the StoryPoint" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NXL-fv-8wF">
+                                <rect key="frame" x="160" y="372" width="280" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="yWM-vO-in0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="1dA-lM-EzV" id="oic-aH-o68"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter tags separated by spaces..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qa7-72-eoZ">
+                                <rect key="frame" x="160" y="410" width="280" height="30"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="1dA-lM-EzV" id="iuD-WH-MZU"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coordinates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4xv-Mq-tlf">
+                                <rect key="frame" x="260" y="333" width="78.5" height="19.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lp6-Qb-Jue">
+                                <rect key="frame" x="225" y="456" width="150" height="33"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="gN0-iQ-YMR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <state key="normal" title="Add">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="add:" destination="1dA-lM-EzV" eventType="touchUpInside" id="kcZ-6Y-FJd"/>
+                                    <action selector="recordOrPublish:" destination="P2r-jc-0nL" eventType="touchUpInside" id="ps9-RL-sBK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kl5-mM-58L">
+                                <rect key="frame" x="277" y="548" width="44" height="32"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancel:" destination="1dA-lM-EzV" eventType="touchUpInside" id="Zwk-vE-Ndp"/>
+                                    <action selector="cancel:" destination="P2r-jc-0nL" eventType="touchUpInside" id="axb-0Y-Zoi"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Aco-uk-vao">
+                                <rect key="frame" x="281" y="454" width="37" height="37"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="4xv-Mq-tlf" firstAttribute="top" secondItem="XPO-CX-PXC" secondAttribute="bottom" constant="8" id="3mG-1N-P3i"/>
+                            <constraint firstItem="Qa7-72-eoZ" firstAttribute="top" secondItem="NXL-fv-8wF" secondAttribute="bottom" constant="8" id="5yH-jw-hGQ"/>
+                            <constraint firstItem="XPO-CX-PXC" firstAttribute="leading" secondItem="dI4-nc-IW5" secondAttribute="leadingMargin" constant="-20" id="8Fe-dW-ppA"/>
+                            <constraint firstItem="NXL-fv-8wF" firstAttribute="top" secondItem="4xv-Mq-tlf" secondAttribute="bottom" constant="20" id="9YM-lW-ihM"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Rdm-qH-jXD" secondAttribute="trailing" constant="-20" id="Cs5-WG-bWd"/>
+                            <constraint firstItem="Rdm-qH-jXD" firstAttribute="leading" secondItem="dI4-nc-IW5" secondAttribute="leadingMargin" constant="-20" id="Qst-jc-9Kl"/>
+                            <constraint firstItem="Aco-uk-vao" firstAttribute="centerY" secondItem="lp6-Qb-Jue" secondAttribute="centerY" id="SUg-ox-peX"/>
+                            <constraint firstItem="98R-mw-a2h" firstAttribute="top" secondItem="Rdm-qH-jXD" secondAttribute="bottom" id="TA6-ML-RnQ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XPO-CX-PXC" secondAttribute="trailing" constant="-20" id="YAq-fS-lLa"/>
+                            <constraint firstItem="lp6-Qb-Jue" firstAttribute="centerX" secondItem="Qa7-72-eoZ" secondAttribute="centerX" id="anT-RM-hcL"/>
+                            <constraint firstItem="kl5-mM-58L" firstAttribute="centerX" secondItem="ybg-dj-THt" secondAttribute="centerX" id="b15-nc-vB7"/>
+                            <constraint firstItem="ybg-dj-THt" firstAttribute="centerX" secondItem="dI4-nc-IW5" secondAttribute="centerX" id="gbn-AF-R4L"/>
+                            <constraint firstItem="Rdm-qH-jXD" firstAttribute="top" secondItem="FwP-T2-TcT" secondAttribute="bottom" constant="-20" id="iMD-aZ-Rmf"/>
+                            <constraint firstItem="98R-mw-a2h" firstAttribute="top" secondItem="kl5-mM-58L" secondAttribute="bottom" constant="20" id="iic-bj-xqH"/>
+                            <constraint firstItem="ybg-dj-THt" firstAttribute="top" secondItem="FwP-T2-TcT" secondAttribute="bottom" constant="20" id="ixt-Zk-pW9"/>
+                            <constraint firstItem="NXL-fv-8wF" firstAttribute="centerX" secondItem="4xv-Mq-tlf" secondAttribute="centerX" id="kTB-gL-P9O"/>
+                            <constraint firstItem="4xv-Mq-tlf" firstAttribute="centerX" secondItem="ybg-dj-THt" secondAttribute="centerX" id="kk7-qn-lF8"/>
+                            <constraint firstItem="Aco-uk-vao" firstAttribute="centerX" secondItem="lp6-Qb-Jue" secondAttribute="centerX" id="p5e-VV-eOW"/>
+                            <constraint firstItem="Qa7-72-eoZ" firstAttribute="centerX" secondItem="NXL-fv-8wF" secondAttribute="centerX" id="raj-j0-jjo"/>
+                            <constraint firstItem="lp6-Qb-Jue" firstAttribute="top" secondItem="Qa7-72-eoZ" secondAttribute="bottom" constant="16" id="uGn-kX-CeI"/>
+                            <constraint firstItem="XPO-CX-PXC" firstAttribute="top" secondItem="ybg-dj-THt" secondAttribute="bottom" constant="16" id="wn1-Wp-QhN"/>
+                            <constraint firstItem="Qa7-72-eoZ" firstAttribute="width" secondItem="NXL-fv-8wF" secondAttribute="width" id="zh9-gs-PJb"/>
+                        </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="fUU-Uz-mpG" appends="YES" id="Mb2-54-7os"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="Aco-uk-vao" id="qe1-yK-ycF"/>
+                        <outlet property="add" destination="lp6-Qb-Jue" id="7Vs-Gh-YI3"/>
+                        <outlet property="cancel" destination="kl5-mM-58L" id="bcN-US-MIM"/>
+                        <outlet property="coordinates" destination="4xv-Mq-tlf" id="feZ-UU-1Lj"/>
+                        <outlet property="image" destination="XPO-CX-PXC" id="3jD-h5-qfI"/>
+                        <outlet property="name" destination="NXL-fv-8wF" id="h7v-ZX-cBf"/>
+                        <outlet property="tags" destination="Qa7-72-eoZ" id="1gf-hc-el0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G9i-0k-gi6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="fUU-Uz-mpG">
+                    <connections>
+                        <action selector="endEditing:" destination="1dA-lM-EzV" id="nxv-P8-m6L"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="1273" y="309"/>
+        </scene>
         <!--Stories-->
         <scene sceneID="HPG-y4-o9d">
             <objects>
@@ -684,6 +818,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blue-background" translatesAutoresizingMaskIntoConstraints="NO" id="bJK-I0-QtY">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <gestureRecognizers/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Say Your Story" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GXR-1W-g6h">
                                 <rect key="frame" x="223" y="40" width="156" height="33"/>
@@ -776,6 +911,9 @@
                             <constraint firstAttribute="trailingMargin" secondItem="bJK-I0-QtY" secondAttribute="trailing" constant="-20" id="rAu-9y-Q5y"/>
                             <constraint firstItem="bJK-I0-QtY" firstAttribute="top" secondItem="gvb-fE-tSG" secondAttribute="bottom" constant="-20" id="sCe-2N-UtH"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="3M4-We-OPK" appends="YES" id="eTc-oy-Rsx"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="1qw-2p-KGT" id="z2k-OM-bEj"/>
@@ -786,6 +924,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qBg-6y-5fE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="3M4-We-OPK">
+                    <connections>
+                        <action selector="endEditing:" destination="P2r-jc-0nL" id="cND-Nb-ZUK"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2338" y="-425"/>
         </scene>
@@ -803,6 +946,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blue-background" translatesAutoresizingMaskIntoConstraints="NO" id="dC5-ia-3sF">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <gestureRecognizers/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Film Your Story" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IpM-gn-YA4">
                                 <rect key="frame" x="219" y="40" width="164" height="33"/>
@@ -895,6 +1039,9 @@
                             <constraint firstItem="i8f-w5-eW2" firstAttribute="centerX" secondItem="IpM-gn-YA4" secondAttribute="centerX" id="rUu-OC-atx"/>
                             <constraint firstItem="IpM-gn-YA4" firstAttribute="centerX" secondItem="w4Q-qW-WiC" secondAttribute="centerX" id="vdJ-vb-GGW"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="9VR-cW-vgP" appends="YES" id="uWN-r4-vrB"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="32S-Oi-NjN" id="TdV-G7-7gR"/>
@@ -905,6 +1052,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eAe-8M-Tmb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="9VR-cW-vgP">
+                    <connections>
+                        <action selector="endEditing:" destination="Qyn-Z8-bOI" id="x02-8o-EUz"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2338" y="309"/>
         </scene>
