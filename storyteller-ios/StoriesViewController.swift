@@ -41,7 +41,6 @@ class StoriesViewController: UITableViewController {
     private var _alertView: AlertView? = nil
     
     // Table cell identifiers.
-    private let _storyCellIdentifier      = "StoryTableViewCell"
     private let _audioStoryCellIdentifier = "AudioStoryTableViewCell"
     private let _videoStoryCellIdentifier = "VideoStoryTableViewCell"
     
@@ -93,16 +92,6 @@ class StoriesViewController: UITableViewController {
             title: nil,
             message: nil,
             preferredStyle: UIAlertControllerStyle.ActionSheet)
-        
-        // Add an option to "write" a story.
-        let alertActionWriteStory = UIAlertAction(
-            title: "Write Your Story",
-            style: UIAlertActionStyle.Default,
-            handler: {(alert) -> Void in
-                self.performSegueWithIdentifier("MessagesToWrittenSegue",
-                    sender: self)
-            })
-        alertViewController.addAction(alertActionWriteStory)
         
         // Add an option to "say" a story.
         let alertActionSayStory = UIAlertAction(
@@ -183,33 +172,6 @@ class StoriesViewController: UITableViewController {
     //**************************************************************************
     // MARK: Instance Methods (Private)
     //**************************************************************************
-    
-    /**
-     * Configures a StoryTableViewCell instance.
-     *
-     * - parameter tableView; The table view that will display the cell.
-     * - parameter message: The message to configure the cell with.
-     *
-     * - returns: A table cell.
-     */
-    
-    private func _storyCellAtIndexPath(tableView: UITableView,
-        message: MMXMessage) -> StoryTableViewCell {
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier(
-            self._storyCellIdentifier) as! StoryTableViewCell
-        
-        let messageType = message.messageContent["written"]
-        
-        cell.titleLabel.text = "written"
-        cell.messageLabel.text = "\(messageType!)" ?? "[No Content]"
-        
-        cell.usernameLabel.text = "\(message.sender.username)"
-        var timestampArray = message.timestamp.description.componentsSeparatedByString(" ")
-        cell.timestampLabel.text = "\(timestampArray[0])"
-        
-        return cell
-    }
     
     /**
      * Configures an AudioStoryTaleViewCell instance.
@@ -334,14 +296,7 @@ class StoriesViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         // Pass the selected point-of-interest to the next view.
-        if segue.identifier == "MessagesToWrittenSegue" {
-            
-            let viewController =
-            segue.destinationViewController as! PublishWrittenStoryViewController
-            
-            viewController.pointOfInterest = self.pointOfInterest
-            
-        } else if segue.identifier == "MessagesToSpokenSegue" {
+        if segue.identifier == "MessagesToSpokenSegue" {
             
             let viewController =
             segue.destinationViewController as! PublishSpokenStoryViewController
@@ -381,17 +336,16 @@ class StoriesViewController: UITableViewController {
 
         let message = self._messages[indexPath.row]
         
-        if let _ = message.messageContent["written"] {
-            return _storyCellAtIndexPath(tableView, message: message)
-            
-        } else if let _ = message.messageContent["spoken"] {
+        if let _ = message.messageContent["spoken"] {
             return _audioStoryCellAtIndexPath(tableView, message: message)
             
         } else if let _ = message.messageContent["filmed"] {
             return _videoStoryCellAtIndexPath(tableView, message: message)
             
         } else {
-            return _storyCellAtIndexPath(tableView, message: message)
+            // Return a default audio cell for all other cases. Ideally, this
+            // case should not happen.
+            return _audioStoryCellAtIndexPath(tableView, message: message)
         }
     }
     
