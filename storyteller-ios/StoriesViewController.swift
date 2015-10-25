@@ -23,6 +23,7 @@ class StoriesViewController: UITableViewController {
     // MARK: Attributes (Public)
     //**************************************************************************
 
+    // The PointOfInterest instance to retrieve stories from.
     var pointOfInterest: PointOfInterest!
     
     //**************************************************************************
@@ -33,11 +34,19 @@ class StoriesViewController: UITableViewController {
     // MARK: Attributes (Private)
     //**************************************************************************
     
-    var _messages: [MMXMessage] = []
+    // An array of messages to display.
+    private var _messages: [MMXMessage] = []
     
-    let storyCellIdentifier = "StoryTableViewCell"
-    let audioStoryCellIdentifier = "AudioStoryTableViewCell"
-    let videoStoryCellIdentifier = "VideoStoryTableViewCell"
+    // Manages the alert view.
+    private var _alertView: AlertView? = nil
+    
+    // Table cell identifiers.
+    private let _storyCellIdentifier      = "StoryTableViewCell"
+    private let _audioStoryCellIdentifier = "AudioStoryTableViewCell"
+    private let _videoStoryCellIdentifier = "VideoStoryTableViewCell"
+    
+    // Determines whether the view attempts to retrieve messages.
+    private var _attemptMessageRetrieval = false
     
     //**************************************************************************
     // MARK: Class Methods (Public)
@@ -50,65 +59,17 @@ class StoriesViewController: UITableViewController {
     //**************************************************************************
     // MARK: Class Methods (Private)
     //**************************************************************************
-    
-    @IBAction func leaveMemory(sender: AnyObject) {
-        
-        let alertViewController =
-        UIAlertController(
-            title: nil,
-            message: nil,
-            preferredStyle: UIAlertControllerStyle.ActionSheet)
-        
-        // Add a logout button.
-        let alertActionWriteStory = UIAlertAction(
-            title: "Write Your Story",
-            style: UIAlertActionStyle.Default,
-            handler: _writeYourStory)
-        alertViewController.addAction(alertActionWriteStory)
-        
-        // Add a logout button.
-        let alertActionSayStory = UIAlertAction(
-            title: "Say Your Story",
-            style: UIAlertActionStyle.Default,
-            handler: _sayYourStory)
-        alertViewController.addAction(alertActionSayStory)
-     
-        // Add a logout button.
-        let alertActionFilmStory = UIAlertAction(
-            title: "Film Your Story",
-            style: UIAlertActionStyle.Default,
-            handler: _filmYourStory)
-        alertViewController.addAction(alertActionFilmStory)
-        
-        // Add a cancel button.
-        let alertActionCancel = UIAlertAction(
-            title: "Cancel",
-            style: UIAlertActionStyle.Default,
-            handler: nil)
-        alertViewController.addAction(alertActionCancel)
-        
-        self.presentViewController(
-            alertViewController,
-            animated: true,
-            completion: nil)
-    }
-    
-    private func _writeYourStory(sender: UIAlertAction!)
-    {
-        self.performSegueWithIdentifier("MessagesToWrittenSegue", sender: self)
-    }
-    
-    private func _sayYourStory(sender: UIAlertAction!)
-    {
-        self.performSegueWithIdentifier("MessagesToSpokenSegue", sender: self)
-    }
-    
-    private func _filmYourStory(sender: UIAlertAction!)
-    {
-        self.performSegueWithIdentifier("MessagesToFilmedSegue", sender: self)
-    }
+
+    /**
+     * Initial configuration for the table view.
+     *
+     * - parameter N/A
+     *
+     * - returns: N/A
+     */
     
     private func _configureTableView() {
+        // Setup the table view for dynamic row heights.
         tableView.estimatedRowHeight = self.tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
     }
@@ -118,11 +79,71 @@ class StoriesViewController: UITableViewController {
     //**************************************************************************
     
     /**
+     * Triggered when the user presses the button to leave a memory.
+     *
+     * - parameter sender: The source that triggered this function.
+     *
+     * - returns: N/A
+     */
+    
+    @IBAction func leaveMemory(sender: AnyObject) {
+        
+        let alertViewController =
+        UIAlertController(
+            title: nil,
+            message: nil,
+            preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
+        // Add an option to "write" a story.
+        let alertActionWriteStory = UIAlertAction(
+            title: "Write Your Story",
+            style: UIAlertActionStyle.Default,
+            handler: {(alert) -> Void in
+                self.performSegueWithIdentifier("MessagesToWrittenSegue",
+                    sender: self)
+            })
+        alertViewController.addAction(alertActionWriteStory)
+        
+        // Add an option to "say" a story.
+        let alertActionSayStory = UIAlertAction(
+            title: "Say Your Story",
+            style: UIAlertActionStyle.Default,
+            handler: {(alert) -> Void in
+                self.performSegueWithIdentifier("MessagesToSpokenSegue",
+                    sender: self)
+            })
+        alertViewController.addAction(alertActionSayStory)
+        
+        // Add an option to "film" a story.
+        let alertActionFilmStory = UIAlertAction(
+            title: "Film Your Story",
+            style: UIAlertActionStyle.Default,
+            handler: {(alert) -> Void in
+                self.performSegueWithIdentifier("MessagesToFilmedSegue",
+                    sender: self)
+            })
+        alertViewController.addAction(alertActionFilmStory)
+        
+        // Add a cancel button.
+        let alertActionCancel = UIAlertAction(
+            title: "Cancel",
+            style: UIAlertActionStyle.Default,
+            handler: nil)
+        alertViewController.addAction(alertActionCancel)
+        
+        // Show the alert view.
+        self.presentViewController(
+            alertViewController,
+            animated: true,
+            completion: nil)
+    }
+    
+    /**
      * Triggered when the user presses the back button.
      *
-     * :param: sender The source that triggered this function.
+     * - parameter sender: The source that triggered this function.
      *
-     * :returns: N/A
+     * - returns: N/A
      */
     
     @IBAction func back(sender: AnyObject) {
@@ -133,6 +154,14 @@ class StoriesViewController: UITableViewController {
     //**************************************************************************
     // MARK: Instance Methods (Internal)
     //**************************************************************************
+    
+    /**
+     * Invoked when a new message is received.
+     *
+     * - parameter sender: The notification that triggered this function.
+     *
+     * - returns: N/A
+     */
     
     internal func _didReceiveMessage(notification: NSNotification) {
 
@@ -155,6 +184,90 @@ class StoriesViewController: UITableViewController {
     // MARK: Instance Methods (Private)
     //**************************************************************************
     
+    /**
+     * Configures a StoryTableViewCell instance.
+     *
+     * - parameter tableView; The table view that will display the cell.
+     * - parameter message: The message to configure the cell with.
+     *
+     * - returns: A table cell.
+     */
+    
+    private func _storyCellAtIndexPath(tableView: UITableView,
+        message: MMXMessage) -> StoryTableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(
+            self._storyCellIdentifier) as! StoryTableViewCell
+        
+        let messageType = message.messageContent["written"]
+        
+        cell.titleLabel.text = "written"
+        cell.messageLabel.text = "\(messageType!)" ?? "[No Content]"
+        
+        cell.usernameLabel.text = "\(message.sender.username)"
+        var timestampArray = message.timestamp.description.componentsSeparatedByString(" ")
+        cell.timestampLabel.text = "\(timestampArray[0])"
+        
+        return cell
+    }
+    
+    /**
+     * Configures an AudioStoryTaleViewCell instance.
+     *
+     * - parameter tableView; The table view that will display the cell.
+     * - parameter message: The message to configure the cell with.
+     *
+     * - returns: A table cell.
+     */
+    
+    private func _audioStoryCellAtIndexPath(tableView: UITableView,
+        message: MMXMessage) -> StoryTableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(
+            self._audioStoryCellIdentifier) as! AudioStoryTableViewCell
+        
+        cell.titleLabel.text = (message.messageContent["titleName"] as? String) ?? "[No Title]"
+        cell.usernameLabel.text = "\(message.sender.username)"
+        var timestampArray = message.timestamp.description.componentsSeparatedByString(" ")
+        cell.timestampLabel.text = "\(timestampArray[0])"
+        
+        return cell
+    }
+    
+    /**
+     * Configures a VideoStoryTableViewCell instance.
+     *
+     * - parameter tableView; The table view that will display the cell.
+     * - parameter message: The message to configure the cell with.
+     *
+     * - returns: A table cell.
+     */
+    
+    private func _videoStoryCellAtIndexPath(tableView: UITableView,
+        message: MMXMessage) -> StoryTableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(
+            self._videoStoryCellIdentifier) as! VideoStoryTableViewCell
+        
+        cell.titleLabel.text = (message.messageContent["titleName"] as? String) ?? "[No Title]"
+        cell.usernameLabel.text = "\(message.sender.username)"
+        var timestampArray = message.timestamp.description.componentsSeparatedByString(" ")
+        cell.timestampLabel.text = "\(timestampArray[0])"
+        
+//        if let url  = NSURL(string: message.messageContent["imageUrl"] as! String),
+//               data = NSData(contentsOfURL: url)
+//        {
+//            cell.customImageView.image = UIImage(data: data)
+//        }
+
+//        cell.thumbnail.image = UIImage(named: "catdog.jpg")
+//        cell.thumbnail.image = UIImage(named: "kitty.jpg")
+//        cell.thumbnail.layer.cornerRadius = 5
+//        cell.thumbnail.layer.masksToBounds = true
+        
+        return cell
+    }
+    
     //**************************************************************************
     // MARK: UIViewController
     //**************************************************************************
@@ -164,32 +277,63 @@ class StoriesViewController: UITableViewController {
 
         self._configureTableView()
         
-        // Fetch all the messages for the given channel.
-        self.pointOfInterest.channel!.messagesBetweenStartDate(nil, endDate: nil, limit: 25, offset: 0, ascending: false, success: { (totalCount, messages) -> Void in
-            
-            self._messages = messages as! [MMXMessage]
-            dispatch_async(dispatch_get_main_queue()) {
-                // Reload the table view.
-                self.tableView.reloadData()
-                
-                // Setup a notifier for receiving further messages.
-                MMX.start()
-                NSNotificationCenter.defaultCenter().addObserver(self,
-                    selector: "_didReceiveMessage:",
-                    name: MMXDidReceiveMessageNotification, object: nil)
-            }
-            }, failure: { (error) -> Void in
-                print("ERROR: Failed to fetch messages!")
-            })
+        // Attempt message retrieval when the controller initially loads.
+        self._attemptMessageRetrieval = true
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Manages functionality of the alert view.
+        self._alertView = AlertView(viewController: self)
+        
+        // If requested, attempt to retrieve messages.
+        if self._attemptMessageRetrieval {
+            
+            self._attemptMessageRetrieval = false
+
+            // Fetch all the messages for the given channel.
+            self.pointOfInterest.channel!.messagesBetweenStartDate(nil,
+                endDate: nil, limit: 100, offset: 0, ascending: false,
+                success: { (totalCount, messages) -> Void in
+                    
+                    // Cache off all the messages.
+                    self._messages = messages as! [MMXMessage]
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        // Reload the table view.
+                        self.tableView.reloadData()
+                        
+                        // Setup a notifier for receiving further messages.
+                        MMX.start()
+                        NSNotificationCenter.defaultCenter().addObserver(self,
+                            selector: "_didReceiveMessage:",
+                            name: MMXDidReceiveMessageNotification, object: nil)
+                    }
+                },
+                failure: { (error) -> Void in
+
+                    // If an error occurred, show an alert.
+                    print("ERROR: Failed to fetch messages!")
+                    self._alertView!.showAlert(
+                        "Message Retrieval Failed",
+                        error: error,
+                        callback: {() -> Void in })
+                })
+        }
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // Release the alert view's reference to this view controller.
+        self._alertView = nil
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        // Pass the selected channel to the messages view.
+        // Pass the selected point-of-interest to the next view.
         if segue.identifier == "MessagesToWrittenSegue" {
             
             let viewController =
@@ -226,138 +370,58 @@ class StoriesViewController: UITableViewController {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView,
+        numberOfRowsInSection section: Int) -> Int {
+            
         return self._messages.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(tableView: UITableView,
+        cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+
         let message = self._messages[indexPath.row]
         
         if let _ = message.messageContent["written"] {
-            return _storyCellAtIndexPath(tableView, message: self._messages[indexPath.row])
+            return _storyCellAtIndexPath(tableView, message: message)
             
         } else if let _ = message.messageContent["spoken"] {
-            return _audioStoryCellAtIndexPath(tableView, message: self._messages[indexPath.row])
+            return _audioStoryCellAtIndexPath(tableView, message: message)
             
         } else if let _ = message.messageContent["filmed"] {
-            return _videoStoryCellAtIndexPath(tableView, message: self._messages[indexPath.row])
+            return _videoStoryCellAtIndexPath(tableView, message: message)
             
         } else {
-            return _storyCellAtIndexPath(tableView, message: self._messages[indexPath.row])
+            return _storyCellAtIndexPath(tableView, message: message)
         }
-    }
-    
-    private func _storyCellAtIndexPath(tableView: UITableView, message: MMXMessage) -> StoryTableViewCell {
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier(storyCellIdentifier) as! StoryTableViewCell
-        
-        let messageType = message.messageContent["written"]
-        
-        cell.titleLabel.text = "written" ?? "[No Title]"
-        cell.messageLabel.text = "\(messageType!)" ?? "[No Content]"
-        
-        cell.usernameLabel.text = "\(message.sender.username)"
-        var timestampArray = message.timestamp.description.componentsSeparatedByString(" ")
-        cell.timestampLabel.text = "\(timestampArray[0])"
-        
-        return cell
-    }
-    
-    private func _audioStoryCellAtIndexPath(tableView: UITableView, message: MMXMessage) -> StoryTableViewCell {
-        
-        //let cell = tableView.dequeueReusableCellWithIdentifier(storyCellIdentifier) as! StoryTableViewCell
-        let cell = tableView.dequeueReusableCellWithIdentifier(audioStoryCellIdentifier) as! AudioStoryTableViewCell
-        
-        //let messageType = message.messageContent["spoken"]
-        
-        //cell.titleLabel.text = "spoken" ?? "[No Title]"
-        cell.titleLabel.text = (message.messageContent["titleName"] as? String) ?? "[No Title]"
-        //cell.messageLabel.text = "\(messageType!)" ?? "[No Content]"
-        
-        cell.usernameLabel.text = "\(message.sender.username)"
-        var timestampArray = message.timestamp.description.componentsSeparatedByString(" ")
-        cell.timestampLabel.text = "\(timestampArray[0])"
-        
-        return cell
-    }
-    
-    private func _videoStoryCellAtIndexPath(tableView: UITableView, message: MMXMessage) -> StoryTableViewCell {
-        
-        //let cell = tableView.dequeueReusableCellWithIdentifier(storyCellIdentifier) as! StoryTableViewCell
-        let cell = tableView.dequeueReusableCellWithIdentifier(videoStoryCellIdentifier) as! VideoStoryTableViewCell
-        
-        //let messageType = message.messageContent["filmed"]
-        
-        cell.titleLabel.text = "filmed" ?? "[No Title]"
-        //cell.messageLabel.text = "\(messageType!)" ?? "[No Content]"
-        
-        cell.usernameLabel.text = "\(message.sender.username)"
-        var timestampArray = message.timestamp.description.componentsSeparatedByString(" ")
-        cell.timestampLabel.text = "\(timestampArray[0])"
-        
-//        if let url  = NSURL(string: message.messageContent["imageUrl"] as! String),
-//            data = NSData(contentsOfURL: url)
-//        {
-//            cell.customImageView.image = UIImage(data: data)
-//        }
-        
-        //cell.thumbnail.image = UIImage(named: "catdog.jpg")
-        //cell.thumbnail.image = UIImage(named: "kitty.jpg")
-        //cell.thumbnail.layer.cornerRadius = 5
-        //cell.thumbnail.layer.masksToBounds = true
-        
-        return cell
     }
     
     //**************************************************************************
     // MARK: UITableViewDelegate
     //**************************************************************************
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+    override func tableView(tableView: UITableView,
+        didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        var url: NSURL? = nil
         let message = self._messages[indexPath.row]
 
+        // Retrieve the URL of the story.
         if let messageContent = message.messageContent["spoken"] {
-            
-            // for now grab the messageContent as url
-            // TODO: clean this code up
-            let url: NSURL? = NSURL(string: String(messageContent))
-            let player = AVPlayer(URL: url!)
-            let playerViewController = AVPlayerViewController()
-            playerViewController.player = player
-            self.presentViewController(playerViewController, animated: true, completion: nil)
-            player.play()
+            url = NSURL(string: String(messageContent))
         } else if let _ = message.messageContent["filmed"] {
-            // for now grab the video url
-            // TODO: clean this code up
-            let url: NSURL? = NSURL(string: String(message.messageContent["videoUrl"]!))
+            url = NSURL(string: String(message.messageContent["videoUrl"]!))
+        }
+        
+        // Play the story, if available.
+        if url != nil {
             let player = AVPlayer(URL: url!)
+            
             let playerViewController = AVPlayerViewController()
             playerViewController.player = player
-            self.presentViewController(playerViewController, animated: true, completion: nil)
+            self.presentViewController(playerViewController, animated: true,
+                completion: nil)
+            
             player.play()
         }
-    
-        /* The dream...
-        
-        if let messageContent = message.messageContent["written"] {
-            // do nothing
-        } else if let messageContent = message.messageContent["spoken"] {
-            let url: NSURL? = NSURL(string: String(messageContent))
-            
-            let player = AVPlayer(URL: url!)
-            let playerViewController = AVPlayerViewController()
-            playerViewController.player = player
-            self.presentViewController(playerViewController, animated: true, completion: nil)
-            player.play()
-            
-        } else if let messageContent = message.messageContent["filmed"] {
-            // do nothing
-        } else {
-            // do nothing
-        }
-        */
-        
     }
-
 }
