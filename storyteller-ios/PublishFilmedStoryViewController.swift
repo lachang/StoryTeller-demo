@@ -232,6 +232,15 @@ class PublishFilmedStoryViewController: UIViewController {
         self._alertView = AlertView(viewController: self)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        self._alertView!.showAlert(
+            "Unsupported",
+            message: "This feature is not yet supported.",
+            callback: {() -> Void in
+                self.dismissViewControllerAnimated(true, completion: nil)
+            })
+    }
+    
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
