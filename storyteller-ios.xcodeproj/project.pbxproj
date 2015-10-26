@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		250990A51BDCE41F0001CAE0 /* AddStoryPointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250990A41BDCE41F0001CAE0 /* AddStoryPointViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		250990A71BDCE9780001CAE0 /* MapSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250990A61BDCE9780001CAE0 /* MapSnapshot.swift */; settings = {ASSET_TAGS = (); }; };
 		2516665C1BC7A7C5007B82BC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516665B1BC7A7C5007B82BC /* User.swift */; settings = {ASSET_TAGS = (); }; };
 		251666601BC8E28B007B82BC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516665F1BC8E28B007B82BC /* ProfileViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		258B92181BC65AFD0003EA12 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258B92171BC65AFD0003EA12 /* Session.swift */; settings = {ASSET_TAGS = (); }; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		250990A41BDCE41F0001CAE0 /* AddStoryPointViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddStoryPointViewController.swift; sourceTree = "<group>"; };
+		250990A61BDCE9780001CAE0 /* MapSnapshot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSnapshot.swift; sourceTree = "<group>"; };
 		2516665B1BC7A7C5007B82BC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		2516665F1BC8E28B007B82BC /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		258B92171BC65AFD0003EA12 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				B1B1CAA71BD76112000DD9F1 /* VideoStoryTableViewCell.swift */,
 				259E38A61BBE4F6D009C9218 /* PointOfInterestTableViewCell.swift */,
 				259E38A51BBE4F6D009C9218 /* MapView.swift */,
+				250990A61BDCE9780001CAE0 /* MapSnapshot.swift */,
 				259E38A41BBE4F6D009C9218 /* AlertView.swift */,
 			);
 			name = ViewHelpers;
@@ -317,6 +320,7 @@
 			files = (
 				259E38AE1BBE50C1009C9218 /* StoryPointsViewController.swift in Sources */,
 				259E38A21BBD2B8C009C9218 /* PointOfInterest.swift in Sources */,
+				250990A71BDCE9780001CAE0 /* MapSnapshot.swift in Sources */,
 				B1B1CAA81BD76112000DD9F1 /* VideoStoryTableViewCell.swift in Sources */,
 				259135551BD0E3A000B9F226 /* DemoKnobsController.swift in Sources */,
 				B1B1CAA61BD760FD000DD9F1 /* StoryTableViewCell.swift in Sources */,

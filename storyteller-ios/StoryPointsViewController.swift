@@ -19,7 +19,7 @@ import MMX
  */
 
 class StoryPointsViewController: UIViewController, UITableViewDataSource,
-    UITableViewDelegate, MKMapViewDelegate, LocationManagerDelegate {
+    UITableViewDelegate, MKMapViewDelegate, LocationManagerDelegate, AddStoryPointDelegate {
 
     //**************************************************************************
     // MARK: Attributes (Public)
@@ -346,6 +346,24 @@ class StoryPointsViewController: UIViewController, UITableViewDataSource,
     }
 
     //**************************************************************************
+    // MARK: AddStoryPointDelegate
+    //**************************************************************************
+    
+    /**
+     * Receives the new story point.
+     *
+     * - parameter storypoint: Instance of the PointOfInterest that was created.
+     *
+     * - returns: N/A
+     */
+    
+    func newStoryPoint(storypoint: PointOfInterest) {
+        
+        // Now that a new story point was added, retrieve all storypoints again.
+        self._attemptPointRetrieval = true
+    }
+    
+    //**************************************************************************
     // MARK: LocationManagerDelegate
     //**************************************************************************
 
@@ -480,6 +498,14 @@ class StoryPointsViewController: UIViewController, UITableViewDataSource,
             let selectedRow = self.tableView.indexPathForSelectedRow!.row
             messagesViewController.pointOfInterest =
                 self._pointsOfInterest[selectedRow]
+        }
+        else if segue.identifier == "showAddStoryPointView" {
+            
+            // Setup this controller as the delegate for the
+            // AddStoryPointViewController.
+            let addStoryPointViewController =
+                segue.destinationViewController as! AddStoryPointViewController
+            addStoryPointViewController.delegate = self
         }
     }
     

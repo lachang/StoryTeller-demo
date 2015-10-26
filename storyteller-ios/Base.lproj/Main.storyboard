@@ -422,7 +422,7 @@
                         <barButtonItem key="leftBarButtonItem" image="plus" id="18f-sI-1Eb">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="create:" destination="zhf-Fc-88K" id="Dsk-Sn-Lip"/>
+                                <segue destination="1dA-lM-EzV" kind="presentation" identifier="showAddStoryPointView" id="qDh-Jp-ZtN"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="syncing" id="TqI-gu-lgH">
@@ -549,13 +549,13 @@
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XPO-CX-PXC">
-                                <rect key="frame" x="0.0" y="89" width="600" height="236"/>
+                                <rect key="frame" x="40" y="89" width="520" height="200"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="236" id="kbe-Zd-e3q"/>
+                                    <constraint firstAttribute="height" constant="200" id="kbe-Zd-e3q"/>
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name the StoryPoint" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NXL-fv-8wF">
-                                <rect key="frame" x="160" y="372" width="280" height="30"/>
+                                <rect key="frame" x="160" y="336" width="280" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="280" id="yWM-vO-in0"/>
                                 </constraints>
@@ -566,21 +566,21 @@
                                 </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter tags separated by spaces..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qa7-72-eoZ">
-                                <rect key="frame" x="160" y="410" width="280" height="30"/>
+                                <rect key="frame" x="160" y="374" width="280" height="30"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="1dA-lM-EzV" id="iuD-WH-MZU"/>
                                 </connections>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coordinates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4xv-Mq-tlf">
-                                <rect key="frame" x="260" y="333" width="78.5" height="19.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coordinates" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4xv-Mq-tlf">
+                                <rect key="frame" x="260" y="297" width="78.5" height="19.5"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lp6-Qb-Jue">
-                                <rect key="frame" x="225" y="456" width="150" height="33"/>
+                                <rect key="frame" x="225" y="420" width="150" height="33"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="gN0-iQ-YMR"/>
@@ -592,7 +592,6 @@
                                 </state>
                                 <connections>
                                     <action selector="add:" destination="1dA-lM-EzV" eventType="touchUpInside" id="kcZ-6Y-FJd"/>
-                                    <action selector="recordOrPublish:" destination="P2r-jc-0nL" eventType="touchUpInside" id="ps9-RL-sBK"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kl5-mM-58L">
@@ -604,24 +603,23 @@
                                 </state>
                                 <connections>
                                     <action selector="cancel:" destination="1dA-lM-EzV" eventType="touchUpInside" id="Zwk-vE-Ndp"/>
-                                    <action selector="cancel:" destination="P2r-jc-0nL" eventType="touchUpInside" id="axb-0Y-Zoi"/>
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Aco-uk-vao">
-                                <rect key="frame" x="281" y="454" width="37" height="37"/>
+                                <rect key="frame" x="281" y="418" width="37" height="37"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="4xv-Mq-tlf" firstAttribute="top" secondItem="XPO-CX-PXC" secondAttribute="bottom" constant="8" id="3mG-1N-P3i"/>
                             <constraint firstItem="Qa7-72-eoZ" firstAttribute="top" secondItem="NXL-fv-8wF" secondAttribute="bottom" constant="8" id="5yH-jw-hGQ"/>
-                            <constraint firstItem="XPO-CX-PXC" firstAttribute="leading" secondItem="dI4-nc-IW5" secondAttribute="leadingMargin" constant="-20" id="8Fe-dW-ppA"/>
+                            <constraint firstItem="XPO-CX-PXC" firstAttribute="leading" secondItem="dI4-nc-IW5" secondAttribute="leadingMargin" constant="20" id="8Fe-dW-ppA"/>
                             <constraint firstItem="NXL-fv-8wF" firstAttribute="top" secondItem="4xv-Mq-tlf" secondAttribute="bottom" constant="20" id="9YM-lW-ihM"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Rdm-qH-jXD" secondAttribute="trailing" constant="-20" id="Cs5-WG-bWd"/>
                             <constraint firstItem="Rdm-qH-jXD" firstAttribute="leading" secondItem="dI4-nc-IW5" secondAttribute="leadingMargin" constant="-20" id="Qst-jc-9Kl"/>
                             <constraint firstItem="Aco-uk-vao" firstAttribute="centerY" secondItem="lp6-Qb-Jue" secondAttribute="centerY" id="SUg-ox-peX"/>
                             <constraint firstItem="98R-mw-a2h" firstAttribute="top" secondItem="Rdm-qH-jXD" secondAttribute="bottom" id="TA6-ML-RnQ"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="XPO-CX-PXC" secondAttribute="trailing" constant="-20" id="YAq-fS-lLa"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XPO-CX-PXC" secondAttribute="trailing" constant="20" id="YAq-fS-lLa"/>
                             <constraint firstItem="lp6-Qb-Jue" firstAttribute="centerX" secondItem="Qa7-72-eoZ" secondAttribute="centerX" id="anT-RM-hcL"/>
                             <constraint firstItem="kl5-mM-58L" firstAttribute="centerX" secondItem="ybg-dj-THt" secondAttribute="centerX" id="b15-nc-vB7"/>
                             <constraint firstItem="ybg-dj-THt" firstAttribute="centerX" secondItem="dI4-nc-IW5" secondAttribute="centerX" id="gbn-AF-R4L"/>

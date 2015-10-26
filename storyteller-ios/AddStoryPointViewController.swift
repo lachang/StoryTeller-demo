@@ -6,6 +6,8 @@
 //******************************************************************************
 
 import UIKit
+import MapKit
+import CoreLocation
 
 /**
  * AddStoryPointViewController
@@ -13,7 +15,8 @@ import UIKit
  * View to add a new story point.
  */
 
-class AddStoryPointViewController: UIViewController, UITextFieldDelegate {
+class AddStoryPointViewController: UIViewController, UITextFieldDelegate,
+LocationManagerDelegate {
 
     //**************************************************************************
     // MARK: Attributes (Public)
@@ -27,6 +30,8 @@ class AddStoryPointViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var cancel: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
+    var delegate: AddStoryPointDelegate? = nil
+    
     //**************************************************************************
     // MARK: Attributes (Internal)
     //**************************************************************************
@@ -37,6 +42,13 @@ class AddStoryPointViewController: UIViewController, UITextFieldDelegate {
     
     // Manages the alert view.
     private var _alertView: AlertView? = nil
+    
+    // Manages the map snapshot view.
+    private var _mapSnapshot: MapSnapshot? = nil
+    
+    // The internal location manager.
+    private var _locationManager: LocationManager =
+    LocationManager.sharedLocationManager()
     
     //**************************************************************************
     // MARK: Class Methods (Public)
@@ -97,13 +109,55 @@ class AddStoryPointViewController: UIViewController, UITextFieldDelegate {
         self.add.hidden = true
         self.cancel.hidden = true
 
-        // Hide the activity indicator and show the buttons.
-        self.activityIndicator.hidden = true
-        self.add.hidden = false
-        self.cancel.hidden = false
+        let userLocation = self._locationManager.getLocation()!
         
-        // Dismiss this controller.
-        self.dismissViewControllerAnimated(true, completion: nil)
+        // Initialize a new point-of-interest.
+        let pointOfInterest = PointOfInterest(
+            title: self.name.text!,
+            numMessages: 0,
+            longitude: userLocation.coordinate.longitude,
+            latitude: userLocation.coordinate.latitude,
+            userLocation: userLocation)
+        
+        // Create the point-of-interest.
+        pointOfInterest.create(callback: {(error) -> Void in
+            
+            if error != nil {
+                self._alertView!.showAlert(
+                    "StoryPoint Creation Failed",
+                    error: error!,
+                    callback: nil)
+            }
+            else {
+                // Subscribe or unsubscribe to the point-of-interest based on
+                // distance.
+                pointOfInterest.subscribeOrUnsubscribe(callback: {(error) -> Void in
+                    self._alertView!.showAlert(
+                        "StoryPoint Creation Failed",
+                        error: error!,
+                        callback: nil)
+                })
+                
+                // Set the tags to associate with the point-of-interest.
+                let tags = self.tags.text!
+                if !tags.isEmpty {
+                    pointOfInterest.setTags(tags,
+                        callback: {(error) -> Void in })
+                }
+                
+                // Add the point-of-interest to the view.
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    // Send the new PointOfInterest instance to the delegate.
+                    if self.delegate != nil {
+                        self.delegate!.newStoryPoint(pointOfInterest)
+                    }
+                    
+                    // Dismiss this controller.
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }
+            }
+        })
     }
     
     //**************************************************************************
@@ -114,6 +168,46 @@ class AddStoryPointViewController: UIViewController, UITextFieldDelegate {
     // MARK: Instance Methods (Private)
     //**************************************************************************
 
+    private func _setupMapSnapshot(userLocation: CLLocation?) {
+        
+        if userLocation != nil {
+            
+            // Now that at least one location is available, stop receiving
+            // location updates.
+            self._locationManager.delegate = nil
+            self.activityIndicator.hidden = true
+            
+            let coordinates = userLocation!.coordinate
+            self.coordinates.text = "Longitude: \(coordinates.longitude),\n" +
+                                    "Latitude: \(coordinates.latitude)"
+            
+            let point = MKPointAnnotation()
+            point.coordinate = coordinates
+            self._mapSnapshot!.removeAllAnnotations()
+            self._mapSnapshot!.addAnnotations([point])
+            self._mapSnapshot!.showAllAnnotations()
+        }
+    }
+    
+    //**************************************************************************
+    // MARK: LocationManagerDelegate
+    //**************************************************************************
+    
+    /**
+    * Receives the current location.
+    *
+    * - parameter manager: Instance of the location manager.
+    * - parameter location: The current location.
+    *
+    * - returns: N/A
+    */
+    
+    func updateLocation(manager: LocationManager, location: CLLocation) {
+        
+        // Setup the map snapshot.
+        self._setupMapSnapshot(location)
+    }
+    
     //**************************************************************************
     // MARK: UIViewController
     //**************************************************************************
@@ -127,10 +221,41 @@ class AddStoryPointViewController: UIViewController, UITextFieldDelegate {
         
         // Manages functionality of the alert view.
         self._alertView = AlertView(viewController: self)
+        
+        // Manages functionality of the map snapshot view.
+        self._mapSnapshot = MapSnapshot(imageView: self.image)
+        
+        // Register with the LocationManager for location updates.
+        self._locationManager.delegate = self
+        
+        // Retrieve the user location.
+        if !self._locationManager.isAuthorized() {
+            
+            // Show an alert stating that the application does not have
+            // the authorization to receive location data.
+            
+            self._alertView!.showAlert(
+                "No Location Available",
+                message: "Please enable location services.",
+                callback: {() -> Void in
+                    // Dismiss this controller.
+                    self.dismissViewControllerAnimated(true, completion: nil)
+            })
+        }
+        else {
+            // The application has authorization to receive location data.
+            // Attempt to setup the map snapshot.
+            
+            let userLocation = self._locationManager.getLocation()
+            self._setupMapSnapshot(userLocation)
+        }
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
+
+        // Release the map snapshot's reference to the UI image view element.
+        self._mapSnapshot = nil
         
         // Release the alert view's reference to this view controller.
         self._alertView = nil
@@ -157,4 +282,22 @@ class AddStoryPointViewController: UIViewController, UITextFieldDelegate {
         
         return true;
     }
+}
+
+/**
+ * AddStoryPointDelegate
+ *
+ * The required interface for a class conforming to AddStoryPointDelegate.
+ */
+protocol AddStoryPointDelegate {
+    
+    /**
+     * Receives the new story point.
+     *
+     * - parameter storypoint: Instance of the PointOfInterest that was created.
+     *
+     * - returns: N/A
+     */
+    
+    func newStoryPoint(storypoint: PointOfInterest)
 }
