@@ -60,10 +60,6 @@ class StoryPointsViewController: UIViewController, UITableViewDataSource,
     // Activity indicator to denote processing with a remote server.
     private var _activityIndicatorBarButton: UIBarButtonItem?
     
-    // Fields shown in an alertview when adding a new point-of-interest.
-    private var _storyPointNameTextField: UITextField?
-    private var _storyPointTagsTextField: UITextField?
-    
     //**************************************************************************
     // MARK: Class Methods (Public)
     //**************************************************************************
@@ -79,61 +75,6 @@ class StoryPointsViewController: UIViewController, UITableViewDataSource,
     //**************************************************************************
     // MARK: Instance Methods (Public)
     //**************************************************************************
-    
-    /**
-     * Triggered when the user presses the create button.
-     *
-     * - parameter sender: The source that triggered this function.
-     *
-     * - returns: N/A
-     */
-
-    @IBAction func create(sender: AnyObject) {
-        
-        let alertController = UIAlertController(
-            title: "Add New StoryPoint",
-            message: "Please enter a name and at least 3 tags that help identify it.",
-            preferredStyle: .Alert)
-        
-        // Create the OK action.
-        let okAction = UIAlertAction(
-            title: "OK",
-            style: .Default,
-            handler: { (action) -> Void in
-
-                // Create the point-of-interest.
-                self._create(self._storyPointNameTextField!.text!,
-                    tags: self._storyPointTagsTextField!.text!,
-                    userLocation: self._locationManager.getLocation()!)
-            })
-        
-        // Create the cancel action.
-        let cancelAction = UIAlertAction(
-            title: "Cancel",
-            style: .Cancel,
-            handler: { (action) -> Void in
-            })
-        
-        // Add the actions to the alert view.
-        alertController.addAction(okAction)
-        alertController.addAction(cancelAction)
-        
-        // Add text fields to the alert view.
-        alertController.addTextFieldWithConfigurationHandler(
-            { (UITextField) -> Void in
-                UITextField.placeholder = "Enter Storypoint Name"
-                self._storyPointNameTextField = UITextField
-            })
-        
-        alertController.addTextFieldWithConfigurationHandler(
-            { (UITextField) -> Void in
-                UITextField.placeholder = "Enter Tags Separated By Spaces"
-                self._storyPointTagsTextField = UITextField
-            })
-        
-        // Show the alert view.
-        presentViewController(alertController, animated: true, completion: nil)
-    }
     
     /**
      * Triggered when the user presses the reload button.
@@ -287,62 +228,6 @@ class StoryPointsViewController: UIViewController, UITableViewDataSource,
                     }
                 })
         }
-    }
-    
-    /**
-     * Creates a point-of-interest with the given parameters.
-     *
-     * - parameter name: Name of the point-of-interest.
-     * - parameter tags: Tags for the point-of-interest.
-     * - parameter userLocation: Location at which the point-of-interest will be
-     *                           located.
-     *
-     * - returns: N/A
-     */
-    
-    private func _create(name: String, tags: String, userLocation: CLLocation) {
-        
-        // Initialize a new point-of-interest.
-        let pointOfInterest = PointOfInterest(
-            title: name,
-            numMessages: 0,
-            longitude: userLocation.coordinate.longitude,
-            latitude: userLocation.coordinate.latitude,
-            userLocation: userLocation)
-        
-        // Create the point-of-interest.
-        pointOfInterest.create(callback: {(error) -> Void in
-            
-            if error != nil {
-                self._alertView!.showAlert(
-                    "StoryPoint Creation Failed",
-                    error: error!,
-                    callback: nil)
-            }
-            else {
-                // Subscribe or unsubscribe to the point-of-interest based on
-                // distance.
-                pointOfInterest.subscribeOrUnsubscribe(callback: {(error) -> Void in
-                    self._alertView!.showAlert(
-                        "StoryPoint Creation Failed",
-                        error: error!,
-                        callback: nil)
-                })
-                
-                // Set the tags to associate with the point-of-interest.
-                if !tags.isEmpty {
-                    pointOfInterest.setTags(tags,
-                        callback: {(error) -> Void in })
-                }
-                
-                // Add the point-of-interest to the view.
-                dispatch_async(dispatch_get_main_queue()) {
-                    self._mapView!.addAnnotation(pointOfInterest)
-                    self._pointsOfInterest.insert(pointOfInterest, atIndex: 0)
-                    self.tableView.reloadData()
-                }
-            }
-        })
     }
 
     //**************************************************************************

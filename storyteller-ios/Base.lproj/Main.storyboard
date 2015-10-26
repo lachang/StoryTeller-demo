@@ -655,7 +655,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1273" y="309"/>
+            <point key="canvasLocation" x="1525" y="373"/>
         </scene>
         <!--Stories-->
         <scene sceneID="HPG-y4-o9d">
@@ -800,7 +800,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I7s-pj-QfC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1273" y="-425"/>
+            <point key="canvasLocation" x="1525" y="-425"/>
         </scene>
         <!--Publish Spoken Story View Controller-->
         <scene sceneID="pI8-Gt-wsS">
@@ -928,7 +928,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2338" y="-425"/>
+            <point key="canvasLocation" x="2338" y="-721"/>
         </scene>
         <!--Publish Filmed Story View Controller-->
         <scene sceneID="e9y-gj-gwq">
@@ -1056,7 +1056,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2338" y="309"/>
+            <point key="canvasLocation" x="2338" y="49"/>
         </scene>
         <!--Welcome View Controller-->
         <scene sceneID="jLV-u3-tJo">
