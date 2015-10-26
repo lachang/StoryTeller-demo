@@ -9,11 +9,11 @@
             <key>DomainName</key>
             <string>prod-mmx-001</string>
             <key>AppId</key>
-            <string>81lig7hxobq</string>
+            <string>773ig7kc1r0</string>
             <key>ApiKey</key>
-            <string>4d01481f-2ad6-4cbe-b971-23d5bfa59ebf</string>
+            <string>be3e9d7b-2381-45a5-a6e6-5fa94bab6515</string>
             <key>AnonymousSecret</key>
-            <string>5087bbb9-62c9-4617-93eb-b187e68ea6c3</string>
+            <string>f437536b-9275-43dc-a1b7-599c3a0e9628</string>
             <key>ShouldForceTLS</key>
             <true/>
             <key>PublicAPIPort</key>
