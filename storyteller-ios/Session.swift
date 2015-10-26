@@ -208,6 +208,15 @@ class Session: NSObject {
             credentialStorage.removeCredential(Session.sessionCredential!,
                 forProtectionSpace: Session._sessionProtectionSpace!)
             
+            // For good measure, remove all credentials.
+            let allCredentials = credentialStorage.allCredentials
+            for (protectionSpace, credentialHash) in allCredentials {
+                for (_, credential) in credentialHash {
+                    credentialStorage.removeCredential(credential,
+                        forProtectionSpace: protectionSpace)
+                }
+            }
+            
             // Reset the session credential associated with the login.
             Session.sessionCredential = nil
             Session._sessionProtectionSpace = nil
