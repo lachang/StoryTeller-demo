@@ -11,9 +11,7 @@ The experience isn’t complete without adding your own new stories around the g
 A fully immersive, mobile story application to redefine your adventures. StoryTeller.
 
 ## Installation
-* Download the app binary from GitHub.
-* Add the app into the MyApps section of iTunes.
-* Mark the app for installation and re-sync with iTunes.
+* Clone the repository from github and open it up in xcode
 
 ## Views Overview
 ### Signup / Login View
