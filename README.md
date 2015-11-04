@@ -32,7 +32,7 @@ The tab next to nearby is the map tab. This allows users to see all storypoints 
 The tab next to map is the profile tab. Currently it displays a very basic profile of the user’s name and email address. At the top right hand corner we added a demo option to allow those testing our app to see what it would look like when fully in use.
 
 ### Profile View -> Settings -> Demo Knobs
-As a demo, here you can throw down some nearby storypoints with ease in order to experience being nearby locked and unlocked storypoints.
+As a demo, you can throw down some nearby storypoints with ease in order to experience nearby locked and unlocked storypoints.
 
 App Demo:
 
