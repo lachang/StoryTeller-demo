@@ -4,7 +4,7 @@ A fully immersive, mobile story application that redefines your adventures. Util
 
 Alcatraz, a great example of a Bay Area tourist spot. Since its public opening in 1973, tours have been guided using old aged audio recorders. With StoryTeller, the experience is completely redefined.
 
-Simple take out your smartphone, open the app, and you’ll be presented with streams of media based on where you are on the island. The closer you are to a story point, the higher up on the nearest stories it will appear.
+Simply take out your smartphone, open the app, and you’ll be presented with streams of media based on where you are on the island. The closer you are to a story point, the higher up on the nearest stories it will appear.
 
 The experience isn’t complete without adding your own new stories around the globe. Simply record your story at a particular location and have it available for all others who come seeking an adventure.
 
